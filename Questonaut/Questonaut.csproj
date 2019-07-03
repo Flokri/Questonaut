@@ -19,11 +19,14 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
     <PackageReference Include="Prism.Unity.Forms" Version="7.1.0.431" />
+    <PackageReference Include="LiveXAML" Version="2.1.72" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="config\" />
     <Folder Include="config\config reader\" />
     <Folder Include="config\config types\" />
+    <Folder Include="views\" />
+    <Folder Include="viewmodels\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="config\config.json" />

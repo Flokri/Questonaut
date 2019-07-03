@@ -6,6 +6,8 @@ using Questonaut.config.configtypes;
 using Prism.Unity;
 using Prism;
 using Prism.Ioc;
+using Questonaut.views;
+using Questonaut.viewmodels;
 
 namespace Questonaut
 {
@@ -26,11 +28,15 @@ namespace Questonaut
                 var appCenterService = scope.Resolve<IAppCenterConfig>();
                 _appSecret = appCenterService.GetAppSecret();
             }
+
+            //navigate to the root view controller of this app
+            NavigationService.NavigateAsync(new System.Uri("https://www.Questonaut/LoginView", System.UriKind.Absolute));
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-
+            //todo: register all views with there corresponding viewmodels
+            containerRegistry.RegisterForNavigation<LoginView, LoginViewModel>();
         }
 
         protected override void OnStart()
