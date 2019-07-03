@@ -124,5 +124,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets.xcassets\Questonaut.imageset\" />
+    <Folder Include="Assets.xcassets\Questonaut_Small.imageset\" />
   </ItemGroup>
 </Project>
