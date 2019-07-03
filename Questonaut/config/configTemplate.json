@@ -1,3 +1,7 @@
 ﻿{
-
+    "appCenter": {
+        "iOS": "{Your UWP App secret here}",
+        "Android": "{Your UWP App secret here}",
+        "UWP": "{Your UWP App secret here}"
+    }
 }

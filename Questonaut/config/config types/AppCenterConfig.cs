@@ -26,8 +26,8 @@ namespace Questonaut.config.configtypes
         public string GetAppSecret()
         {
             return String.Format("android={0};" +
-                  "uwp={0};" +
-                  "ios={0}", _appCenterSettings.AppSecret);
+                  "uwp={1};" +
+                  "ios={2}", _appCenterSettings.Android, _appCenterSettings.UWP, _appCenterSettings.iOS);
         }
     }
 }
