@@ -6,14 +6,27 @@ using Xamarin.Forms.Xaml;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using Autofac;
+using Questonaut.config.configreader;
+using Questonaut.config.configtypes;
 
 namespace Questonaut
 {
     public partial class App : Application
     {
+        private static readonly IContainer _container = Container.Initialize();
+        private readonly string _appSecret;
+
         public App()
         {
             InitializeComponent();
+
+            //reading the config
+            using (var scope = _container.BeginLifetimeScope())
+            {
+                var appCenterService = scope.Resolve<IAppCenterConfig>();
+                _appSecret = appCenterService.GetAppSecret();
+            }
 
             MainPage = new MainPage();
         }
@@ -21,9 +34,7 @@ namespace Questonaut
         protected override void OnStart()
         {
             //Start the appcenter services
-            AppCenter.Start("ios={enter iOS App seccret here};" +
-                  "uwp={enter UWP App seccret here};" +
-                  "android={enter Android App seccret here}",
+            AppCenter.Start(_appSecret,
                   typeof(Analytics), typeof(Crashes));
         }
 
