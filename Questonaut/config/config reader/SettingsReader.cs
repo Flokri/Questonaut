@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -40,15 +41,24 @@ namespace Questonaut.config.configreader
 
         private static string ReadFile(string ressourceId)
         {
-            var assembly = IntrospectionExtensions.GetTypeInfo(typeof(App)).Assembly;
-            Stream stream = assembly.GetManifestResourceStream(ressourceId);
-            string text = "";
-            using (var reader = new System.IO.StreamReader(stream))
+            try
             {
-                text = reader.ReadToEnd();
+                var assembly = IntrospectionExtensions.GetTypeInfo(typeof(App)).Assembly;
+                Stream stream = assembly.GetManifestResourceStream(ressourceId);
+                string text = "";
+                using (var reader = new System.IO.StreamReader(stream))
+                {
+                    text = reader.ReadToEnd();
+                }
+
+                return text;
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
             }
 
-            return text;
+            return null;
         }
         #endregion
 
