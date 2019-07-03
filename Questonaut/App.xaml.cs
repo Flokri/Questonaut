@@ -1,23 +1,22 @@
-﻿using System;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-
-//AppCenter usings
-using Microsoft.AppCenter;
+﻿using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Autofac;
-using Questonaut.config.configreader;
 using Questonaut.config.configtypes;
+using Prism.Unity;
+using Prism;
+using Prism.Ioc;
 
 namespace Questonaut
 {
-    public partial class App : Application
+    public partial class App : PrismApplication
     {
-        private static readonly IContainer _container = Container.Initialize();
-        private readonly string _appSecret;
+        private static readonly IContainer _container = config.configreader.Container.Initialize();
+        private string _appSecret;
 
-        public App()
+        public App(IPlatformInitializer initializer = null) : base(initializer) { }
+
+        protected override void OnInitialized()
         {
             InitializeComponent();
 
@@ -27,8 +26,11 @@ namespace Questonaut
                 var appCenterService = scope.Resolve<IAppCenterConfig>();
                 _appSecret = appCenterService.GetAppSecret();
             }
+        }
 
-            MainPage = new MainPage();
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+
         }
 
         protected override void OnStart()
