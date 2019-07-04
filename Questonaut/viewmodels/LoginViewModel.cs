@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -49,7 +50,7 @@ namespace Questonaut.ViewModels
             _navigationService = navigationService;
             _pageDialogservice = dialogService;
 
-            OnActionClickedCommand = new DelegateCommand(() => ActionClicked());
+            OnActionClickedCommand = new DelegateCommand(() => ActionClickedAsync());
             OnLoginClickedCommand = new DelegateCommand(() => OnLogin());
             OnSignupClickedCommand = new DelegateCommand(async () => await Task.Run(() => OnSignup()));
 
@@ -111,12 +112,12 @@ namespace Questonaut.ViewModels
             return Task.CompletedTask;
         }
 
-        private void ActionClicked()
+        private async Task ActionClickedAsync()
         {
             switch (Action)
             {
                 case "Login":
-                    if (!Login())
+                    if (await LoginAsync() == false)
                     {
                         _pageDialogservice.DisplayAlertAsync("Error", "Failed to login", "Cancel");
                     }
@@ -128,7 +129,7 @@ namespace Questonaut.ViewModels
 
                     break;
                 case "Signup":
-                    if (!Signup())
+                    if (await SignupAsync() == false)
                     {
                         _pageDialogservice.DisplayAlertAsync("Error", "Failed to signup", "Cancel");
                     }
@@ -148,10 +149,14 @@ namespace Questonaut.ViewModels
         /// <summary>
         /// Change the context to signup.
         /// </summary>
-        public bool Signup()
+        public async Task<bool> SignupAsync()
         {
             if (Email != string.Empty && Password != string.Empty)
             {
+                //todo: change this service if you don't want to use the firebase service
+                //test the firebase signup
+                var token = await Xamarin.Forms.DependencyService.Get<IFirebaseAuthenticator>().RegsiterWithEmailPassword(Email, Password);
+
                 return false;
             }
             else
@@ -164,10 +169,14 @@ namespace Questonaut.ViewModels
         /// <summary>
         /// Change the current context to login.
         /// </summary>
-        public bool Login()
+        public async Task<bool> LoginAsync()
         {
             if (Email != string.Empty && Password != string.Empty)
             {
+                //todo: change this service if you don't want to use the firebase service
+                //test the firebase auth
+                var token = await Xamarin.Forms.DependencyService.Get<IFirebaseAuthenticator>().LoginWithEmailPassword(Email, Password);
+
                 //could not find user
                 return false;
             }

@@ -9,6 +9,7 @@ using Android.OS;
 using Android.Support.V4.Text;
 using Prism;
 using Prism.Ioc;
+using Firebase;
 
 namespace Questonaut.Droid
 {
@@ -29,7 +30,8 @@ namespace Questonaut.Droid
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
-
+            //firebase auth initalization
+            FirebaseApp.InitializeApp(Application.Context);
 
             LoadApplication(new App(new AndroidInitializer()));
         }
