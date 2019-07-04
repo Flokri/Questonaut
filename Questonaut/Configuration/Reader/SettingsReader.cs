@@ -7,7 +7,7 @@ using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace Questonaut.config.configreader
+namespace Questonaut.Configuration.Reader
 {
     class SettingsReader : ISettingsReader
     {

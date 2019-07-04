@@ -4,9 +4,11 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
+using Questonaut.Converters;
+using Questonaut.DependencyServices;
 using Xamarin.Forms;
 
-namespace Questonaut.viewmodels
+namespace Questonaut.ViewModels
 {
     public class LoginViewModel : BindableBase
     {
@@ -14,8 +16,8 @@ namespace Questonaut.viewmodels
         private const double USED = 1;
         private const double NOT_USED = 0.49;
 
-        private const double BUTTON_FACTOR_IOS = 1.8;
-        private const double BUTTON_FACTOR_ANDROID = 1.3;
+        private const double BUTTON_FACTOR_IOS = 0.05;
+        private const double BUTTON_FACTOR_ANDROID = 0.045;
 
         private double _buttonFontSize;
 
@@ -52,13 +54,14 @@ namespace Questonaut.viewmodels
             OnSignupClickedCommand = new DelegateCommand(async () => await Task.Run(() => OnSignup()));
 
             ButtonFontSize = Xamarin.Forms.Device.GetNamedSize(NamedSize.Large, typeof(Button));
+
             switch (Xamarin.Forms.Device.RuntimePlatform)
             {
                 case Xamarin.Forms.Device.iOS:
-                    ButtonFontSize *= BUTTON_FACTOR_IOS;
+                    ButtonFontSize = ((double)Xamarin.Forms.DependencyService.Get<IScreenDimensions>().GetScreenHeight()) * BUTTON_FACTOR_IOS;
                     break;
                 case Xamarin.Forms.Device.Android:
-                    ButtonFontSize *= BUTTON_FACTOR_ANDROID;
+                    ButtonFontSize = ((double)Xamarin.Forms.DependencyService.Get<IScreenDimensions>().GetScreenHeight()) * BUTTON_FACTOR_ANDROID;
                     break;
                 default:
                     ButtonFontSize *= 1.0;

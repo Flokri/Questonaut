@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace Questonaut.config.configreader
+namespace Questonaut.Configuration.Reader
 {
     interface ISettingsReader
     {

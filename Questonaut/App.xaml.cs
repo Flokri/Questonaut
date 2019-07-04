@@ -2,18 +2,18 @@
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Autofac;
-using Questonaut.config.configtypes;
 using Prism.Unity;
+using Questonaut.Configuration.Types;
 using Prism;
 using Prism.Ioc;
-using Questonaut.views;
-using Questonaut.viewmodels;
+using Questonaut.Views;
+using Questonaut.ViewModels;
 
 namespace Questonaut
 {
     public partial class App : PrismApplication
     {
-        private static readonly IContainer _container = config.configreader.Container.Initialize();
+        private static readonly IContainer _container = Configuration.Reader.Container.Initialize();
         private string _appSecret;
 
         public App(IPlatformInitializer initializer = null) : base(initializer) { }

@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Questonaut.config.configtypes
+namespace Questonaut.Configuration.Types
 {
     public interface IAppCenterConfig
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Xamarin.Forms;
 
-namespace Questonaut.views
+namespace Questonaut.Views
 {
     public partial class LoginView : ContentPage
     {

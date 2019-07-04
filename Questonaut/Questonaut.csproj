@@ -22,16 +22,18 @@
     <PackageReference Include="LiveXAML" Version="2.1.72" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="config\" />
-    <Folder Include="config\config reader\" />
-    <Folder Include="config\config types\" />
-    <Folder Include="views\" />
-    <Folder Include="viewmodels\" />
+    <Folder Include="Configuration\" />
+    <Folder Include="Configuration\Reader\" />
+    <Folder Include="Configuration\Types\" />
+    <Folder Include="Views\" />
+    <Folder Include="ViewModels\" />
+    <Folder Include="DependencyServices\" />
+    <Folder Include="Converters\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="config\config.json" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="config\config.json" />
+    <EmbeddedResource Include="Configuration\config.json" />
   </ItemGroup>
 </Project>

@@ -4,11 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Autofac;
-using Questonaut.config.configtypes;
+using Questonaut.Configuration.Types;
 using Xamarin.Essentials;
 using Xamarin.Forms.Internals;
 
-namespace Questonaut.config.configreader
+namespace Questonaut.Configuration.Reader
 {
     public class SettingsModule : Autofac.Module
     {
