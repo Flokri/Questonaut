@@ -3,6 +3,8 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:converters="clr-namespace:Questonaut.Converters"
+    xmlns:Behaviors="clr-namespace:Questonaut.Behaviors"
+    xmlns:Validators="clr-namespace:Questonaut.Validators"
     x:Class="Questonaut.Views.LoginView"
     NavigationPage.HasNavigationBar="False">
 
@@ -125,6 +127,17 @@
                                             Android="14"
                                             iOS="16" />
                             </Entry.FontSize>
+                            <Entry.Behaviors>
+                                <Behaviors:ValidationBehavior PropertyName="Text">
+                                    <Behaviors:ValidationBehavior.Validators>
+                                        <Validators:RequiredValidator />
+                                        <Validators:PasswordValidator
+                                            Message="The passwords does not match"
+                                            PasswordValidation="{Binding Source={x:Reference PasswordEntry},
+                                                                         Path=Text}" />
+                                    </Behaviors:ValidationBehavior.Validators>
+                                </Behaviors:ValidationBehavior>
+                            </Entry.Behaviors>
                         </Entry>
                     </StackLayout>
                 </Frame>

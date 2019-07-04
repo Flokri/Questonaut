@@ -29,6 +29,8 @@
     <Folder Include="ViewModels\" />
     <Folder Include="DependencyServices\" />
     <Folder Include="Converters\" />
+    <Folder Include="Behaviors\" />
+    <Folder Include="Validators\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="config\config.json" />
