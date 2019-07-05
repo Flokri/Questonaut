@@ -119,6 +119,9 @@
     <PackageReference Include="Xamarin.Firebase.iOS.Auth">
       <Version>5.0.4.1</Version>
     </PackageReference>
+    <PackageReference Include="Xamarin.Firebase.iOS.Core">
+      <Version>5.2.0</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>

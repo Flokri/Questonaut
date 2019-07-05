@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Firebase.Auth;
+using Firebase.Auth.Payloads;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -155,7 +157,39 @@ namespace Questonaut.ViewModels
             {
                 //todo: change this service if you don't want to use the firebase service
                 //test the firebase signup
-                var token = await Xamarin.Forms.DependencyService.Get<IFirebaseAuthenticator>().RegsiterWithEmailPassword(Email, Password);
+                //var token = await Xamarin.Forms.DependencyService.Get<IFirebaseAuthenticator>().RegsiterWithEmailPassword(Email, Password);
+
+                //try to use the firebase webapi
+                var authOptions = new FirebaseAuthOptions();
+                authOptions.WebApiKey = "AIzaSyCZw5RPCES9Sh3T0gvE2p81w_vRB47RLww";
+
+                var firebase = new FirebaseAuthService(authOptions);
+
+                var request = new SignUpNewUserRequest()
+                {
+                    Email = "florian.kriegl@mcp-alfa.com",
+                    Password = "Tester123!",
+                };
+
+                try
+                {
+                    var response = await firebase.SignUpNewUser(request);
+
+                    if (response != null)
+                    {
+                        var verificationRequest = new SendVerificationEmailRequest()
+                        {
+                            RequestType = "VERIFY_EMAIL",
+                            IdToken = response.IdToken,
+                        };
+                        var sendverification = await firebase.SendVerification(verificationRequest);
+                    }
+                }
+                catch (FirebaseAuthException e)
+                {
+
+                }
+
 
                 return false;
             }
@@ -175,7 +209,28 @@ namespace Questonaut.ViewModels
             {
                 //todo: change this service if you don't want to use the firebase service
                 //test the firebase auth
-                var token = await Xamarin.Forms.DependencyService.Get<IFirebaseAuthenticator>().LoginWithEmailPassword(Email, Password);
+                //var token = await Xamarin.Forms.DependencyService.Get<IFirebaseAuthenticator>().LoginWithEmailPassword(Email, Password);
+
+
+                //try to use the firebase web api
+                var authOptions = new FirebaseAuthOptions();
+                authOptions.WebApiKey = "AIzaSyCZw5RPCES9Sh3T0gvE2p81w_vRB47RLww";
+                var firebase = new FirebaseAuthService(authOptions);
+
+                var request = new VerifyPasswordRequest()
+                {
+                    Email = "floriankriegl@gmx.at",
+                    Password = "questonaut"
+                };
+
+                try
+                {
+                    var response = await firebase.VerifyPassword(request);
+                }
+                catch (FirebaseAuthException e)
+                {
+                    // App specific error handling.
+                }
 
                 //could not find user
                 return false;

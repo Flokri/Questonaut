@@ -194,3 +194,5 @@ FakesAssemblies/
 
 zustoße config
 config.json
+Questonaut.Android/google-services.json
+Questonaut.iOS/GoogleService-Info.plist

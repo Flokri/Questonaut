@@ -12,14 +12,18 @@ namespace Questonaut.iOS.DependencyServices
     {
         public async Task<string> LoginWithEmailPassword(string email, string password)
         {
-            var user = await Auth.DefaultInstance.SignInWithPasswordAsync(email, password);
-            return await user.User.GetIdTokenAsync();
+            //var user = await Auth.DefaultInstance.SignInWithPasswordAsync(email, password);
+            ///return await user.User.GetIdTokenAsync();
+
+            return null;
         }
 
         public async Task<string> RegsiterWithEmailPassword(string email, string password)
         {
-            var user = await Auth.DefaultInstance.CreateUserAsync(email, password);
-            return await user.User.GetIdTokenAsync();
+            //var user = await Auth.DefaultInstance.CreateUserAsync(email, password);
+            //return await user.User.GetIdTokenAsync();
+
+            return null;
         }
     }
 }
