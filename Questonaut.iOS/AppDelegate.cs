@@ -26,9 +26,6 @@ namespace Questonaut.iOS
         {
             global::Xamarin.Forms.Forms.Init();
 
-            //Firebase initialization
-            Firebase.Core.App.Configure();
-
             LoadApplication(new App(new iOSInitializer()));
 
             return base.FinishedLaunching(app, options);
