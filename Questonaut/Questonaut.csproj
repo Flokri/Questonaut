@@ -39,8 +39,13 @@
     <EmbeddedResource Include="Configuration\config.json" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="Firebase.Auth.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="Firebase.Auth">
-      <HintPath>..\..\firebase-auth-dotnet\src\Firebase.Auth\bin\Debug\netstandard2.0\Firebase.Auth.dll</HintPath>
+      <HintPath>Firebase.Auth.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>
