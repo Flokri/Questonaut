@@ -8,26 +8,18 @@ using Prism;
 using Prism.Ioc;
 using Questonaut.Views;
 using Questonaut.ViewModels;
+using System;
+using Questonaut.Helpers;
 
 namespace Questonaut
 {
     public partial class App : PrismApplication
     {
-        private static readonly IContainer _container = Configuration.Reader.Container.Initialize();
-        private string _appSecret;
-
         public App(IPlatformInitializer initializer = null) : base(initializer) { }
 
         protected override void OnInitialized()
         {
             InitializeComponent();
-
-            //reading the config
-            using (var scope = _container.BeginLifetimeScope())
-            {
-                var appCenterService = scope.Resolve<IAppCenterConfig>();
-                _appSecret = appCenterService.GetAppSecret();
-            }
 
             //navigate to the root view controller of this app
             NavigationService.NavigateAsync(new System.Uri("https://www.Questonaut/LoginView", System.UriKind.Absolute));
@@ -44,7 +36,10 @@ namespace Questonaut
         protected override void OnStart()
         {
             //Start the appcenter services
-            AppCenter.Start(_appSecret,
+            AppCenter.Start(
+                String.Format("android={0};" +
+                  "uwp={1};" +
+                  "ios={2}", Secrets.AppCenter_Android_Secret, "Enter the AppCenter UWP Secret", Secrets.AppCenter_iOS_Secret),
                   typeof(Analytics), typeof(Crashes));
         }
 

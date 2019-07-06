@@ -154,9 +154,9 @@ UpgradeLog*.htm
 *.rdl.data
 *.bim.layout
 *.bim_*.settings
+secrets.json
 # Microsoft Fakes
 FakesAssemblies/
-zustoße config
 config.json
 Questonaut.Android/google-services.json
 Questonaut.iOS/GoogleService-Info.plist

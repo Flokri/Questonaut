@@ -11,6 +11,7 @@ using Prism.Services;
 using Questonaut.Configuration.Types;
 using Questonaut.Converters;
 using Questonaut.DependencyServices;
+using Questonaut.Helpers;
 using Xamarin.Forms;
 
 namespace Questonaut.ViewModels
@@ -42,8 +43,6 @@ namespace Questonaut.ViewModels
         #region DependencyInjection
         INavigationService _navigationService;
         IPageDialogService _pageDialogservice;
-
-        private static readonly IContainer _container = Configuration.Reader.Container.Initialize();
         #endregion
 
         #region Commands
@@ -79,13 +78,8 @@ namespace Questonaut.ViewModels
                     break;
             }
 
-            //reading the config
-            using (var scope = _container.BeginLifetimeScope())
-            {
-                _firebase = new FirebaseAuthService(new FirebaseAuthOptions() { WebApiKey = scope.Resolve<IFirebaseAuthConfig>().GetWebAPI() });
-            }
-            //initialize the firebase rest api
-
+            //intialize the firebase rest api
+            _firebase = new FirebaseAuthService(new FirebaseAuthOptions() { WebApiKey = Secrets.Firebase_Auth_Secret });
 
             LoginActive();
         }
