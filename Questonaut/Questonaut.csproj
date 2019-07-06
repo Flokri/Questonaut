@@ -33,13 +33,6 @@
     <Folder Include="Validators\" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="config\config.json" />
-    <None Remove="config.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="config.json" />
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="Firebase.Auth">
       <HintPath>Frameworks\Firebase.Auth.dll</HintPath>
     </Reference>
