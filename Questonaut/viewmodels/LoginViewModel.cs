@@ -1,15 +1,10 @@
-﻿using System;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Autofac;
+﻿using System.Threading.Tasks;
 using Firebase.Auth;
 using Firebase.Auth.Payloads;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
-using Questonaut.Configuration.Types;
-using Questonaut.Converters;
 using Questonaut.DependencyServices;
 using Questonaut.Helpers;
 using Xamarin.Forms;
