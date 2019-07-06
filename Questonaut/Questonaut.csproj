@@ -20,7 +20,6 @@
     <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
     <PackageReference Include="Prism.Unity.Forms" Version="7.1.0.431" />
     <PackageReference Include="LiveXAML" Version="2.1.72" />
-    <PackageReference Include="Firebase.Auth.Rest" Version="1.1.1-beta" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Configuration\" />
@@ -39,5 +38,15 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="config.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Firebase.Auth">
+      <HintPath>Frameworks\Firebase.Auth.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Frameworks\Firebase.Auth.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>
