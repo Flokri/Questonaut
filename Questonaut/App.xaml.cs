@@ -1,9 +1,7 @@
 ﻿using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
-using Autofac;
 using Prism.Unity;
-using Questonaut.Configuration.Types;
 using Prism;
 using Prism.Ioc;
 using Questonaut.Views;
