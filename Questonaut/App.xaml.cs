@@ -38,6 +38,7 @@ namespace Questonaut
             //todo: register all views with there corresponding viewmodels
             containerRegistry.RegisterForNavigation<CustomNavigationPage>();
             containerRegistry.RegisterForNavigation<LoginView, LoginViewModel>();
+            containerRegistry.RegisterForNavigation<MainView, MainViewModel>();
         }
 
         protected override void OnStart()

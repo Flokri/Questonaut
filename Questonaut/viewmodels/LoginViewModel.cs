@@ -171,7 +171,7 @@ namespace Questonaut.ViewModels
 
         private string GetRigthErrorMessage(FirebaseAuthException e)
         {
-            if (e.Message.Contains("EMAIL_NOT_FOUND") || e.Message.Contains("INVALID_PASSWORD"))
+            if (e.Message.Contains("EMAIL_NOT_FOUND") || e.Message.Contains("INVALID_PASSWORD") || e.Message.Contains("INVALID_EMAIL"))
             {
                 return "Email or/and Password incorrect.";
             }

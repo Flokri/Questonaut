@@ -46,7 +46,7 @@ namespace Questonaut.Configuration.Reader
         public static IContainer Initialize()
         {
             var builder = new ContainerBuilder();
-            builder.RegisterModule(new SettingsModule("Questonaut.Configuration.config.json"));
+            builder.RegisterModule(new SettingsModule("Questonaut.config.json"));
             builder.RegisterType<AppCenterConfig>().As<IAppCenterConfig>();
             builder.RegisterType<FirebaseAuthConfig>().As<IFirebaseAuthConfig>();
 

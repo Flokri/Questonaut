@@ -35,12 +35,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="config\config.json" />
-    <None Remove="Configuration\config.json" />
+    <None Remove="config.json" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Remove="Configuration\config.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Configuration\config.json" />
+    <EmbeddedResource Include="config.json" />
   </ItemGroup>
 </Project>
