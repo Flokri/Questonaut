@@ -1,12 +1,14 @@
 ﻿using System.Threading.Tasks;
 using Firebase.Auth;
 using Firebase.Auth.Payloads;
+using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
 using Questonaut.DependencyServices;
 using Questonaut.Helpers;
+using Questonaut.Settings;
 using Xamarin.Forms;
 
 namespace Questonaut.ViewModels
@@ -131,8 +133,8 @@ namespace Questonaut.ViewModels
                 case "Login":
                     if (await LoginAsync() == true)
                     {
-                        //TODO: pass param
-                        //change to the dashboard
+                        //change to the main view
+                        _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/MainView", System.UriKind.Absolute));
                     }
 
                     break;
@@ -243,18 +245,27 @@ namespace Questonaut.ViewModels
                     if (response != null)
                     {
                         var userData = await _firebase.GetUserData(new GetUserDataRequest() { IdToken = response.IdToken });
-                        if (CheckIfVerified(userData))
-                            return true;
-                        else
+
+                        if (userData != null)
                         {
-                            if (await _pageDialogservice.DisplayAlertAsync("Not Verified", "To use this account please verfiy your email address.", "Resend Email", "Cancel"))
+                            //save a flag to the application data to know that a user is logged in
+                            SettingsImp.UserValue = JsonConvert.SerializeObject(userData.users[0]);
+
+                            if (CheckIfVerified(userData))
                             {
-                                var sendverification = await _firebase.SendVerification(
-                                    new SendVerificationEmailRequest()
-                                    {
-                                        RequestType = "VERIFY_EMAIL",
-                                        IdToken = response.IdToken,
-                                    });
+                                return true;
+                            }
+                            else
+                            {
+                                if (await _pageDialogservice.DisplayAlertAsync("Not Verified", "To use this account please verfiy your email address.", "Resend Email", "Cancel"))
+                                {
+                                    var sendverification = await _firebase.SendVerification(
+                                        new SendVerificationEmailRequest()
+                                        {
+                                            RequestType = "VERIFY_EMAIL",
+                                            IdToken = response.IdToken,
+                                        });
+                                }
                             }
                         }
                     }

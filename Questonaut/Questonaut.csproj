@@ -23,6 +23,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Xam.Plugins.Settings" Version="4.1.0-beta" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\" />
@@ -31,6 +32,7 @@
     <Folder Include="Converters\" />
     <Folder Include="Behaviors\" />
     <Folder Include="Validators\" />
+    <Folder Include="Settings\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Firebase.Auth">
