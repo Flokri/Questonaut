@@ -8,6 +8,8 @@ using Questonaut.Views;
 using Questonaut.ViewModels;
 using System;
 using Questonaut.Helpers;
+using Xamarin.Forms;
+using Questonaut.Settings;
 
 namespace Questonaut
 {
@@ -19,8 +21,13 @@ namespace Questonaut
         {
             InitializeComponent();
 
-            //navigate to the root view controller of this app
-            NavigationService.NavigateAsync(new System.Uri("https://www.Questonaut/LoginView", System.UriKind.Absolute));
+            //check if user is already logged in
+            if (SettingsImp.UserValue != string.Empty)
+                //if there is a user logged in go to the mainscreen
+                NavigationService.NavigateAsync(new System.Uri("https://www.Questonaut/MainView", System.UriKind.Absolute));
+            else
+                //if there is no user go to the login screen
+                NavigationService.NavigateAsync(new System.Uri("https://www.Questonaut/LoginView", System.UriKind.Absolute));
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
