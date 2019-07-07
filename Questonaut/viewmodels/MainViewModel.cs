@@ -1,4 +1,5 @@
 ﻿using System;
+using Plugin.CloudFirestore;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -26,6 +27,12 @@ namespace Questonaut.ViewModels
             _pageDialogservice = pageDialogService;
 
             OnLogout = new DelegateCommand(() => Logout());
+
+
+            //test the firstore plugin
+            var document = CrossCloudFirestore.Current
+                                                    .Instance
+                                                    .GetCollection("Users");
         }
 
         #region privateMethods

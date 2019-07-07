@@ -126,6 +126,9 @@
     <PackageReference Include="Xam.Plugins.Settings">
       <Version>4.1.0-beta</Version>
     </PackageReference>
+    <PackageReference Include="Plugin.CloudFirestore">
+      <Version>2.0.0-pre1</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -138,5 +141,8 @@
     <Folder Include="Assets.xcassets\Questonaut.imageset\" />
     <Folder Include="Assets.xcassets\Questonaut_Small.imageset\" />
     <Folder Include="DependencyServices\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="GoogleService-Info.plist" />
   </ItemGroup>
 </Project>

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using Foundation;
+﻿using Foundation;
 using Prism;
 using Prism.Ioc;
 using UIKit;
@@ -25,6 +21,9 @@ namespace Questonaut.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
+
+            //initialize the firebase sdk
+            Firebase.Core.App.Configure();
 
             LoadApplication(new App(new iOSInitializer()));
 

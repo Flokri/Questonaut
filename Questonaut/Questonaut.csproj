@@ -24,6 +24,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Xam.Plugins.Settings" Version="4.1.0-beta" />
+    <PackageReference Include="Plugin.CloudFirestore" Version="2.0.0-pre1" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\" />
