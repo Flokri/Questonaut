@@ -1,4 +1,4 @@
 echo "Injecting firestore secrets..."
-echo "Updating android secret"
-echo $ANDROID_SECRET > "$APPCENTER_SOURCE_DIRECTORY/Questonaut.Android/appcenter-config.json"
+echo "Updating Google JSON"
+echo $GOOGLE_SERVICES_JSON | base64 --decode > "$APPCENTER_SOURCE_DIRECTORY/Questonaut.Android/google-services.json"
 echo "Finished injecting secrets."
