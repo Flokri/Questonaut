@@ -32,6 +32,7 @@
     <WarningLevel>4</WarningLevel>
     <AndroidLinkMode>None</AndroidLinkMode>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <JavaMaximumHeapSize>2G</JavaMaximumHeapSize>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -78,12 +79,18 @@
     <PackageReference Include="Plugin.CloudFirestore">
       <Version>2.0.0-pre1</Version>
     </PackageReference>
+    <PackageReference Include="Xamarin.Firebase.Auth">
+      <Version>71.1605.0-preview9</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DependencyServices\ScreenDimensions.cs" />
+    <Compile Include="DependencyServices\FirebaseAuthenticator.cs" />
+    <Compile Include="CustomRenderer\CustomEntryRenderer.cs" />
+    <Compile Include="CustomRenderer\CustomDatePickerRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -141,6 +148,7 @@
     <Folder Include="Resources\drawable-xxhdpi\" />
     <Folder Include="Resources\drawable-xxxhdpi\" />
     <Folder Include="DependencyServices\" />
+    <Folder Include="CustomRenderer\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Questonaut\Questonaut.csproj">

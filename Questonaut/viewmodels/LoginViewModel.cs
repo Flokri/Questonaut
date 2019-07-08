@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
-using Firebase.Auth;
-using Firebase.Auth.Payloads;
+using Firebase.Rest.Auth;
+using Firebase.Rest.Auth.Payloads;
 using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -133,8 +133,17 @@ namespace Questonaut.ViewModels
                 case "Login":
                     if (await LoginAsync() == true)
                     {
-                        //change to the main view
-                        _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/MainView", System.UriKind.Absolute));
+                        //check if this is the first login
+                        if (SettingsImp.ShowIntro.Equals("true"))
+                        {
+                            //change to the create a user view
+                            _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/CreateUserView", System.UriKind.Absolute));
+                        }
+                        else
+                        {
+                            //change to the main view
+                            _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/MainView", System.UriKind.Absolute));
+                        }
                     }
 
                     break;
@@ -253,6 +262,7 @@ namespace Questonaut.ViewModels
 
                             if (CheckIfVerified(userData))
                             {
+                                await Xamarin.Forms.DependencyService.Get<IFirebaseAuthenticator>().LoginWithEmailPassword(this.Email, this.Password);
                                 return true;
                             }
                             else
