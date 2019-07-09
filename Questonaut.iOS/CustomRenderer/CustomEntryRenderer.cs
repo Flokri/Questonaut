@@ -13,10 +13,14 @@ namespace Questonaut.iOS.CustomRenderer
         protected override void OnElementChanged(ElementChangedEventArgs<Entry> e)
         {
             base.OnElementChanged(e);
-            Control.Layer.BorderWidth = 0;
-            Control.BorderStyle = UITextBorderStyle.None;
 
-            this.Control.TextAlignment = UITextAlignment.Right;
+            if (Control != null)
+            {
+                Control.Layer.BorderWidth = 0;
+                Control.BorderStyle = UITextBorderStyle.None;
+
+                this.Control.TextAlignment = UITextAlignment.Right;
+            }
         }
     }
 }

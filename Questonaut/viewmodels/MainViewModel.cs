@@ -36,7 +36,7 @@ namespace Questonaut.ViewModels
             _pageDialogservice = pageDialogService;
 
             OnLogout = new DelegateCommand(() => Logout());
-            AddUser = new DelegateCommand(async () => await Task.Run(() => Add()));
+            AddUser = new DelegateCommand(() => Add());
         }
 
         #region privateMethods
@@ -49,24 +49,28 @@ namespace Questonaut.ViewModels
             }
         }
 
-        private async void Add()
+        private void Add()
         {
-            try
-            {
-                var documents = await CrossCloudFirestore.Current
-                                                         .Instance
-                                                         .GetCollection(QUser.CollectionPath)
-                                                         .WhereEqualsTo("Name", CurrentUser.Instance.User.Name)
-                                                         .GetDocumentsAsync();
+            //tod: change after creating the create view
+            //change to the create a user view
+            _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/CreateUserView", System.UriKind.Absolute));
 
-                IEnumerable<QUser> myModel = documents.ToObjects<QUser>();
-                Username = myModel.First().Name;
-                Id = myModel.First().Id;
-            }
-            catch (Exception e)
-            {
-                var msg = e.Message;
-            }
+            //try
+            //{
+            //var documents = await CrossCloudFirestore.Current
+            //                                         .Instance
+            //                                         .GetCollection(QUser.CollectionPath)
+            //                                         .WhereEqualsTo("Name", CurrentUser.Instance.User.Name)
+            //                                         .GetDocumentsAsync();
+
+            //IEnumerable<QUser> myModel = documents.ToObjects<QUser>();
+            //Username = myModel.First().Name;
+            //Id = myModel.First().Id;
+            //}
+            //catch (Exception e)
+            //{
+            //    var msg = e.Message;
+            //}
         }
         #endregion
 

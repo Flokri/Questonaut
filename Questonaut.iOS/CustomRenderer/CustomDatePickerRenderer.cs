@@ -12,11 +12,14 @@ namespace Questonaut.iOS.CustomRenderer
         {
             base.OnElementChanged(e);
 
-            base.OnElementChanged(e);
-            Control.Layer.BorderWidth = 0;
-            Control.BorderStyle = UIKit.UITextBorderStyle.None;
+            if (Control != null)
+            {
+                base.OnElementChanged(e);
+                Control.Layer.BorderWidth = 0;
+                Control.BorderStyle = UIKit.UITextBorderStyle.None;
 
-            this.Control.TextAlignment = UIKit.UITextAlignment.Right;
+                this.Control.TextAlignment = UIKit.UITextAlignment.Right;
+            }
         }
     }
 }
