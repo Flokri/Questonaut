@@ -29,6 +29,7 @@
     <PackageReference Include="FirebaseStorage.net" Version="1.0.3" />
     <PackageReference Include="Xam.Plugin.Media" Version="4.3.1-beta" />
     <PackageReference Include="Plugin.Permissions" Version="5.0.0-beta" />
+    <PackageReference Include="CardsView" Version="2.1.6" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\" />

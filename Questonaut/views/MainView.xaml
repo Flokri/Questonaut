@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Questonaut.Views.MainView">
     <ContentPage.Content>
         <StackLayout Orientation="Vertical" VerticalOptions="Center">
-            <Button Text="Add User" Command="{Binding AddUser}" />
+            <Button Text="Intro View" Command="{Binding AddUser}" />
             <Label Text="{Binding Username}" HorizontalOptions="Center" />
             <Label Text="{Binding Id}" HorizontalOptions="Center" />
             <Button Text="logout" Command="{Binding OnLogout}" />

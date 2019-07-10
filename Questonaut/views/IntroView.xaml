@@ -1,6 +1,22 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Questonaut.Views.IntroView">
+<ContentPage x:Class="Questonaut.Views.IntroView" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView" xmlns:controls="clr-namespace:PanCardView.Controls;assembly=PanCardView" BackgroundColor="#42506B" NavigationPage.HasNavigationBar="False">
+    <ContentPage.Resources>
+        <Color x:Key="DarkBlue">#42506B</Color>
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <Button Text="Tester" />
+        <cards:CarouselView ItemsSource="{Binding Items}" SelectedIndex="{Binding CurrentIndex}">
+            <cards:CarouselView.ItemTemplate>
+                <DataTemplate>
+                    <ContentView>
+                        <StackLayout BackgroundColor="{Binding Color}" Orientation="Vertical">
+                            <Label Text="Start your Journey" Margin="25,70,0,15" TextColor="White" FontSize="35" />
+                            <Image Source="{Binding Source}" Margin="40" />
+                            <Label Text="In order to participate in studies, &#xA;you must allow this app a few &#xA;permissions. This is necessary to &#xA;capture the context." Margin="25,10" TextColor="White" FontSize="22" />
+                        </StackLayout>
+                    </ContentView>
+                </DataTemplate>
+            </cards:CarouselView.ItemTemplate>
+            <controls:IndicatorsControl />
+        </cards:CarouselView>
     </ContentPage.Content>
 </ContentPage>

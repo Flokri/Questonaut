@@ -53,7 +53,7 @@ namespace Questonaut.ViewModels
         {
             //tod: change after creating the create view
             //change to the create a user view
-            _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/CreateUserView", System.UriKind.Absolute));
+            _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/IntroView", System.UriKind.Absolute));
 
             //try
             //{
