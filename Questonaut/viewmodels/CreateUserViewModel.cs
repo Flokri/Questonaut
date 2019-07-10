@@ -14,6 +14,7 @@ using Prism.Navigation;
 using Prism.Services;
 using Questonaut.Controller;
 using Questonaut.DependencyServices;
+using Questonaut.Helper;
 using Questonaut.Model;
 using Xamarin.Forms;
 
@@ -77,7 +78,7 @@ namespace Questonaut.ViewModels
 
             Assembly assembly = Assembly.GetExecutingAssembly();
             Stream file = assembly.GetManifestResourceStream("Questonaut.SharedImages.defaultUserImage.png");
-            _cachedImage = GetImageStreamAsBytes(file);
+            _cachedImage = GetImageStreamAsBytes.Convert(file);
             UserImage = _image.Source;
         }
         #endregion
@@ -88,6 +89,7 @@ namespace Questonaut.ViewModels
         /// </summary>
         private async void Save()
         {
+            //check the user enterd all neccassary properties
             if (Name != string.Empty && (Male | Female))
             {
                 try
@@ -103,6 +105,13 @@ namespace Questonaut.ViewModels
                          .Instance
                          .GetCollection(QUser.CollectionPath)
                          .AddDocumentAsync(CurrentUser.Instance.User);
+
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        //change to the intro view
+                        await _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/IntroView", System.UriKind.Absolute));
+                    });
+
                 }
                 catch (Exception e)
                 {
@@ -121,9 +130,14 @@ namespace Questonaut.ViewModels
             }
         }
 
+        /// <summary>
+        /// Save the selected image to the firestore cloud.
+        /// </summary>
+        /// <param name="imageStream"></param>
+        /// <returns></returns>
         private async Task<string> StoreImage(Stream imageStream)
         {
-
+            //set the authentication token 
             var options = new FirebaseStorageOptions
             {
                 AuthTokenAsyncFactory = async () => await Xamarin.Forms.DependencyService.Get<IFirebaseAuthenticator>().GetCurrentUser()
@@ -131,8 +145,11 @@ namespace Questonaut.ViewModels
 
             var storageImage = await new FirebaseStorage("questonaut.appspot.com", options)
                                                         .Child("UserImages")
-                                                        .Child(this.Name + ".jpg")
+                                                        .Child(CurrentUser.Instance.User.Email + ".jpg")
                                                         .PutAsync(imageStream);
+
+            //set the image localy
+            CurrentUser.Instance.User.LocalImage = GetImageStreamAsBytes.Convert(imageStream);
 
             return storageImage;
         }
@@ -143,6 +160,7 @@ namespace Questonaut.ViewModels
         /// <returns></returns>
         private async System.Threading.Tasks.Task ChooseImageAsync()
         {
+            //check the permissions
             var action = await _pageDialogservice.DisplayActionSheetAsync("Choose Image Source", "Cancel", null, "Camera", "Album");
             MediaFile file = null;
 
@@ -151,6 +169,7 @@ namespace Questonaut.ViewModels
 
             if (cameraStatus != PermissionStatus.Granted || storageStatus != PermissionStatus.Granted)
             {
+                //if permissions are missig get them here
                 cameraStatus = await CrossPermissions.Current.RequestPermissionAsync<CameraPermission>();
                 storageStatus = await CrossPermissions.Current.RequestPermissionAsync<StoragePermission>();
             }
@@ -181,54 +200,39 @@ namespace Questonaut.ViewModels
                         break;
                 }
 
-                if (file == null)
-                {
-                    return;
-                }
-
-                var stream = file.GetStream();
-
-                _cachedImage = GetImageStreamAsBytes(stream);
-
-                if (_cachedImage != null)
-                {
-                    Stream reRead = new MemoryStream(_cachedImage);
-
-                    if (stream != null)
-                    {
-                        _image = new Image
-                        {
-                            Source = ImageSource.FromStream(() => reRead),
-                            BackgroundColor = Color.Gray,
-                        };
-
-                        UserImage = _image.Source;
-                    }
-                }
+                ProcessingImage(file);
             }
         }
 
         /// <summary>
-        /// Get the bytes from the stream.
+        /// Get the image and convert it to a byte[] and set it to the rigth properties.
         /// </summary>
-        /// <param name="input"><The stream./param>
-        /// <returns>The input stream as byte array.</returns>
-        private byte[] GetImageStreamAsBytes(Stream input)
+        private void ProcessingImage(MediaFile file)
         {
-            if (input != null)
+            if (file == null)
             {
-                var buffer = new byte[16 * 1024];
-                using (MemoryStream ms = new MemoryStream())
+                return;
+            }
+
+            var stream = file.GetStream();
+
+            _cachedImage = GetImageStreamAsBytes.Convert(stream);
+
+            if (_cachedImage != null)
+            {
+                Stream reRead = new MemoryStream(_cachedImage);
+
+                if (stream != null)
                 {
-                    int read;
-                    while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
+                    _image = new Image
                     {
-                        ms.Write(buffer, 0, read);
-                    }
-                    return ms.ToArray();
+                        Source = ImageSource.FromStream(() => reRead),
+                        BackgroundColor = Color.Gray,
+                    };
+
+                    UserImage = _image.Source;
                 }
             }
-            return null;
         }
         #endregion
 

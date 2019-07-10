@@ -37,6 +37,12 @@ namespace Questonaut.Model
         public string Image { get; set; }
 
         /// <summary>
+        /// This image is just a local copy to save ressources.
+        /// </summary>
+        [Ignored]
+        public byte[] LocalImage { get; set; }
+
+        /// <summary>
         /// The gender of the user.
         /// </summary>
         public string Gender { get; set; }

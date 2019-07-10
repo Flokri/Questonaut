@@ -42,6 +42,7 @@
     <Folder Include="Controller\" />
     <Folder Include="Controls\" />
     <Folder Include="SharedImages\" />
+    <Folder Include="Helper\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Firebase.Rest.Auth">

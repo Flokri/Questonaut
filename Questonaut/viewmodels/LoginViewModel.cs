@@ -1,13 +1,16 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Firebase.Rest.Auth;
 using Firebase.Rest.Auth.Payloads;
 using Newtonsoft.Json;
+using Plugin.CloudFirestore;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
 using Questonaut.DependencyServices;
 using Questonaut.Helpers;
+using Questonaut.Model;
 using Questonaut.Settings;
 using Xamarin.Forms;
 
@@ -52,14 +55,17 @@ namespace Questonaut.ViewModels
         #region Constructor
         public LoginViewModel(INavigationService navigationService, IPageDialogService dialogService)
         {
+            //set the prism stuff
             _navigationService = navigationService;
             _pageDialogservice = dialogService;
 
+            //set all the delegates command using by the ui
             OnActionClickedCommand = new DelegateCommand(() => ActionClickedAsync());
             OnLoginClickedCommand = new DelegateCommand(() => OnLogin());
             OnSignupClickedCommand = new DelegateCommand(async () => await Task.Run(() => OnSignup()));
             OnTappedForgotPassword = new DelegateCommand(() => OnForgotPassword());
 
+            //change the button size depending on the actual screen size
             ButtonFontSize = Xamarin.Forms.Device.GetNamedSize(NamedSize.Large, typeof(Button));
 
             switch (Xamarin.Forms.Device.RuntimePlatform)
@@ -114,11 +120,18 @@ namespace Questonaut.ViewModels
             LoginActive();
         }
 
+        /// <summary>
+        /// Get called when the user tappes forgot password.
+        /// </summary>
         private void OnForgotPassword()
         {
-
+            //todo: add feature 
         }
 
+        /// <summary>
+        /// Get called when the user wants to signup a new user account
+        /// </summary>
+        /// <returns></returns>
         private Task OnSignup()
         {
             SignupActive();
@@ -126,6 +139,10 @@ namespace Questonaut.ViewModels
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Get called when the user clicks the action (login or signup) button.
+        /// </summary>
+        /// <returns></returns>
         private async Task ActionClickedAsync()
         {
             switch (Action)
@@ -133,16 +150,24 @@ namespace Questonaut.ViewModels
                 case "Login":
                     if (await LoginAsync() == true)
                     {
-                        //check if this is the first login
-                        if (SettingsImp.ShowIntro.Equals("true"))
+                        //check if the user has a fully configured account
+                        if (await CeckAccountStatusAsync())
                         {
-                            //change to the create a user view
-                            _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/CreateUserView", System.UriKind.Absolute));
+                            //check if this is the first login
+                            if (SettingsImp.ShowIntro.Equals("true"))
+                            {
+                                //change to the create a user view
+                                await _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/IntroView", System.UriKind.Absolute));
+                            }
+                            else
+                            {
+                                //change to the main view
+                                await _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/MainView", System.UriKind.Absolute));
+                            }
                         }
                         else
                         {
-                            //change to the main view
-                            _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/MainView", System.UriKind.Absolute));
+                            await ChangeToCreationAsync();
                         }
                     }
 
@@ -150,8 +175,7 @@ namespace Questonaut.ViewModels
                 case "Signup":
                     if (await SignupAsync() == true)
                     {
-                        //TODO: pass param
-                        //change to the dashboard
+                        await ChangeToCreationAsync();
                     }
                     break;
                 default:
@@ -159,6 +183,51 @@ namespace Questonaut.ViewModels
             }
         }
 
+        /// <summary>
+        /// Navigate to the creat a user view.
+        /// </summary>
+        private async Task ChangeToCreationAsync()
+        {
+            SettingsImp.ShowIntro = "true";
+
+            //change to the create a user view
+            await _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/CreateUserView", System.UriKind.Absolute));
+        }
+
+        /// <summary>
+        /// Check if a user account is just created or fully configured.
+        /// </summary>
+        /// <returns></returns>
+        private async Task<bool> CeckAccountStatusAsync()
+        {
+            try
+            {
+                var query = await CrossCloudFirestore.Current
+                                     .Instance
+                                     .GetCollection(QUser.CollectionPath)
+                                     .WhereEqualsTo("Email", this.Email)
+                                     .GetDocumentsAsync();
+
+                if (query.Count > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Checks if the user has verified his/her email address.
+        /// </summary>
+        /// <param name="user">The user form the firebase response.</param>
+        /// <returns>Returns the verify status of the user.</returns>
         private bool CheckIfVerified(GetUserDataResponse user)
         {
             if (user != null && user.users.Count > 0)
@@ -169,6 +238,11 @@ namespace Questonaut.ViewModels
             return false;
         }
 
+        /// <summary>
+        /// Converts the firebase api auth call to a full text error message.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns>The full text error message.</returns>
         private string GetRigthErrorMessage(FirebaseAuthException e)
         {
             if (e.Message.Contains("EMAIL_NOT_FOUND") || e.Message.Contains("INVALID_PASSWORD") || e.Message.Contains("INVALID_EMAIL"))
@@ -214,14 +288,14 @@ namespace Questonaut.ViewModels
 
                         if (sendverification != null)
                         {
-                            _pageDialogservice.DisplayAlertAsync("Verify", "Your account was created successfully. Please confirm the account with the mail we send to you.", "Cancel");
+                            await _pageDialogservice.DisplayAlertAsync("Verify", "Your account was created successfully. Please confirm the account with the mail we send to you.", "Cancel");
                             return true;
                         }
                     }
                 }
                 catch (FirebaseAuthException e)
                 {
-                    _pageDialogservice.DisplayAlertAsync("Error", GetRigthErrorMessage(e), "Cancel");
+                    await _pageDialogservice.DisplayAlertAsync("Error", GetRigthErrorMessage(e), "Cancel");
                     return false;
                 }
 
@@ -282,7 +356,7 @@ namespace Questonaut.ViewModels
                 }
                 catch (FirebaseAuthException e)
                 {
-                    _pageDialogservice.DisplayAlertAsync("Error", GetRigthErrorMessage(e), "Cancel");
+                    await _pageDialogservice.DisplayAlertAsync("Error", GetRigthErrorMessage(e), "Cancel");
                 }
 
                 //could not find user

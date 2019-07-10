@@ -46,6 +46,7 @@ namespace Questonaut
             containerRegistry.RegisterForNavigation<LoginView, LoginViewModel>();
             containerRegistry.RegisterForNavigation<CreateUserView, CreateUserViewModel>();
             containerRegistry.RegisterForNavigation<MainView, MainViewModel>();
+            containerRegistry.RegisterForNavigation<IntroView, IntroViewModel>();
         }
 
         protected override void OnStart()
