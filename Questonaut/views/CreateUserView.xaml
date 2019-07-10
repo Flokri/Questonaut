@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage x:Class="Questonaut.Views.CreateUserView" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:circleImage="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin" xmlns:controls="clr-namespace:Questonaut.Controls" BackgroundColor="#42506B" NavigationPage.HasNavigationBar="false">
+    <ContentPage.Resources>
+        <Color x:Key="DarkBlue">#42506B</Color>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" FontSize="38" Text="Create a User" TextColor="White">
+                <Label.Margin>
+                    <OnPlatform x:TypeArguments="Thickness">
+                        <On Platform="iOS" Value="15,45,0,5" />
+                        <On Platform="Android" Value="15,5,0,5" />
+                    </OnPlatform>
+                </Label.Margin>
+            </Label>
+            <StackLayout Grid.Row="1" Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center">
+                <circleImage:CircleImage Grid.Row="1" WidthRequest="{Binding ImageSectionSize}" HeightRequest="{Binding ImageSectionSize}" Aspect="AspectFill" BorderColor="White" BorderThickness="2" Source="{Binding UserImage}">
+                    <circleImage:CircleImage.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OnImageChooseTapped}" NumberOfTapsRequired="1" />
+                    </circleImage:CircleImage.GestureRecognizers>
+                </circleImage:CircleImage>
+                <Label Margin="0,5,0,0" FontSize="Small" HorizontalTextAlignment="Center" Text="Choose Image" TextColor="White" TextDecorations="Underline" HorizontalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OnImageChooseTapped}" NumberOfTapsRequired="1" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+            <StackLayout Grid.Row="2" Margin="0,10,0,0" Orientation="Vertical" VerticalOptions="StartAndExpand">
+                <controls:MyTableView BackgroundColor="Transparent" HasUnevenRows="true" Intent="Settings">
+                    <TableRoot>
+                        <TableSection Title="General Informations" TextColor="White">
+                            <ViewCell Height="40">
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                    <Label Margin="15,0" FontSize="Medium" HorizontalTextAlignment="Start" Text="Name" TextColor="White" VerticalOptions="Center" />
+                                    <controls:BorderlessEntry Margin="10,0" BackgroundColor="Transparent" FlowDirection="LeftToRight" Placeholder="Enter name" PlaceholderColor="#A9A9A9" Text="{Binding Name}" TextColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
+                                </StackLayout>
+                            </ViewCell>
+                            <ViewCell Height="40">
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                    <Label Margin="15,0" FontSize="Medium" HorizontalTextAlignment="Start" Text="Birthday" TextColor="White" VerticalOptions="Center" />
+                                    <DatePicker Margin="10,0" BackgroundColor="Transparent" Date="{Binding Birthday}" Format="d" MaximumDate="{Binding MaxDate}" MinimumDate="{Binding MinDate}" TextColor="White" HorizontalOptions="FillAndExpand" />
+                                </StackLayout>
+                            </ViewCell>
+                        </TableSection>
+                        <TableSection Title="Gender" TextColor="White">
+                            <ViewCell Height="40">
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="Center">
+                                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
+                                        <Label Text="Male" TextColor="White" VerticalTextAlignment="Center" HorizontalOptions="Center" />
+                                        <CheckBox BackgroundColor="{StaticResource DarkBlue}" IsChecked="{Binding Male}" Color="White" />
+                                    </StackLayout>
+                                    <StackLayout Orientation="Horizontal" VerticalOptions="Center">
+                                        <Label Text="Female" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" />
+                                        <CheckBox BackgroundColor="{StaticResource DarkBlue}" IsChecked="{Binding Female}" Color="White" />
+                                    </StackLayout>
+                                </StackLayout>
+                            </ViewCell>
+                        </TableSection>
+                    </TableRoot>
+                </controls:MyTableView>
+            </StackLayout>
+            <Button Grid.Row="3" Margin="15,0,15,45" HeightRequest="40" BackgroundColor="White" Command="{Binding OnSaveClicked}" Text="Save" TextColor="{StaticResource DarkBlue}" VerticalOptions="End" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

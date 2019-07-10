@@ -1,16 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Plugin.CloudFirestore;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
+using Questonaut.Controller;
+using Questonaut.Model;
 using Questonaut.Settings;
-using Xamarin.Forms;
 
 namespace Questonaut.ViewModels
 {
     public class MainViewModel : BindableBase
     {
+        #region instances
+        private string _username = "";
+        private string _id = "";
+        #endregion
 
         #region DependencyInjection
         INavigationService _navigationService;
@@ -19,6 +27,7 @@ namespace Questonaut.ViewModels
 
         #region Commands
         public DelegateCommand OnLogout { get; set; }
+        public DelegateCommand AddUser { get; set; }
         #endregion
 
         public MainViewModel(INavigationService navigationService, IPageDialogService pageDialogService)
@@ -27,12 +36,7 @@ namespace Questonaut.ViewModels
             _pageDialogservice = pageDialogService;
 
             OnLogout = new DelegateCommand(() => Logout());
-
-
-            //test the firstore plugin
-            var document = CrossCloudFirestore.Current
-                                                    .Instance
-                                                    .GetCollection("Users");
+            AddUser = new DelegateCommand(() => Add());
         }
 
         #region privateMethods
@@ -43,6 +47,43 @@ namespace Questonaut.ViewModels
                 SettingsImp.UserValue = "";
                 _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/LoginView", System.UriKind.Absolute));
             }
+        }
+
+        private void Add()
+        {
+            //tod: change after creating the create view
+            //change to the create a user view
+            _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/CreateUserView", System.UriKind.Absolute));
+
+            //try
+            //{
+            //var documents = await CrossCloudFirestore.Current
+            //                                         .Instance
+            //                                         .GetCollection(QUser.CollectionPath)
+            //                                         .WhereEqualsTo("Name", CurrentUser.Instance.User.Name)
+            //                                         .GetDocumentsAsync();
+
+            //IEnumerable<QUser> myModel = documents.ToObjects<QUser>();
+            //Username = myModel.First().Name;
+            //Id = myModel.First().Id;
+            //}
+            //catch (Exception e)
+            //{
+            //    var msg = e.Message;
+            //}
+        }
+        #endregion
+
+        #region properties
+        public string Username
+        {
+            get => _username;
+            set { SetProperty(ref _username, value); }
+        }
+        public string Id
+        {
+            get => _id;
+            set { SetProperty(ref _id, value); }
         }
         #endregion
     }

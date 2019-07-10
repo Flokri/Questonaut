@@ -25,6 +25,10 @@
     </PackageReference>
     <PackageReference Include="Xam.Plugins.Settings" Version="4.1.0-beta" />
     <PackageReference Include="Plugin.CloudFirestore" Version="2.0.0-pre1" />
+    <PackageReference Include="Xam.Plugins.Forms.ImageCircle" Version="3.1.1.1-beta" />
+    <PackageReference Include="FirebaseStorage.net" Version="1.0.3" />
+    <PackageReference Include="Xam.Plugin.Media" Version="4.3.1-beta" />
+    <PackageReference Include="Plugin.Permissions" Version="5.0.0-beta" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\" />
@@ -34,15 +38,29 @@
     <Folder Include="Behaviors\" />
     <Folder Include="Validators\" />
     <Folder Include="Settings\" />
+    <Folder Include="Model\" />
+    <Folder Include="Controller\" />
+    <Folder Include="Controls\" />
+    <Folder Include="SharedImages\" />
+    <Folder Include="Helper\" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Firebase.Auth">
-      <HintPath>Frameworks\Firebase.Auth.dll</HintPath>
+    <Reference Include="Firebase.Rest.Auth">
+      <HintPath>Frameworks\Firebase.Rest.Auth.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <None Update="Frameworks\Firebase.Auth.dll">
+    <None Remove="SharedImages\defaultUserImage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Frameworks\Firebase.Rest.Auth.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SharedImages\defaultUserImage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="DependencyServices\IPicturePicker.cs" />
   </ItemGroup>
 </Project>

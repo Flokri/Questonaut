@@ -1,10 +1,11 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
-<ContentPage
-    xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="Questonaut.Views.MainView">
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Questonaut.Views.MainView">
     <ContentPage.Content>
-        <Button Text="logout"
-                Command="{Binding OnLogout}" />
+        <StackLayout Orientation="Vertical" VerticalOptions="Center">
+            <Button Text="Add User" Command="{Binding AddUser}" />
+            <Label Text="{Binding Username}" HorizontalOptions="Center" />
+            <Label Text="{Binding Id}" HorizontalOptions="Center" />
+            <Button Text="logout" Command="{Binding OnLogout}" />
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

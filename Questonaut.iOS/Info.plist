@@ -35,5 +35,13 @@
 	<false/>
 	<key>CFBundleVersion</key>
 	<string>0.0.1</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Qeustonaut needs access to your photo library.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Questonaut needs access to your Camera.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Questonaut needs access to the photo gallery.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Questonaut needs access to your microphone.</string>
 </dict>
 </plist>

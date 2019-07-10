@@ -1,5 +1,5 @@
 ﻿using System;
-using Firebase.Auth.Payloads;
+using Firebase.Rest.Auth.Payloads;
 using Plugin.Settings;
 using Plugin.Settings.Abstractions;
 using Plugin.Settings.Abstractions.Extensions;
@@ -34,6 +34,15 @@ namespace Questonaut.Settings
         {
             get => Settings.GetValueOrDefault(UserKey, UserDefault);
             set => Settings.AddOrUpdateValue(UserKey, value);
+        }
+
+        private const string ShowIntroKey = "showIntro";
+        private static readonly string ShowIntroDefault = "true";
+
+        public static string ShowIntro
+        {
+            get => Settings.GetValueOrDefault(ShowIntroKey, ShowIntroDefault);
+            set => Settings.AddOrUpdateValue(ShowIntroKey, value);
         }
     }
 }

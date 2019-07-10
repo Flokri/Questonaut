@@ -10,6 +10,11 @@ using System;
 using Questonaut.Helpers;
 using Xamarin.Forms;
 using Questonaut.Settings;
+using Questonaut.Controller;
+using Newtonsoft.Json;
+using Firebase.Rest.Auth.Payloads;
+using Plugin.CloudFirestore;
+using Questonaut.DependencyServices;
 
 namespace Questonaut
 {
@@ -23,11 +28,15 @@ namespace Questonaut
 
             //check if user is already logged in
             if (SettingsImp.UserValue != string.Empty)
+            {
                 //if there is a user logged in go to the mainscreen
                 NavigationService.NavigateAsync(new System.Uri("https://www.Questonaut/MainView", System.UriKind.Absolute));
+            }
             else
+            {
                 //if there is no user go to the login screen
                 NavigationService.NavigateAsync(new System.Uri("https://www.Questonaut/LoginView", System.UriKind.Absolute));
+            }
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -35,7 +44,9 @@ namespace Questonaut
             //todo: register all views with there corresponding viewmodels
             containerRegistry.RegisterForNavigation<CustomNavigationPage>();
             containerRegistry.RegisterForNavigation<LoginView, LoginViewModel>();
+            containerRegistry.RegisterForNavigation<CreateUserView, CreateUserViewModel>();
             containerRegistry.RegisterForNavigation<MainView, MainViewModel>();
+            containerRegistry.RegisterForNavigation<IntroView, IntroViewModel>();
         }
 
         protected override void OnStart()
