@@ -3,6 +3,11 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using Firebase.Storage;
+using Plugin.CloudFirestore;
+using Plugin.Media;
+using Plugin.Media.Abstractions;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -83,14 +88,50 @@ namespace Questonaut.ViewModels
         /// </summary>
         private async void Save()
         {
-            await StoreImage(new MemoryStream(_cachedImage));
+            if (Name != string.Empty && (Male | Female))
+            {
+                try
+                {
+                    var storedImage = await StoreImage(new MemoryStream(_cachedImage));
+
+                    CurrentUser.Instance.User.Name = this.Name;
+                    CurrentUser.Instance.User.Birthday = this.Birthday.ToShortDateString();
+                    CurrentUser.Instance.User.Gender = this.Male ? "Male" : "Female";
+                    CurrentUser.Instance.User.Image = storedImage;
+
+                    await CrossCloudFirestore.Current
+                         .Instance
+                         .GetCollection(QUser.CollectionPath)
+                         .AddDocumentAsync(CurrentUser.Instance.User);
+                }
+                catch (Exception e)
+                {
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await _pageDialogservice.DisplayAlertAsync("Error", "Something went wrong... Please retry it later", "Ok");
+                    });
+                }
+            }
+            else
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await _pageDialogservice.DisplayAlertAsync("Error", "Please fill in all the informations.", "Ok");
+                });
+            }
         }
 
         private async Task<string> StoreImage(Stream imageStream)
         {
-            var storageImage = await new FirebaseStorage("questonaut.appspot.com")
-                                                        .Child("ProfileImages")
-                                                        .Child(CurrentUser.Instance.User.Name + ".jpg")
+
+            var options = new FirebaseStorageOptions
+            {
+                AuthTokenAsyncFactory = async () => await Xamarin.Forms.DependencyService.Get<IFirebaseAuthenticator>().GetCurrentUser()
+            };
+
+            var storageImage = await new FirebaseStorage("questonaut.appspot.com", options)
+                                                        .Child("UserImages")
+                                                        .Child(this.Name + ".jpg")
                                                         .PutAsync(imageStream);
 
             return storageImage;
@@ -102,23 +143,67 @@ namespace Questonaut.ViewModels
         /// <returns></returns>
         private async System.Threading.Tasks.Task ChooseImageAsync()
         {
-            Stream stream = await Xamarin.Forms.DependencyService.Get<IPicturePicker>().GetImageStreamAsync();
+            var action = await _pageDialogservice.DisplayActionSheetAsync("Choose Image Source", "Cancel", null, "Camera", "Album");
+            MediaFile file = null;
 
-            _cachedImage = GetImageStreamAsBytes(stream);
+            var cameraStatus = await CrossPermissions.Current.CheckPermissionStatusAsync<CameraPermission>();
+            var storageStatus = await CrossPermissions.Current.CheckPermissionStatusAsync<StoragePermission>();
 
-            if (_cachedImage != null)
+            if (cameraStatus != PermissionStatus.Granted || storageStatus != PermissionStatus.Granted)
             {
-                Stream reRead = new MemoryStream(_cachedImage);
+                cameraStatus = await CrossPermissions.Current.RequestPermissionAsync<CameraPermission>();
+                storageStatus = await CrossPermissions.Current.RequestPermissionAsync<StoragePermission>();
+            }
 
-                if (stream != null)
+            if (cameraStatus == PermissionStatus.Granted && storageStatus == PermissionStatus.Granted)
+            {
+                switch (action)
                 {
-                    _image = new Image
-                    {
-                        Source = ImageSource.FromStream(() => reRead),
-                        BackgroundColor = Color.Gray,
-                    };
+                    case "Camera":
+                        file = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
+                        {
+                            Directory = "Sample",
+                            Name = "UserImage.jpg",
+                            CompressionQuality = 50,
+                            PhotoSize = PhotoSize.Medium,
+                            SaveToAlbum = true
+                        });
+                        break;
 
-                    UserImage = _image.Source;
+                    case "Album":
+                        file = await CrossMedia.Current.PickPhotoAsync(new PickMediaOptions
+                        {
+                            CompressionQuality = 50,
+                            PhotoSize = PhotoSize.Medium
+                        });
+                        break;
+                    default:
+                        break;
+                }
+
+                if (file == null)
+                {
+                    return;
+                }
+
+                var stream = file.GetStream();
+
+                _cachedImage = GetImageStreamAsBytes(stream);
+
+                if (_cachedImage != null)
+                {
+                    Stream reRead = new MemoryStream(_cachedImage);
+
+                    if (stream != null)
+                    {
+                        _image = new Image
+                        {
+                            Source = ImageSource.FromStream(() => reRead),
+                            BackgroundColor = Color.Gray,
+                        };
+
+                        UserImage = _image.Source;
+                    }
                 }
             }
         }

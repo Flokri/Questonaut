@@ -63,7 +63,7 @@ namespace Questonaut.iOS.DependencyServices
             if (image != null)
             {
                 //Convert UIImage to .Net Stream object
-                NSData data = image.AsJPEG(1);
+                NSData data = image.AsJPEG((nfloat)0.3);
                 Stream stream = data.AsStream();
 
                 UnregisterEventHandlers();

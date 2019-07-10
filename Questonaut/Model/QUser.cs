@@ -8,7 +8,7 @@ namespace Questonaut.Model
     /// </summary>
     public class QUser
     {
-        public static string CollectionPath = "users";
+        public static string CollectionPath = "Users";
 
         /// <summary>
         /// The uid from the user. This uid comes from firebase auth.
@@ -20,5 +20,25 @@ namespace Questonaut.Model
         /// The username.
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// The email address of the user.
+        /// </summary>
+        public string Email { get; set; }
+
+        /// <summary>
+        /// The birthday of the user
+        /// </summary>
+        public string Birthday { get; set; }
+
+        /// <summary>
+        /// The image of the user.
+        /// </summary>
+        public string Image { get; set; }
+
+        /// <summary>
+        /// The gender of the user.
+        /// </summary>
+        public string Gender { get; set; }
     }
 }

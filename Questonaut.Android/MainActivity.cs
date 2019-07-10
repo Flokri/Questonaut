@@ -12,6 +12,9 @@ using Prism.Ioc;
 using System.Threading.Tasks;
 using System.IO;
 using Android.Content;
+using Android.Graphics;
+using Plugin.CurrentActivity;
+using Plugin.Permissions;
 
 namespace Questonaut.Droid
 {
@@ -20,9 +23,6 @@ namespace Questonaut.Droid
     {
         #region instances
         internal static MainActivity Instance { get; private set; }
-
-        //Field, property and a method for Picture Picker
-        public static readonly int PickImageId = 1000;
         #endregion
 
         #region properties
@@ -38,6 +38,9 @@ namespace Questonaut.Droid
             // Or you can use global::Android.Resource.Style.ThemeHoloLight
             base.SetTheme(Resource.Style.MainTheme);
 
+            //initialize the media plugin
+            CrossCurrentActivity.Current.Init(this, savedInstanceState);
+
             base.OnCreate(savedInstanceState);
             Instance = this;
 
@@ -46,11 +49,11 @@ namespace Questonaut.Droid
 
             LoadApplication(new App(new AndroidInitializer()));
         }
+
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
-            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-
-            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            //Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
         public class AndroidInitializer : IPlatformInitializer
@@ -60,28 +63,5 @@ namespace Questonaut.Droid
 
             }
         }
-
-        #region extension
-        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
-        {
-            base.OnActivityResult(requestCode, resultCode, data);
-
-            if (requestCode == PickImageId)
-            {
-                if ((resultCode == Result.Ok) && (data != null))
-                {
-                    Android.Net.Uri uri = data.Data;
-                    Stream stream = ContentResolver.OpenInputStream(uri);
-
-                    //Set the Stream as the completion of the Task
-                    PickImageTaskCompletionSource.SetResult(stream);
-                }
-                else
-                {
-                    PickImageTaskCompletionSource.SetResult(null);
-                }
-            }
-        }
-        #endregion
     }
 }

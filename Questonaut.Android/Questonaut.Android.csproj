@@ -83,11 +83,11 @@
     <PackageReference Include="Xamarin.Firebase.Auth">
       <Version>71.1605.0-preview9</Version>
     </PackageReference>
-    <PackageReference Include="Xam.Plugin.Media">
-      <Version>4.3.1-beta</Version>
-    </PackageReference>
     <PackageReference Include="FirebaseStorage.net">
       <Version>1.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="Plugin.Permissions">
+      <Version>5.0.0-beta</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -98,7 +98,6 @@
     <Compile Include="DependencyServices\FirebaseAuthenticator.cs" />
     <Compile Include="CustomRenderer\CustomEntryRenderer.cs" />
     <Compile Include="CustomRenderer\CustomDatePickerRenderer.cs" />
-    <Compile Include="DependencyServices\PicturePickerImplementation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -148,7 +147,7 @@
       <SubType></SubType>
       <Generator></Generator>
     </AndroidResource>
-    <AndroidResource Include="Resources\values\file_paths.xml" />
+    <AndroidResource Include="Resources\xml\file_paths.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
@@ -158,6 +157,7 @@
     <Folder Include="Resources\drawable-xxxhdpi\" />
     <Folder Include="DependencyServices\" />
     <Folder Include="CustomRenderer\" />
+    <Folder Include="Resources\xml\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Questonaut\Questonaut.csproj">

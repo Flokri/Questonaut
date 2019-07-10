@@ -20,7 +20,11 @@
                 </Label.Margin>
             </Label>
             <StackLayout Grid.Row="1" Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center">
-                <circleImage:CircleImage Grid.Row="1" WidthRequest="{Binding ImageSectionSize}" HeightRequest="{Binding ImageSectionSize}" Aspect="AspectFill" BorderColor="White" BorderThickness="2" Source="{Binding UserImage}" />
+                <circleImage:CircleImage Grid.Row="1" WidthRequest="{Binding ImageSectionSize}" HeightRequest="{Binding ImageSectionSize}" Aspect="AspectFill" BorderColor="White" BorderThickness="2" Source="{Binding UserImage}">
+                    <circleImage:CircleImage.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OnImageChooseTapped}" NumberOfTapsRequired="1" />
+                    </circleImage:CircleImage.GestureRecognizers>
+                </circleImage:CircleImage>
                 <Label Margin="0,5,0,0" FontSize="Small" HorizontalTextAlignment="Center" Text="Choose Image" TextColor="White" TextDecorations="Underline" HorizontalOptions="Center">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding OnImageChooseTapped}" NumberOfTapsRequired="1" />
@@ -34,7 +38,7 @@
                             <ViewCell Height="40">
                                 <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                                     <Label Margin="15,0" FontSize="Medium" HorizontalTextAlignment="Start" Text="Name" TextColor="White" VerticalOptions="Center" />
-                                    <controls:BorderlessEntry Margin="10,0" BackgroundColor="Transparent" FlowDirection="LeftToRight" Placeholder="Enter name" PlaceholderColor="#A9A9A9" TextColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
+                                    <controls:BorderlessEntry Margin="10,0" BackgroundColor="Transparent" FlowDirection="LeftToRight" Placeholder="Enter name" PlaceholderColor="#A9A9A9" Text="{Binding Name}" TextColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
                                 </StackLayout>
                             </ViewCell>
                             <ViewCell Height="40">
@@ -61,7 +65,7 @@
                     </TableRoot>
                 </controls:MyTableView>
             </StackLayout>
-            <Button Grid.Row="3" Margin="15,0,15,45" HeightRequest="40" BackgroundColor="White" Text="Save" TextColor="{StaticResource DarkBlue}" VerticalOptions="End" Command="{Binding OnSaveClicked}" />
+            <Button Grid.Row="3" Margin="15,0,15,45" HeightRequest="40" BackgroundColor="White" Command="{Binding OnSaveClicked}" Text="Save" TextColor="{StaticResource DarkBlue}" VerticalOptions="End" />
         </Grid>
     </ContentPage.Content>
 </ContentPage>

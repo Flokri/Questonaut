@@ -35,7 +35,7 @@ namespace Questonaut.Controller
 
                     //save the use to the user controller to access the data in the rest of the app.
                     User userdata = JsonConvert.DeserializeObject<User>(SettingsImp.UserValue);
-                    CurrentUser.Instance.User = new QUser() { Name = userdata.email };
+                    CurrentUser.Instance.User = new QUser() { Email = userdata.email };
 
                     try
                     {
