@@ -1,5 +1,13 @@
 # Questonaut :rocket:
 
+| Project | Status | Description |
+|---------|--------|-------------|
+| Xamarin.iOS        | ![Xamarin.iOS.BuildBadge] | The iOS version of the Questonaut App
+| Xamarin.Android        | ![Xamarin.Android.BuildBadge] | The Android version of the Questonaut App
+
+[Xamarin.iOS.BuildBadge]: https://build.appcenter.ms/v0.1/apps/1fd4e12a-47dc-42f5-8e4c-0b38beefa189/branches/dev/badge
+[Xamarin.Android.BuildBadge]: https://build.appcenter.ms/v0.1/apps/6b7dc797-6c6c-4476-afcd-0afb4e9e31c5/branches/dev/badge
+
 ## Introduction
 
 Questonaut is a multiplatform app to create and execute custom esm studies.
@@ -15,7 +23,7 @@ A ESM (expeirence mobile sampling) stduy collects data in relation to the curren
   
 This context helps to better understand the data and to perform a more detailed analysis.
 
-### Architecture
+### Architecture & Ecosystem
 
 Beside Xamarin the following architecure is used:
   - Firebase Auth for authenticate the users
@@ -24,16 +32,6 @@ Beside Xamarin the following architecure is used:
   - AppCenter to build and monitor the app
   
 To configure the app on your machine with your API secrets and AppCenter keys see documentation.
-
-## Ecosystem
-
-| Project | Status | Description |
-|---------|--------|-------------|
-| Xamarin.iOS        | ![Xamarin.iOS.BuildBadge] | The iOS version of the Questonaut App
-| Xamarin.Android        | ![Xamarin.Android.BuildBadge] | The Android version of the Questonaut App
-
-[Xamarin.iOS.BuildBadge]: https://build.appcenter.ms/v0.1/apps/1fd4e12a-47dc-42f5-8e4c-0b38beefa189/branches/dev/badge
-[Xamarin.Android.BuildBadge]: https://build.appcenter.ms/v0.1/apps/6b7dc797-6c6c-4476-afcd-0afb4e9e31c5/branches/dev/badge
 
 ## Information
 
