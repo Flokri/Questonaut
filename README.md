@@ -2,9 +2,30 @@
 
 ## Introduction
 
-Questonaut is a multiplatform app to crreate and carry out custom ems studies.
+Questonaut is a multiplatform app to create and execute custom esm studies.
+This Xamarin.iOS and Xamarin.Android Client are used to create a account and join these studies. Studies can be created with a external client. 
 
-## Eosystem
+### ESM Studies
+
+A ESM (expeirence mobile sampling) stduy collects data in relation to the current context of the user. This context could be the following for example:
+  - location based
+  - motion based
+  - battery based
+  - other mobile sensor value based
+  
+This context helps to better understand the data and to perform a more detailed analysis.
+
+### Architecture
+
+Beside Xamarin the following architecure is used:
+  - Firebase Auth for authenticate the users
+  - Firebase Store to store the user and study data
+  - Firebase cloud to store files
+  - AppCenter to build and monitor the app
+  
+To configure the app on your machine with your API secrets and AppCenter keys see documentation.
+
+## Ecosystem
 
 | Project | Status | Description |
 |---------|--------|-------------|
