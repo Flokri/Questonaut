@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -51,6 +52,7 @@ namespace Questonaut.ViewModels
         #region commands
         public DelegateCommand OnSaveClicked { get; set; }
         public DelegateCommand OnImageChooseTapped { get; set; }
+        public DelegateCommand OnCancel { get; set; }
         #endregion
 
         #region constructor
@@ -72,6 +74,7 @@ namespace Questonaut.ViewModels
             //initialize the commands
             OnSaveClicked = new DelegateCommand(async () => await Task.Run(() => Save()));
             OnImageChooseTapped = new DelegateCommand(async () => await ChooseImageAsync());
+            OnCancel = new DelegateCommand(() => Cancel());
 
             //set the default user image
             _image = new Image { Source = ImageSource.FromResource("Questonaut.SharedImages.defaultUserImage.png") };
@@ -84,6 +87,18 @@ namespace Questonaut.ViewModels
         #endregion
 
         #region private methods
+        /// <summary>
+        /// Cancels the creation step and returns to the login screen
+        /// </summary>
+        private void Cancel()
+        {
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                //change to the intro view
+                await _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/LoginView", System.UriKind.Absolute));
+            });
+        }
+
         /// <summary>
         /// Save the user to the firestore db and persist the user in the app config.
         /// </summary>

@@ -288,7 +288,7 @@ namespace Questonaut.ViewModels
 
                         if (sendverification != null)
                         {
-                            await _pageDialogservice.DisplayAlertAsync("Verify", "Your account was created successfully. Please confirm the account with the mail we send to you.", "Cancel");
+                            await _pageDialogservice.DisplayAlertAsync("Verify", "Your account was created successfully. Please confirm the account with the mail we send to you.", "Ok");
                             return true;
                         }
                     }

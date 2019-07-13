@@ -1,18 +1,29 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
+using Questonaut.DependencyServices;
+using Questonaut.Settings;
 
 namespace Questonaut.ViewModels
 {
     public class IntroViewModel : BindableBase
     {
+        #region instances
         private int _currentIndex;
         private int _ImageCount = 0;
+        private double _variableHeigth;
+        private List<object> _items;
+        #endregion
 
         #region commands
         public DelegateCommand OnInteracted { get; set; }
@@ -24,98 +35,137 @@ namespace Questonaut.ViewModels
         IPageDialogService _pageDialogservice;
         #endregion
 
+        #region constructor
         public IntroViewModel(INavigationService navigationService, IPageDialogService dialogService)
         {
             _navigationService = navigationService;
             _pageDialogservice = dialogService;
 
-            Items = new ObservableCollection<object>
+            VariableHeigth = Xamarin.Forms.DependencyService.Get<IScreenDimensions>().GetScreenHeight() * 0.3;
+
+            CreateItems();
+        }
+        #endregion
+
+        #region private functions
+        /// <summary>
+        /// This function creates the carousel items.
+        /// </summary>
+        private void CreateItems()
+        {
+            Items = new List<object>
             {
-                new { Source = CreateSource(),
+               new { Source = "resource://Questonaut.SharedImages.qeustonaut_intro.png",
                     Ind = _ImageCount++,
                     Color = Color.Transparent,
                     Title ="Start your Journey",
                     Content = "In order to participate in studies, you must allow this app a few permissions. This is necessary to capture the context.",
+                    ImageSize = VariableHeigth,
                     Visible = false,
                     ButtonText = ""},
 
-                new { Source = CreateSource(),
+                new { Source = "resource://Questonaut.SharedImages.health.png",
                     Ind = _ImageCount++,
                     Color = Color.Transparent,
-                    Title ="Messages",
-                    Content = "In order to participate in studies,\nyou must allow this app a few\n permissions. This is necessary to\n  capture the context.",
+                    Title ="Sensors",
+                    Content = "To messure the context for the studies you want to participate this app requires to use the sensors of your phone to check if you are currently in the rigth context to answer the survey. To do so please grant the permission to use your sensor values.",
+                    ImageSize = VariableHeigth,
                     Visible = true,
+                    Command = new DelegateCommand(() => GrantSensorPermission()),
                     ButtonText = "Allow"},
 
-                new { Source = CreateSource(),
+                new { Source = "resource://Questonaut.SharedImages.location.png",
                     Ind = _ImageCount++,
                     Color = Color.Transparent,
                     Title ="GPS Permission",
-                    Content = "In order to get your correct position\n you have to allow the App to access your location. ",
+                    Content = "In order to get your correct position you have to allow the App to access your location.",
+                    ImageSize = VariableHeigth,
                     Visible = true,
+                    Command = new DelegateCommand(() => GrantLocationPermission()),
                     ButtonText = "Allow"},
 
-                new { Source = CreateSource(),
+                new { Source = "resource://Questonaut.SharedImages.survey.png",
                     Ind = _ImageCount++,
                     Color = Color.Transparent,
                     Title ="Finished",
-                    Content = "In order to participate in studies,\nyou must allow this app a few\npermissions. This is necessary to\ncapture the context.",
+                    Content = "In order to participate in studies, you must allow this app a few permissions. This is necessary to capture the context.",
+                    ImageSize = VariableHeigth,
                     Visible = true,
                     ButtonText = "Finish",
-                    Command = new DelegateCommand(async () => await Task.Run(() => Save()))},
+                    Command = new DelegateCommand(() => Save())},
             };
         }
 
         private async void Save()
         {
-            Xamarin.Forms.Device.BeginInvokeOnMainThread(async () =>
-            {
-                //change to the intro view
-                await _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/MainView", System.UriKind.Absolute));
-            });
+            //Set the show intro view to false
+            SettingsImp.ShowIntro = "false";
+
+            //ce to the intro view
+            await _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/MainView", System.UriKind.Absolute));
         }
 
-        public ObservableCollection<object> Items { get; }
+        /// <summary>
+        /// Get the location permissions for the app.
+        /// </summary>
+        private async void GrantLocationPermission()
+        {
+            //check the permission
+            var locationStatus = await CrossPermissions.Current.CheckPermissionStatusAsync<LocationPermission>();
 
+            if (locationStatus != PermissionStatus.Granted)
+            {
+                //if permissiore missig get them here
+                locationStatus = await CrossPermissions.Current.RequestPermissionAsync<LocationPermission>();
+            }
+        }
+
+        /// <summary>
+        /// Get the notification permissions for the app.
+        /// </summary>
+        private async void GrantSensorPermission()
+        {
+            //check the permission
+            var sensorStatus = await CrossPermissions.Current.CheckPermissionStatusAsync<SensorsPermission>();
+
+            if (sensorStatus != PermissionStatus.Granted)
+            {
+                //if pssions are missig get them here
+                sensorStatus = await CrossPermissions.Current.RequestPermissionAsync<SensorsPermission>();
+            }
+        }
+        #endregion
+
+        #region properies
+        /// <summary>
+        /// The items property holds all the items which should displayed in the carousel view.
+        /// </summary>
+        public List<object> Items
+        {
+            get => _items;
+            set => SetProperty(ref _items, value);
+        }
+
+        /// <summary>
+        /// The current index shows which page is currently visible.
+        /// </summary>
         public int CurrentIndex
         {
             get => _currentIndex;
             set
             {
-                if ((CurrentIndex > 1 && value == 0))
-                {
-                    SetProperty(ref _currentIndex, CurrentIndex);
-                }
-                else
-                {
-                    SetProperty(ref _currentIndex, value);
-                }
+                SetProperty(ref _currentIndex, value);
             }
         }
 
-        public bool IsAutoAnimationRunning { get; private set; }
-        public bool IsUserInteractionRunning { get; private set; }
-
-        private string CreateSource()
+        /// <summary>
+        /// Returns a screen dependent heigth for displaying the page image.
+        /// </summary>
+        public double VariableHeigth
         {
-            string source;
-            switch (_ImageCount)
-            {
-                case 0:
-                    source = $"https://firebasestorage.googleapis.com/v0/b/questonaut.appspot.com/o/PublicAppImages%2Fqeustonaut_intro.png?alt=media&token=6ba9c1ff-4400-4a8c-a311-094f860bc643";
-                    break;
-                case 1:
-                    source = $"https://firebasestorage.googleapis.com/v0/b/questonaut.appspot.com/o/PublicAppImages%2Fenvelope.png?alt=media&token=45bf620f-c9e3-4e2a-8b16-d836e3faf6b3";
-                    break;
-                case 2:
-                    source = $"https://firebasestorage.googleapis.com/v0/b/questonaut.appspot.com/o/PublicAppImages%2Fway-2.png?alt=media&token=ce3f18e9-bee1-4040-b142-b2e66e3d1ed7";
-                    break;
-                default:
-                    source = "";
-                    break;
-            }
-
-            return source;
+            get => _variableHeigth;
+            set => SetProperty(ref _variableHeigth, value);
         }
+        #endregion
     }
 }
