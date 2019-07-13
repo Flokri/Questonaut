@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Firebase.Rest.Auth;
 using Firebase.Rest.Auth.Payloads;
@@ -8,6 +10,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
+using Questonaut.Controller;
 using Questonaut.DependencyServices;
 using Questonaut.Helpers;
 using Questonaut.Model;
@@ -62,7 +65,7 @@ namespace Questonaut.ViewModels
             //set all the delegates command using by the ui
             OnActionClickedCommand = new DelegateCommand(() => ActionClickedAsync());
             OnLoginClickedCommand = new DelegateCommand(() => OnLogin());
-            OnSignupClickedCommand = new DelegateCommand(async () => await Task.Run(() => OnSignup()));
+            OnSignupClickedCommand = new DelegateCommand(() => OnSignup());
             OnTappedForgotPassword = new DelegateCommand(() => OnForgotPassword());
 
             //change the button size depending on the actual screen size

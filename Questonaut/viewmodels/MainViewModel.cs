@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Plugin.CloudFirestore;
 using Prism.Commands;
@@ -18,6 +19,7 @@ namespace Questonaut.ViewModels
         #region instances
         private string _username = "";
         private string _id = "";
+        private string _header = "";
         #endregion
 
         #region DependencyInjection
@@ -32,11 +34,15 @@ namespace Questonaut.ViewModels
 
         public MainViewModel(INavigationService navigationService, IPageDialogService pageDialogService)
         {
+            //initialize the prims stuff
             _navigationService = navigationService;
             _pageDialogservice = pageDialogService;
 
+            //set the commands
             OnLogout = new DelegateCommand(() => Logout());
             AddUser = new DelegateCommand(() => Add());
+
+            _ = GetUserDataAsync();
         }
 
         #region privateMethods
@@ -46,6 +52,31 @@ namespace Questonaut.ViewModels
             {
                 SettingsImp.UserValue = "";
                 _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/LoginView", System.UriKind.Absolute));
+            }
+        }
+
+        private async Task GetUserDataAsync()
+        {
+            try
+            {
+                var documents = await CrossCloudFirestore.Current
+                                                         .Instance
+                                                         .GetCollection(QUser.CollectionPath)
+                                                         .WhereEqualsTo("Email", CurrentUser.Instance.User.Email)
+                                                         .GetDocumentsAsync();
+
+                IEnumerable<QUser> myModel = documents.ToObjects<QUser>();
+
+                if (myModel.Count() > 0)
+                {
+                    CurrentUser.Instance.User = myModel.First();
+                    //set the header for the user
+                    Header = "Welcome, " + CurrentUser.Instance.User.Name;
+                }
+            }
+            catch (Exception e)
+            {
+                var msg = e.Message;
             }
         }
 
@@ -75,6 +106,14 @@ namespace Questonaut.ViewModels
         #endregion
 
         #region properties
+        /// <summary>
+        /// The header is the welcome statement for the user.
+        /// </summary>
+        public string Header
+        {
+            get => _header;
+            set => SetProperty(ref _header, value);
+        }
         public string Username
         {
             get => _username;

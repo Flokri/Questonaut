@@ -1,11 +1,71 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Questonaut.Views.MainView">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Questonaut.Views.MainView"
+             BackgroundColor="#42506B">
+
+    <ContentPage.Resources>
+        <Color x:Key="DarkBlue">#42506B</Color>
+    </ContentPage.Resources>
+
     <ContentPage.Content>
-        <StackLayout Orientation="Vertical" VerticalOptions="Center">
-            <Button Text="Intro View" Command="{Binding AddUser}" />
-            <Label Text="{Binding Username}" HorizontalOptions="Center" />
-            <Label Text="{Binding Id}" HorizontalOptions="Center" />
-            <Button Text="logout" Command="{Binding OnLogout}" />
-        </StackLayout>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="0.3*" />
+                <RowDefinition Height="0.7*" />
+            </Grid.RowDefinitions>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Grid.Row="0"
+                       TextColor="White"
+                       FontSize="28"
+                       HorizontalOptions="Start"
+                       Text="{Binding Header}">
+                    <Label.Margin>
+                        <OnPlatform x:TypeArguments="Thickness">
+                            <On Platform="iOS"
+                                Value="15,55,0,0" />
+                            <On Platform="Android"
+                                Value="15,5,0,0" />
+                        </OnPlatform>
+                    </Label.Margin>
+                </Label>
+                <Button Text="Logout"
+                        TextColor="White"
+                        Command="{Binding OnLogout}"
+                        HorizontalOptions="EndAndExpand"
+                        VerticalOptions="Center">
+                    <Button.Margin>
+                        <OnPlatform x:TypeArguments="Thickness">
+                            <On Platform="iOS"
+                                Value="15,55,15,0" />
+                            <On Platform="Android"
+                                Value="15,5,15,0" />
+                        </OnPlatform>
+                    </Button.Margin>
+                </Button>
+            </StackLayout>
+
+            <StackLayout Orientation="Vertical"
+                         Grid.Row="1"
+                         Margin="0,-10,0,0"
+                         VerticalOptions="Start">
+                <Label Text="your studies"
+                       FontSize="Medium"
+                       TextColor="White"
+                       Margin="20,0,0,0">
+                </Label>
+
+            </StackLayout>
+
+            <StackLayout Orientation="Vertical"
+                         VerticalOptions="Center"
+                         Grid.Row="2">
+                <Button Text="Intro View"
+                        TextColor="White"
+                        Command="{Binding AddUser}" />
+            </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>
