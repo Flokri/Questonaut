@@ -1,6 +1,69 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Questonaut.Views.IntroView">
+<ContentPage x:Class="Questonaut.Views.IntroView"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
+             xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:controls="clr-namespace:PanCardView.Controls;assembly=PanCardView"
+             BackgroundColor="#42506B"
+             NavigationPage.HasNavigationBar="False">
+    <ContentPage.Resources>
+        <Color x:Key="DarkBlue">#42506B</Color>
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <Button Text="Tester" />
+        <cards:CarouselView IsCyclical="false"
+                            ItemsSource="{Binding Items}"
+                            SelectedIndex="{Binding CurrentIndex}">
+            <cards:CarouselView.ItemTemplate>
+                <DataTemplate>
+                    <ContentView>
+                        <Grid BackgroundColor="{Binding Color}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="0.5*" />
+                                <RowDefinition Height="0.5*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Label Margin="25,50,0,0"
+                                   FontSize="35"
+                                   Text="{Binding Title}"
+                                   TextColor="White"
+                                   Grid.Row="0">
+                                <Label.Margin>
+                                    <OnPlatform x:TypeArguments="Thickness">
+                                        <On Platform="iOS"
+                                            Value="25,50,0,0" />
+                                        <On Platform="Android"
+                                            Value="25,20,0,0" />
+                                    </OnPlatform>
+                                </Label.Margin>
+                            </Label>
+                            <ffimageloading:CachedImage Margin="30"
+                                                        HeightRequest="{Binding ImageSize}"
+                                                        VerticalOptions="EndAndExpand"
+                                                        Source="{Binding Source}"
+                                                        Grid.Row="1" />
+                            <Label Margin="25,10"
+                                   FontSize="Medium"
+                                   Text="{Binding Content}"
+                                   VerticalOptions="StartAndExpand"
+                                   TextColor="White"
+                                   Grid.Row="2" />
+
+                            <Button Grid.Row="3"
+                                    Margin="20,20,20,60"
+                                    BackgroundColor="White"
+                                    IsVisible="{Binding Visible}"
+                                    Text="{Binding ButtonText}"
+                                    TextColor="{StaticResource DarkBlue}"
+                                    VerticalOptions="End"
+                                    Command="{Binding Command}" />
+                        </Grid>
+                    </ContentView>
+                </DataTemplate>
+            </cards:CarouselView.ItemTemplate>
+            <controls:IndicatorsControl />
+        </cards:CarouselView>
     </ContentPage.Content>
 </ContentPage>

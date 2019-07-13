@@ -114,8 +114,8 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="4.1.0.555618" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.1.0" />
+    <PackageReference Include="Xamarin.Forms" Version="4.1.0.581479" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.2.0" />
     <PackageReference Include="Microsoft.AppCenter.Crashes">
       <Version>2.1.1</Version>
     </PackageReference>
@@ -142,6 +142,15 @@
     </PackageReference>
     <PackageReference Include="Plugin.Permissions">
       <Version>5.0.0-beta</Version>
+    </PackageReference>
+    <PackageReference Include="CardsView">
+      <Version>2.1.6</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.FFImageLoading">
+      <Version>2.4.11.982</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.FFImageLoading.Forms">
+      <Version>2.4.11.982</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

@@ -1,4 +1,8 @@
-﻿using Foundation;
+﻿using FFImageLoading.Cache;
+using FFImageLoading.Forms.Platform;
+using Foundation;
+using PanCardView;
+using PanCardView.iOS;
 using Prism;
 using Prism.Ioc;
 using UIKit;
@@ -24,6 +28,15 @@ namespace Questonaut.iOS
 
             //initialize the firebase sdk
             Firebase.Core.App.Configure();
+
+            //intialize the ffimageloading framework
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
+
+            //intialize the cards view framework
+            CardsViewRenderer.Preserve();
+
+            //using the ffloading for the standard Xamarin.Forms.Image
+            CachedImageRenderer.InitImageSourceHandler();
 
             LoadApplication(new App(new iOSInitializer()));
 

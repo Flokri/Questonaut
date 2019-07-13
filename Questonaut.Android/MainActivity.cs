@@ -15,6 +15,8 @@ using Android.Content;
 using Android.Graphics;
 using Plugin.CurrentActivity;
 using Plugin.Permissions;
+using PanCardView.Droid;
+using FFImageLoading.Forms.Platform;
 
 namespace Questonaut.Droid
 {
@@ -41,19 +43,28 @@ namespace Questonaut.Droid
             //initialize the media plugin
             CrossCurrentActivity.Current.Init(this, savedInstanceState);
 
+            //initalize the ffimageloading framework
+            CachedImageRenderer.Init(enableFastRenderer: true);
+
             base.OnCreate(savedInstanceState);
             Instance = this;
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
+            //initalize the cards view framework
+            CardsViewRenderer.Preserve();
+
+            //using the ffloading for the standard Xamarin.Forms.Image
+            CachedImageRenderer.InitImageViewHandler();
+
             LoadApplication(new App(new AndroidInitializer()));
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
-            //Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
         public class AndroidInitializer : IPlatformInitializer

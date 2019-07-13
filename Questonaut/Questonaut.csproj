@@ -29,6 +29,9 @@
     <PackageReference Include="FirebaseStorage.net" Version="1.0.3" />
     <PackageReference Include="Xam.Plugin.Media" Version="4.3.1-beta" />
     <PackageReference Include="Plugin.Permissions" Version="5.0.0-beta" />
+    <PackageReference Include="CardsView" Version="2.1.6" />
+    <PackageReference Include="Xamarin.FFImageLoading" Version="2.4.11.982" />
+    <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\" />
@@ -51,6 +54,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="SharedImages\defaultUserImage.png" />
+    <None Remove="SharedImages\qeustonaut_intro.png" />
+    <None Remove="SharedImages\survey.png" />
+    <None Remove="SharedImages\health.png" />
+    <None Remove="SharedImages\location.png" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Frameworks\Firebase.Rest.Auth.dll">
@@ -59,6 +66,10 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="SharedImages\defaultUserImage.png" />
+    <EmbeddedResource Include="SharedImages\qeustonaut_intro.png" />
+    <EmbeddedResource Include="SharedImages\survey.png" />
+    <EmbeddedResource Include="SharedImages\health.png" />
+    <EmbeddedResource Include="SharedImages\location.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="DependencyServices\IPicturePicker.cs" />

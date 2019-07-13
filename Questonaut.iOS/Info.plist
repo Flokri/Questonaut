@@ -36,12 +36,20 @@
 	<key>CFBundleVersion</key>
 	<string>0.0.1</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Qeustonaut needs access to your photo library.</string>
+	<string>Qeustonaut needs to access to your photo library.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Questonaut needs access to your Camera.</string>
+	<string>Questonaut needs to access to your Camera.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Questonaut needs access to the photo gallery.</string>
+	<string>Questonaut needs to access to the photo gallery.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Questonaut needs access to your microphone.</string>
+	<string>Questonaut needs to access to your microphone.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Questonaut needs to access to your gps data.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Questonaut needs to access to your gps data.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Questonaut needs to access your motion data.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>New Entry</string>
 </dict>
 </plist>
