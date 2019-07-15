@@ -28,7 +28,7 @@ This context helps to better understand the data and to perform a more detailed 
 Beside Xamarin the following architecure is used:
   - Firebase Auth for authenticate the users
   - Firebase Store to store the user and study data
-  - Firebase cloud to store files
+  - Firebase Cloud Storage to store files
   - AppCenter to build and monitor the app
   
 To configure the app on your machine with your API secrets and AppCenter keys see documentation.
