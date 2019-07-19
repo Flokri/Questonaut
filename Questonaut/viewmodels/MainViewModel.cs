@@ -1,8 +1,13 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Akavache;
+using Firebase.Rest.Auth.Payloads;
 using Plugin.CloudFirestore;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -11,6 +16,7 @@ using Prism.Services;
 using Questonaut.Controller;
 using Questonaut.Model;
 using Questonaut.Settings;
+using Xamarin.Forms;
 
 namespace Questonaut.ViewModels
 {
@@ -20,6 +26,8 @@ namespace Questonaut.ViewModels
         private string _username = "";
         private string _id = "";
         private string _header = "";
+
+        private List<QStudies> _studies;
         #endregion
 
         #region DependencyInjection
@@ -34,6 +42,8 @@ namespace Questonaut.ViewModels
 
         public MainViewModel(INavigationService navigationService, IPageDialogService pageDialogService)
         {
+            Akavache.Registrations.Start("Questonaut");
+
             //initialize the prims stuff
             _navigationService = navigationService;
             _pageDialogservice = pageDialogService;
@@ -42,6 +52,7 @@ namespace Questonaut.ViewModels
             OnLogout = new DelegateCommand(() => Logout());
             AddUser = new DelegateCommand(() => Add());
 
+            //set the header for the user
             _ = GetUserDataAsync();
         }
 
@@ -55,29 +66,90 @@ namespace Questonaut.ViewModels
             }
         }
 
+        /// <summary>
+        /// Load all user datas from the firebase db.
+        /// </summary>
+        /// <returns></returns>
         private async Task GetUserDataAsync()
         {
             try
             {
+                CurrentUser.Instance.User = await BlobCache.UserAccount.GetObject<QUser>("user");
+
+                Header = "Welcome, " + CurrentUser.Instance.User?.Name;
+
+                Studies = CurrentUser.Instance.User.ActiveStudiesObjects;
+
+                foreach (QStudies item in Studies)
+                {
+                    if (item.Team.Equals("System") && item.Title.Equals("Add"))
+                    {
+                        item.Command = new DelegateCommand(() => AddStudy());
+                    }
+                    else
+                    {
+                        item.Command = new DelegateCommand(() => GoToDetailView());
+                    }
+                }
+
                 var documents = await CrossCloudFirestore.Current
-                                                         .Instance
-                                                         .GetCollection(QUser.CollectionPath)
-                                                         .WhereEqualsTo("Email", CurrentUser.Instance.User.Email)
-                                                         .GetDocumentsAsync();
+                                     .Instance
+                                     .GetCollection(QUser.CollectionPath)
+                                     .WhereEqualsTo("Email", CurrentUser.Instance.User.Email)
+                                     .GetDocumentsAsync();
 
                 IEnumerable<QUser> myModel = documents.ToObjects<QUser>();
 
                 if (myModel.Count() > 0)
                 {
                     CurrentUser.Instance.User = myModel.First();
-                    //set the header for the user
-                    Header = "Welcome, " + CurrentUser.Instance.User.Name;
+
+                    if (Header.Equals("Welcome, "))
+                    {
+                        //set the header for the user
+                        Header = "Welcome, " + CurrentUser.Instance.User.Name;
+                    }
                 }
+
+                foreach (var study in CurrentUser.Instance.User.ActiveStudies)
+                {
+                    var studyDoc = await CrossCloudFirestore.Current
+                                         .Instance
+                                         .GetCollection(study.Parent.Id)
+                                         .GetDocument(study.Id)
+                                         .GetDocumentAsync();
+                    QStudies temp = studyDoc.ToObject<QStudies>();
+
+                    if (temp.Team.Equals("System") && temp.Title.Equals("Add"))
+                    {
+                        temp.Command = new DelegateCommand(() => AddStudy());
+                    }
+                    else
+                    {
+                        temp.Command = new DelegateCommand(() => GoToDetailView());
+                    }
+
+                    CurrentUser.Instance.User.ActiveStudiesObjects.Add(temp);
+                }
+
+                await BlobCache.UserAccount.InsertObject("user", CurrentUser.Instance.User);
+
+                Studies = CurrentUser.Instance.User.ActiveStudiesObjects;
             }
             catch (Exception e)
             {
                 var msg = e.Message;
             }
+        }
+
+        private void AddStudy()
+        {
+            _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/IntroView", System.UriKind.Absolute));
+        }
+
+        private void GoToDetailView()
+        {
+
         }
 
         private void Add()
@@ -123,6 +195,12 @@ namespace Questonaut.ViewModels
         {
             get => _id;
             set { SetProperty(ref _id, value); }
+        }
+
+        public List<QStudies> Studies
+        {
+            get => _studies;
+            set => SetProperty(ref _studies, value);
         }
         #endregion
     }

@@ -340,6 +340,7 @@ namespace Questonaut.ViewModels
                             if (CheckIfVerified(userData))
                             {
                                 await Xamarin.Forms.DependencyService.Get<IFirebaseAuthenticator>().LoginWithEmailPassword(this.Email, this.Password);
+                                //SettingsImp.UserNameValue = await GetUserDataAsync();
                                 return true;
                             }
                             else
@@ -370,6 +371,37 @@ namespace Questonaut.ViewModels
                 //if the login process failed
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Load the basic userdata from the firebase db.
+        /// </summary>
+        /// <returns></returns>
+        private async Task<string> GetUserDataAsync()
+        {
+            try
+            {
+                var documents = await CrossCloudFirestore.Current
+                                                         .Instance
+                                                         .GetCollection(QUser.CollectionPath)
+                                                         .WhereEqualsTo("Email", CurrentUser.Instance.User.Email)
+                                                         .GetDocumentsAsync();
+
+                IEnumerable<QUser> myModel = documents.ToObjects<QUser>();
+
+                if (myModel.Count() > 0)
+                {
+                    CurrentUser.Instance.User = myModel.First();
+                    return CurrentUser.Instance.User.Name;
+                }
+            }
+            catch (Exception e)
+            {
+                var msg = e.Message;
+                return "";
+            }
+
+            return "";
         }
         #endregion
 

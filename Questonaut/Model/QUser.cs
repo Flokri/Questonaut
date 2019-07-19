@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 using Plugin.CloudFirestore.Attributes;
 
 namespace Questonaut.Model
@@ -46,5 +47,17 @@ namespace Questonaut.Model
         /// The gender of the user.
         /// </summary>
         public string Gender { get; set; }
+
+        /// <summary>
+        /// Alle the user elements that contains in this study.
+        /// </summary>
+        [JsonIgnore]
+        public List<Plugin.CloudFirestore.IDocumentReference> ActiveStudies { get; set; }
+
+        /// <summary>
+        /// The real Study objects
+        /// </summary>
+        [Ignored]
+        public List<QStudies> ActiveStudiesObjects { get; set; } = new List<QStudies>();
     }
 }

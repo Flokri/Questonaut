@@ -46,11 +46,18 @@ namespace Questonaut.Droid
             //initalize the ffimageloading framework
             CachedImageRenderer.Init(enableFastRenderer: true);
 
+
+            //initalize the collection view
+            global::Xamarin.Forms.Forms.SetFlags("CollectionView_Experimental");
+
             base.OnCreate(savedInstanceState);
             Instance = this;
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+
+            //initlize the effects framework
+            XamEffects.Droid.Effects.Init();
 
             //initalize the cards view framework
             CardsViewRenderer.Preserve();
