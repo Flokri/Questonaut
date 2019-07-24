@@ -34,7 +34,6 @@
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
     <PackageReference Include="akavache" Version="6.5.9" />
     <PackageReference Include="Xamarin.Forms.PancakeView" Version="1.0.25-beta" />
-    <PackageReference Include="XamEffects" Version="1.6.3" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\" />

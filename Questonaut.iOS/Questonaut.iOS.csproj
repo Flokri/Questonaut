@@ -161,9 +161,6 @@
     <PackageReference Include="Xamarin.Forms.PancakeView">
       <Version>1.0.25-beta</Version>
     </PackageReference>
-    <PackageReference Include="XamEffects">
-      <Version>1.6.3</Version>
-    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
