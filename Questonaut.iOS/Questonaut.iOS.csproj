@@ -77,6 +77,8 @@
     <Compile Include="DependencyServices\FirebaseAuthenticator.cs" />
     <Compile Include="CustomRenderer\CustomEntryRenderer.cs" />
     <Compile Include="CustomRenderer\CustomDatePickerRenderer.cs" />
+    <Compile Include="CustomRenderer\CustomViewCellRenderer.cs" />
+    <Compile Include="Effects\DropShadowEffect.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -175,6 +177,7 @@
     <Folder Include="Assets.xcassets\Questonaut_Small.imageset\" />
     <Folder Include="DependencyServices\" />
     <Folder Include="CustomRenderer\" />
+    <Folder Include="Effects\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="GoogleService-Info.plist" />

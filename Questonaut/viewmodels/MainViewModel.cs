@@ -57,13 +57,19 @@ namespace Questonaut.ViewModels
         }
 
         #region privateMethods
-        private void Logout()
+        private async void Logout()
         {
-            if (SettingsImp.UserValue != string.Empty)
+            try
             {
-                SettingsImp.UserValue = "";
-                _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/LoginView", System.UriKind.Absolute));
+                await BlobCache.UserAccount.InvalidateAll();
+
+                if (SettingsImp.UserValue != string.Empty)
+                {
+                    SettingsImp.UserValue = "";
+                    _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/LoginView", System.UriKind.Absolute));
+                }
             }
+            catch { }
         }
 
         /// <summary>
@@ -74,7 +80,14 @@ namespace Questonaut.ViewModels
         {
             try
             {
-                CurrentUser.Instance.User = await BlobCache.UserAccount.GetObject<QUser>("user");
+                try
+                {
+
+                    QUser inMemory = await BlobCache.UserAccount.GetObject<QUser>("user");
+                    CurrentUser.Instance.User = inMemory;
+                }
+                catch { }
+
 
                 Header = "Welcome, " + CurrentUser.Instance.User?.Name;
 
@@ -144,7 +157,8 @@ namespace Questonaut.ViewModels
 
         private void AddStudy()
         {
-            _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/IntroView", System.UriKind.Absolute));
+
+            _navigationService.NavigateAsync("FindAllStudiesView");
         }
 
         private void GoToDetailView()

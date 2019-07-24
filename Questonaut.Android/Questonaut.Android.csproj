@@ -116,6 +116,8 @@
     <Compile Include="DependencyServices\FirebaseAuthenticator.cs" />
     <Compile Include="CustomRenderer\CustomEntryRenderer.cs" />
     <Compile Include="CustomRenderer\CustomDatePickerRenderer.cs" />
+    <Compile Include="CustomRenderer\CustomViewCellRenderer.cs" />
+    <Compile Include="Effects\DropShadowEffect.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -176,6 +178,7 @@
     <Folder Include="DependencyServices\" />
     <Folder Include="CustomRenderer\" />
     <Folder Include="Resources\xml\" />
+    <Folder Include="Effects\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Questonaut\Questonaut.csproj">

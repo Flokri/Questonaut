@@ -58,6 +58,10 @@
                        FontSize="Medium"
                        TextColor="White"
                        Margin="20,0,0,0">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1"
+                                              Command="{Binding AddUser}" />
+                    </Label.GestureRecognizers>
                 </Label>
 
                 <CollectionView ItemsSource="{Binding Studies}"

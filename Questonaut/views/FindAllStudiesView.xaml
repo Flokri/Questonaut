@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
+    xmlns:controls="clr-namespace:Questonaut.Controls"
+    xmlns:effects="clr-namespace:Questonaut.Effects"
+    x:Class="Questonaut.views.FindAllStudiesView"
+    BackgroundColor="#42506B">
+
+    <ContentPage.Resources>
+        <Color x:Key="DarkBlue">#42506B</Color>
+        <Color x:Key="LightGreen">#52BF8B</Color>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackLayout Orientation="Horizontal"
+                         Grid.Row="0">
+                <Label TextColor="White"
+                       FontSize="28"
+                       HorizontalOptions="Start"
+                       Text="Participate">
+                    <Label.Margin>
+                        <OnPlatform x:TypeArguments="Thickness">
+                            <On Platform="iOS"
+                                Value="15,55,0,0" />
+                            <On Platform="Android"
+                                Value="15,5,0,0" />
+                        </OnPlatform>
+                    </Label.Margin>
+                </Label>
+                <Button Text="Back"
+                        TextColor="White"
+                        Command="{Binding OnBack}"
+                        HorizontalOptions="EndAndExpand"
+                        VerticalOptions="Center">
+                    <Button.Margin>
+                        <OnPlatform x:TypeArguments="Thickness">
+                            <On Platform="iOS"
+                                Value="15,55,15,0" />
+                            <On Platform="Android"
+                                Value="15,5,15,0" />
+                        </OnPlatform>
+                    </Button.Margin>
+                </Button>
+            </StackLayout>
+            <ListView x:Name="Studies"
+                      Grid.Row="1"
+                      HasUnevenRows="true"
+                      IsPullToRefreshEnabled="true"
+                      ItemsSource="{Binding Studies}"
+                      BackgroundColor="{StaticResource DarkBlue}"
+                      SeparatorVisibility="None">
+                <!--<ListView.Behaviors>
+                    <b:EventToCommandBehavior Command="{Binding OnItemTappedCommand}"
+                                              EventName="ItemTapped" />
+                </ListView.Behaviors>-->
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <controls:CustomViewCell x:Name="cello"
+                                                 AllowHighlight="false">
+                            <ContentView>
+                                <Grid x:Name="grido"
+                                      Margin="10"
+                                      Padding="10"
+                                      BackgroundColor="White">
+                                    <Grid.Effects>
+                                        <effects:ViewShadowEffect DistanceX="5"
+                                                                  DistanceY="5"
+                                                                  Radius="5"
+                                                                  Color="#525252" />
+                                    </Grid.Effects>
+                                    <!--<Grid.GestureRecognizers>
+                                        <TapGestureRecognizer NumberOfTapsRequired="1"
+                                                              Tapped="Handle_Tapped" />
+                                    </Grid.GestureRecognizers>-->
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackLayout Orientation="Horizontal">
+                                        <StackLayout Orientation="Vertical">
+                                            <Label x:Name="Title"
+                                                   TextColor="Black"
+                                                   FontSize="Header"
+                                                   Text="{Binding Title}" />
+                                            <Label x:Name="Team"
+                                                   TextColor="Black"
+                                                   FontSize="Caption"
+                                                   Text="{Binding Team}" />
+
+                                        </StackLayout>
+                                        <CheckBox HorizontalOptions="EndAndExpand"
+                                                  Color="{StaticResource DarkBlue}" />
+                                    </StackLayout>
+                                </Grid>
+                            </ContentView>
+                        </controls:CustomViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <Button Text="Participate"
+                    Grid.Row="2"
+                    BackgroundColor="White"
+                    WidthRequest="100"
+                    TextColor="{StaticResource DarkBlue}"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    Margin="0,45" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

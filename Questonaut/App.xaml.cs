@@ -16,6 +16,8 @@ using Firebase.Rest.Auth.Payloads;
 using Plugin.CloudFirestore;
 using Questonaut.DependencyServices;
 using Akavache;
+using Questonaut.views;
+using Questonaut.viewmodels;
 
 namespace Questonaut
 {
@@ -51,6 +53,7 @@ namespace Questonaut
             containerRegistry.RegisterForNavigation<CreateUserView, CreateUserViewModel>();
             containerRegistry.RegisterForNavigation<MainView, MainViewModel>();
             containerRegistry.RegisterForNavigation<IntroView, IntroViewModel>();
+            containerRegistry.RegisterForNavigation<FindAllStudiesView, FindAllStudiesViewController>();
         }
 
         protected override void OnStart()
