@@ -116,6 +116,7 @@
     <Compile Include="CustomRenderer\CustomDatePickerRenderer.cs" />
     <Compile Include="CustomRenderer\CustomViewCellRenderer.cs" />
     <Compile Include="Effects\DropShadowEffect.cs" />
+    <Compile Include="DependencyServices\SetStatusBar.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

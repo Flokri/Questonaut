@@ -54,7 +54,8 @@ namespace Questonaut
             containerRegistry.RegisterForNavigation<CreateUserView, CreateUserViewModel>();
             containerRegistry.RegisterForNavigation<MainView, MainViewModel>();
             containerRegistry.RegisterForNavigation<IntroView, IntroViewModel>();
-            containerRegistry.RegisterForNavigation<FindAllStudiesView, FindAllStudiesViewController>();
+            containerRegistry.RegisterForNavigation<FindAllStudiesView, FindAllStudiesViewModel>();
+            containerRegistry.RegisterForNavigation<StudyDetailView, StudyDetailViewModel>();
         }
 
         protected override void OnStart()

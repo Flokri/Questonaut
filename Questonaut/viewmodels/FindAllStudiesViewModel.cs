@@ -18,7 +18,7 @@ using Xamarin.Forms.Internals;
 
 namespace Questonaut.viewmodels
 {
-    public class FindAllStudiesViewController : BindableBase
+    public class FindAllStudiesViewModel : BindableBase
     {
         #region instances
         private ObservableCollection<StudiesToParticipate> _studies = new ObservableCollection<StudiesToParticipate>();
@@ -35,7 +35,7 @@ namespace Questonaut.viewmodels
         #endregion
 
         #region constructor
-        public FindAllStudiesViewController(INavigationService navigationService, IPageDialogService pageDialogService)
+        public FindAllStudiesViewModel(INavigationService navigationService, IPageDialogService pageDialogService)
         {
             //initialize the prims stuff
             _navigationService = navigationService;

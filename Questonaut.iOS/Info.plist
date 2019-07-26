@@ -29,8 +29,6 @@
 	<string>Questonaut</string>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
-	<key>UIStatusBarStyle</key>
-	<string>UIStatusBarStyleLightContent</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>CFBundleVersion</key>
@@ -51,5 +49,7 @@
 	<string>Questonaut needs to access your motion data.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>New Entry</string>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleLightContent</string>
 </dict>
 </plist>

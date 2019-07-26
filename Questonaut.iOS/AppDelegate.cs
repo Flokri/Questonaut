@@ -5,6 +5,7 @@ using PanCardView;
 using PanCardView.iOS;
 using Prism;
 using Prism.Ioc;
+using Questonaut.iOS.DependencyServices;
 using UIKit;
 
 namespace Questonaut.iOS

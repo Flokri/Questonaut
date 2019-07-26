@@ -6,7 +6,8 @@
     xmlns:controls="clr-namespace:Questonaut.Controls"
     xmlns:effects="clr-namespace:Questonaut.Effects"
     x:Class="Questonaut.views.FindAllStudiesView"
-    BackgroundColor="#42506B">
+    BackgroundColor="#42506B"
+    NavigationPage.HasNavigationBar="False">
 
     <ContentPage.Resources>
         <Color x:Key="DarkBlue">#42506B</Color>

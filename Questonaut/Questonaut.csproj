@@ -78,4 +78,9 @@
   <ItemGroup>
     <Compile Remove="DependencyServices\IPicturePicker.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Update="views\StudyDetailView.xaml.cs">
+      <DependentUpon>StudyDetailView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

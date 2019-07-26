@@ -8,7 +8,9 @@ namespace Questonaut.Views
         public CustomNavigationPage(Page page) : base(page)
         {
             this.BackgroundColor = Color.Transparent;
-            this.BarTextColor = Color.White;
+            this.BarTextColor = Color.FromHex("#42506B");
+
+            this.MinimumHeightRequest = 0;
         }
     }
 }
