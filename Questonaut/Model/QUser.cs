@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using Plugin.CloudFirestore.Attributes;
-using System.Collections.ObjectModel;
 
 namespace Questonaut.Model
 {
@@ -41,22 +40,11 @@ namespace Questonaut.Model
         /// This image is just a local copy to save ressources.
         /// </summary>
         [Ignored]
-        public byte[] LocalImage { get; set; } = new byte[] { };
+        public byte[] LocalImage { get; set; }
 
         /// <summary>
         /// The gender of the user.
         /// </summary>
         public string Gender { get; set; }
-
-        /// <summary>
-        /// Alle the user elements that contains in this study.
-        /// </summary>
-        public List<string> ActiveStudies { get; set; } = new List<string>() { "AddStudy" };
-
-        /// <summary>
-        /// The real Study objects
-        /// </summary>
-        [Ignored]
-        public ObservableCollection<QStudy> ActiveStudiesObjects { get; set; } = new ObservableCollection<QStudy>();
     }
 }

@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Firebase.Rest.Auth;
 using Firebase.Rest.Auth.Payloads;
-using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using Plugin.CloudFirestore;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
-using Questonaut.Controller;
 using Questonaut.DependencyServices;
 using Questonaut.Helpers;
 using Questonaut.Model;
@@ -66,7 +62,7 @@ namespace Questonaut.ViewModels
             //set all the delegates command using by the ui
             OnActionClickedCommand = new DelegateCommand(() => ActionClickedAsync());
             OnLoginClickedCommand = new DelegateCommand(() => OnLogin());
-            OnSignupClickedCommand = new DelegateCommand(() => OnSignup());
+            OnSignupClickedCommand = new DelegateCommand(async () => await Task.Run(() => OnSignup()));
             OnTappedForgotPassword = new DelegateCommand(() => OnForgotPassword());
 
             //change the button size depending on the actual screen size
@@ -223,7 +219,6 @@ namespace Questonaut.ViewModels
             }
             catch (Exception e)
             {
-                Crashes.TrackError(e);
                 return false;
             }
         }
@@ -342,7 +337,6 @@ namespace Questonaut.ViewModels
                             if (CheckIfVerified(userData))
                             {
                                 await Xamarin.Forms.DependencyService.Get<IFirebaseAuthenticator>().LoginWithEmailPassword(this.Email, this.Password);
-                                //SettingsImp.UserNameValue = await GetUserDataAsync();
                                 return true;
                             }
                             else
@@ -373,37 +367,6 @@ namespace Questonaut.ViewModels
                 //if the login process failed
                 return false;
             }
-        }
-
-        /// <summary>
-        /// Load the basic userdata from the firebase db.
-        /// </summary>
-        /// <returns></returns>
-        private async Task<string> GetUserDataAsync()
-        {
-            try
-            {
-                var documents = await CrossCloudFirestore.Current
-                                                         .Instance
-                                                         .GetCollection(QUser.CollectionPath)
-                                                         .WhereEqualsTo("Email", CurrentUser.Instance.User.Email)
-                                                         .GetDocumentsAsync();
-
-                IEnumerable<QUser> myModel = documents.ToObjects<QUser>();
-
-                if (myModel.Count() > 0)
-                {
-                    CurrentUser.Instance.User = myModel.First();
-                    return CurrentUser.Instance.User.Name;
-                }
-            }
-            catch (Exception e)
-            {
-                var msg = e.Message;
-                return "";
-            }
-
-            return "";
         }
         #endregion
 

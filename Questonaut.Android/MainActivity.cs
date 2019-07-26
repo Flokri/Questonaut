@@ -3,11 +3,16 @@
 using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
+using Android.Views;
+using Android.Widget;
 using Android.OS;
+using Android.Support.V4.Text;
 using Prism;
 using Prism.Ioc;
 using System.Threading.Tasks;
 using System.IO;
+using Android.Content;
+using Android.Graphics;
 using Plugin.CurrentActivity;
 using Plugin.Permissions;
 using PanCardView.Droid;
@@ -40,10 +45,6 @@ namespace Questonaut.Droid
 
             //initalize the ffimageloading framework
             CachedImageRenderer.Init(enableFastRenderer: true);
-
-
-            //initalize the collection view
-            global::Xamarin.Forms.Forms.SetFlags("CollectionView_Experimental");
 
             base.OnCreate(savedInstanceState);
             Instance = this;

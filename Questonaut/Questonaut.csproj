@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
-    <ReleaseVersion>0.2</ReleaseVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -33,8 +32,6 @@
     <PackageReference Include="CardsView" Version="2.1.6" />
     <PackageReference Include="Xamarin.FFImageLoading" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
-    <PackageReference Include="akavache" Version="6.5.9" />
-    <PackageReference Include="Xamarin.Forms.PancakeView" Version="1.0.25-beta" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\" />
@@ -49,7 +46,6 @@
     <Folder Include="Controls\" />
     <Folder Include="SharedImages\" />
     <Folder Include="Helper\" />
-    <Folder Include="Effects\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Firebase.Rest.Auth">

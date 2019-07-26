@@ -4,7 +4,6 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using Firebase.Storage;
-using Microsoft.AppCenter.Crashes;
 using Plugin.CloudFirestore;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
@@ -135,8 +134,6 @@ namespace Questonaut.ViewModels
                     {
                         await _pageDialogservice.DisplayAlertAsync("Error", "Something went wrong... Please retry it later", "Ok");
                     });
-
-                    Crashes.TrackError(e);
                 }
             }
             else

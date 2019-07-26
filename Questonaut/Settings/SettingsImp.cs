@@ -44,14 +44,5 @@ namespace Questonaut.Settings
             get => Settings.GetValueOrDefault(ShowIntroKey, ShowIntroDefault);
             set => Settings.AddOrUpdateValue(ShowIntroKey, value);
         }
-
-        private const string UserNameKey = "username";
-        private static readonly string UserNameDefault = string.Empty;
-
-        public static string UserNameValue
-        {
-            get => Settings.GetValueOrDefault(UserNameKey, UserDefault);
-            set => Settings.AddOrUpdateValue(UserNameDefault, value);
-        }
     }
 }
