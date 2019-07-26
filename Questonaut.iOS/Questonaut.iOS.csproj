@@ -14,6 +14,7 @@
     <AssemblyName>Questonaut.iOS</AssemblyName>
     <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
+    <ReleaseVersion>0.2</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -54,6 +55,7 @@
     <MtouchDebug>true</MtouchDebug>
     <CodesignProvision>VS: WildCard Development</CodesignProvision>
     <MtouchExtraArgs>-v -v -v -v</MtouchExtraArgs>
+    <IOSDebuggerPort>10001</IOSDebuggerPort>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -76,6 +78,8 @@
     <Compile Include="DependencyServices\FirebaseAuthenticator.cs" />
     <Compile Include="CustomRenderer\CustomEntryRenderer.cs" />
     <Compile Include="CustomRenderer\CustomDatePickerRenderer.cs" />
+    <Compile Include="CustomRenderer\CustomViewCellRenderer.cs" />
+    <Compile Include="Effects\DropShadowEffect.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -152,6 +156,12 @@
     <PackageReference Include="Xamarin.FFImageLoading.Forms">
       <Version>2.4.11.982</Version>
     </PackageReference>
+    <PackageReference Include="akavache">
+      <Version>6.5.9</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Forms.PancakeView">
+      <Version>1.0.25-beta</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -165,6 +175,7 @@
     <Folder Include="Assets.xcassets\Questonaut_Small.imageset\" />
     <Folder Include="DependencyServices\" />
     <Folder Include="CustomRenderer\" />
+    <Folder Include="Effects\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="GoogleService-Info.plist" />

@@ -15,6 +15,10 @@ using Newtonsoft.Json;
 using Firebase.Rest.Auth.Payloads;
 using Plugin.CloudFirestore;
 using Questonaut.DependencyServices;
+using Akavache;
+using Questonaut.views;
+using Questonaut.viewmodels;
+using Prism.Navigation;
 
 namespace Questonaut
 {
@@ -25,6 +29,9 @@ namespace Questonaut
         protected override void OnInitialized()
         {
             InitializeComponent();
+
+            //intialize the akavache framework
+            Akavache.Registrations.Start("Questonaut");
 
             //check if user is already logged in
             if (SettingsImp.UserValue != string.Empty)
@@ -47,6 +54,7 @@ namespace Questonaut
             containerRegistry.RegisterForNavigation<CreateUserView, CreateUserViewModel>();
             containerRegistry.RegisterForNavigation<MainView, MainViewModel>();
             containerRegistry.RegisterForNavigation<IntroView, IntroViewModel>();
+            containerRegistry.RegisterForNavigation<FindAllStudiesView, FindAllStudiesViewController>();
         }
 
         protected override void OnStart()
@@ -62,11 +70,14 @@ namespace Questonaut
         protected override void OnSleep()
         {
             // Handle when your app sleeps
+            BlobCache.Shutdown().Wait();
         }
 
         protected override void OnResume()
         {
             // Handle when your app resumes
         }
+
+        public INavigationService GetNavigationService() => this.NavigationService;
     }
 }

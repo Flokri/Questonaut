@@ -22,6 +22,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <JavaMaximumHeapSize>2G</JavaMaximumHeapSize>
+    <ReleaseVersion>0.2</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -98,6 +99,12 @@
     <PackageReference Include="Xamarin.FFImageLoading">
       <Version>2.4.11.982</Version>
     </PackageReference>
+    <PackageReference Include="akavache">
+      <Version>6.5.9</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Forms.PancakeView">
+      <Version>1.0.25-beta</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
@@ -107,6 +114,8 @@
     <Compile Include="DependencyServices\FirebaseAuthenticator.cs" />
     <Compile Include="CustomRenderer\CustomEntryRenderer.cs" />
     <Compile Include="CustomRenderer\CustomDatePickerRenderer.cs" />
+    <Compile Include="CustomRenderer\CustomViewCellRenderer.cs" />
+    <Compile Include="Effects\DropShadowEffect.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -167,6 +176,7 @@
     <Folder Include="DependencyServices\" />
     <Folder Include="CustomRenderer\" />
     <Folder Include="Resources\xml\" />
+    <Folder Include="Effects\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Questonaut\Questonaut.csproj">
