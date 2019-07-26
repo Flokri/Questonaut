@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Linq;
+using System.Collections.ObjectModel;
 using System.Reactive.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Akavache;
-using Firebase.Rest.Auth.Payloads;
-using Plugin.CloudFirestore;
+using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -16,7 +11,6 @@ using Prism.Services;
 using Questonaut.Controller;
 using Questonaut.Model;
 using Questonaut.Settings;
-using Xamarin.Forms;
 
 namespace Questonaut.ViewModels
 {
@@ -27,7 +21,7 @@ namespace Questonaut.ViewModels
         private string _id = "";
         private string _header = "";
 
-        private List<QStudies> _studies;
+        private ObservableCollection<QStudy> _studies = CurrentUser.Instance.User.ActiveStudiesObjects;
         #endregion
 
         #region DependencyInjection
@@ -57,19 +51,20 @@ namespace Questonaut.ViewModels
         }
 
         #region privateMethods
+        /// <summary>
+        /// Logout the current user and reset the in-memory user data.
+        /// </summary>
         private async void Logout()
         {
             try
             {
-                await BlobCache.UserAccount.InvalidateAll();
-
-                if (SettingsImp.UserValue != string.Empty)
-                {
-                    SettingsImp.UserValue = "";
-                    _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/LoginView", System.UriKind.Absolute));
-                }
+                CurrentUser.Instance.LogoutUser();
+                await _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/LoginView", System.UriKind.Absolute));
             }
-            catch { }
+            catch (Exception e)
+            {
+                Crashes.TrackError(e);
+            }
         }
 
         /// <summary>
@@ -82,88 +77,25 @@ namespace Questonaut.ViewModels
             {
                 try
                 {
-
                     QUser inMemory = await BlobCache.UserAccount.GetObject<QUser>("user");
                     CurrentUser.Instance.User = inMemory;
                 }
-                catch { }
+                catch
+                {
+                    await CurrentUser.Instance.LoadUser();
+                }
 
 
                 Header = "Welcome, " + CurrentUser.Instance.User?.Name;
 
-                Studies = CurrentUser.Instance.User.ActiveStudiesObjects;
-
-                foreach (QStudies item in Studies)
-                {
-                    if (item.Team.Equals("System") && item.Title.Equals("Add"))
-                    {
-                        item.Command = new DelegateCommand(() => AddStudy());
-                    }
-                    else
-                    {
-                        item.Command = new DelegateCommand(() => GoToDetailView());
-                    }
-                }
-
-                var documents = await CrossCloudFirestore.Current
-                                     .Instance
-                                     .GetCollection(QUser.CollectionPath)
-                                     .WhereEqualsTo("Email", CurrentUser.Instance.User.Email)
-                                     .GetDocumentsAsync();
-
-                IEnumerable<QUser> myModel = documents.ToObjects<QUser>();
-
-                if (myModel.Count() > 0)
-                {
-                    CurrentUser.Instance.User = myModel.First();
-
-                    if (Header.Equals("Welcome, "))
-                    {
-                        //set the header for the user
-                        Header = "Welcome, " + CurrentUser.Instance.User.Name;
-                    }
-                }
-
-                foreach (var study in CurrentUser.Instance.User.ActiveStudies)
-                {
-                    var studyDoc = await CrossCloudFirestore.Current
-                                         .Instance
-                                         .GetCollection(study.Parent.Id)
-                                         .GetDocument(study.Id)
-                                         .GetDocumentAsync();
-                    QStudies temp = studyDoc.ToObject<QStudies>();
-
-                    if (temp.Team.Equals("System") && temp.Title.Equals("Add"))
-                    {
-                        temp.Command = new DelegateCommand(() => AddStudy());
-                    }
-                    else
-                    {
-                        temp.Command = new DelegateCommand(() => GoToDetailView());
-                    }
-
-                    CurrentUser.Instance.User.ActiveStudiesObjects.Add(temp);
-                }
-
-                await BlobCache.UserAccount.InsertObject("user", CurrentUser.Instance.User);
+                await CurrentUser.Instance.LoadNewStudies();
 
                 Studies = CurrentUser.Instance.User.ActiveStudiesObjects;
             }
             catch (Exception e)
             {
-                var msg = e.Message;
+                Crashes.TrackError(e);
             }
-        }
-
-        private void AddStudy()
-        {
-
-            _navigationService.NavigateAsync("FindAllStudiesView");
-        }
-
-        private void GoToDetailView()
-        {
-
         }
 
         private void Add()
@@ -171,23 +103,6 @@ namespace Questonaut.ViewModels
             //tod: change after creating the create view
             //change to the create a user view
             _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/IntroView", System.UriKind.Absolute));
-
-            //try
-            //{
-            //var documents = await CrossCloudFirestore.Current
-            //                                         .Instance
-            //                                         .GetCollection(QUser.CollectionPath)
-            //                                         .WhereEqualsTo("Name", CurrentUser.Instance.User.Name)
-            //                                         .GetDocumentsAsync();
-
-            //IEnumerable<QUser> myModel = documents.ToObjects<QUser>();
-            //Username = myModel.First().Name;
-            //Id = myModel.First().Id;
-            //}
-            //catch (Exception e)
-            //{
-            //    var msg = e.Message;
-            //}
         }
         #endregion
 
@@ -200,18 +115,28 @@ namespace Questonaut.ViewModels
             get => _header;
             set => SetProperty(ref _header, value);
         }
+        /// <summary>
+        /// The username of the current user.
+        /// </summary>
         public string Username
         {
             get => _username;
             set { SetProperty(ref _username, value); }
         }
+
+        /// <summary>
+        /// The id of the current user.
+        /// </summary>
         public string Id
         {
             get => _id;
             set { SetProperty(ref _id, value); }
         }
 
-        public List<QStudies> Studies
+        /// <summary>
+        /// A obserable collection of all studies the current user is particpating at.
+        /// </summary>
+        public ObservableCollection<QStudy> Studies
         {
             get => _studies;
             set => SetProperty(ref _studies, value);

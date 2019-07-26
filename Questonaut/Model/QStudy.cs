@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Plugin.CloudFirestore;
 using Plugin.CloudFirestore.Attributes;
 using Prism.Commands;
 
@@ -9,7 +10,7 @@ namespace Questonaut.Model
     /// <summary>
     /// Represents a questonaut study.
     /// </summary>
-    public class QStudies
+    public class QStudy
     {
         public static string CollectionPath = "Studies";
 
@@ -33,7 +34,7 @@ namespace Questonaut.Model
         /// Alle the user elements that contains in this study.
         /// </summary>
         [JsonIgnore]
-        public List<Plugin.CloudFirestore.IDocumentReference> Container { get; set; }
+        public List<IDocumentReference> Container { get; set; }
 
         /// <summary>
         /// This command will guide the user to the study detail screen. If he clicks the add button he get a selection of all studies to choose one to participate.

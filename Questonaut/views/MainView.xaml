@@ -2,7 +2,6 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-             xmlns:xe="clr-namespace:XamEffects;assembly=XamEffects"
              xmlns:controls="clr-namespace:Questonaut.Controls"
              x:Class="Questonaut.Views.MainView"
              BackgroundColor="#42506B">
@@ -37,6 +36,7 @@
                 </Label>
                 <Button Text="Logout"
                         TextColor="White"
+                        BackgroundColor="Transparent"
                         Command="{Binding OnLogout}"
                         HorizontalOptions="EndAndExpand"
                         VerticalOptions="Center">
@@ -74,16 +74,16 @@
                     </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <StackLayout Padding="10,0"
+                            <StackLayout Padding="5,0"
                                          Grid.Column="0">
                                 <Frame x:Name="frame"
-                                       HeightRequest="60"
+                                       HeightRequest="50"
                                        CornerRadius="10"
                                        WidthRequest="60"
                                        HasShadow="False"
                                        BackgroundColor="White"
-                                       Margin="0,10">
-                                    <StackLayout Spacing="10"
+                                       Margin="10,10">
+                                    <StackLayout Spacing="0"
                                                  Margin="12"
                                                  VerticalOptions="Center"
                                                  HorizontalOptions="Center">

@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Akavache;
+using Microsoft.AppCenter.Crashes;
 using Plugin.CloudFirestore;
+using Plugin.CloudFirestore.Extensions;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -11,13 +14,14 @@ using Prism.Services;
 using Questonaut.Controller;
 using Questonaut.Model;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 
 namespace Questonaut.viewmodels
 {
     public class FindAllStudiesViewController : BindableBase
     {
         #region instances
-        private ObservableCollection<QStudies> _studies = new ObservableCollection<QStudies>();
+        private ObservableCollection<StudiesToParticipate> _studies = new ObservableCollection<StudiesToParticipate>();
         #endregion
 
         #region DependencyInjection
@@ -26,7 +30,7 @@ namespace Questonaut.viewmodels
         #endregion
 
         #region Commands
-        public DelegateCommand OnSave { get; set; }
+        public DelegateCommand OnParticipate { get; set; }
         public DelegateCommand OnBack { get; set; }
         #endregion
 
@@ -38,7 +42,7 @@ namespace Questonaut.viewmodels
             _pageDialogservice = pageDialogService;
 
             //set the commands
-            OnSave = new DelegateCommand(() => Save());
+            OnParticipate = new DelegateCommand(() => Participate());
             OnBack = new DelegateCommand(() => Back());
 
             //set the header for the user
@@ -47,14 +51,40 @@ namespace Questonaut.viewmodels
         #endregion
 
         #region private functions
-        private void Save()
+        /// <summary>
+        /// Will be executed if the user want to participate/leave the selected Studies.
+        /// </summary>
+        private async void Participate()
         {
+            foreach (StudiesToParticipate temp in Studies)
+            {
+                if (temp.Paricipate && !CurrentUser.Instance.User.ActiveStudies.Contains(temp.Id))
+                {
+                    CurrentUser.Instance.User.ActiveStudies.Add(temp.Id);
+                }
+                else if (!temp.Paricipate && CurrentUser.Instance.User.ActiveStudies.Contains(temp.Id))
+                {
+                    CurrentUser.Instance.User.ActiveStudies.Remove(temp.Id);
+                }
+            }
 
+            await CrossCloudFirestore.Current
+                         .Instance
+                         .GetCollection(QUser.CollectionPath)
+                         .GetDocument(CurrentUser.Instance.User.Id)
+                         .UpdateDataAsync(new { ActiveStudies = CurrentUser.Instance.User.ActiveStudies });
+
+            CurrentUser.Instance.LoadNewStudies();
+
+            Back();
         }
 
+        /// <summary>
+        /// Navigates the user back to the view he comes from.
+        /// </summary>
         private async void Back()
         {
-            _navigationService.GoBackAsync();
+            await _navigationService.GoBackAsync();
         }
 
         /// <summary>
@@ -67,20 +97,26 @@ namespace Questonaut.viewmodels
             {
                 var documents = await CrossCloudFirestore.Current
                                      .Instance
-                                     .GetCollection(QStudies.CollectionPath)
+                                     .GetCollection(QStudy.CollectionPath)
                                      .GetDocumentsAsync();
 
-                IEnumerable<QStudies> myModel = documents.ToObjects<QStudies>();
+                IEnumerable<StudiesToParticipate> myModel = documents.ToObjects<StudiesToParticipate>();
 
                 foreach (var study in myModel)
                 {
                     if (!study.Team.Equals("System"))
+                    {
+                        if (CurrentUser.Instance.User.ActiveStudies.Contains(study.Id))
+                        {
+                            study.Paricipate = true;
+                        }
                         Studies.Add(study);
+                    }
                 }
             }
             catch (Exception e)
             {
-                var msg = e.Message;
+                Crashes.TrackError(e);
             }
         }
         #endregion
@@ -89,11 +125,26 @@ namespace Questonaut.viewmodels
         /// <summary>
         /// All available studies.
         /// </summary>
-        public ObservableCollection<QStudies> Studies
+        public ObservableCollection<StudiesToParticipate> Studies
         {
             get => _studies;
             set => SetProperty(ref _studies, value);
         }
         #endregion 
+    }
+
+    public class StudiesToParticipate : QStudy
+    {
+        //mark a study to participate
+        public bool _participate;
+
+        /// <summary>
+        /// Indicator if a user wants to participate on this study.
+        /// </summary>
+        public bool Paricipate
+        {
+            get => _participate;
+            set => _participate = value;
+        }
     }
 }

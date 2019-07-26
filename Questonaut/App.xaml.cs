@@ -18,6 +18,7 @@ using Questonaut.DependencyServices;
 using Akavache;
 using Questonaut.views;
 using Questonaut.viewmodels;
+using Prism.Navigation;
 
 namespace Questonaut
 {
@@ -76,5 +77,7 @@ namespace Questonaut
         {
             // Handle when your app resumes
         }
+
+        public INavigationService GetNavigationService() => this.NavigationService;
     }
 }

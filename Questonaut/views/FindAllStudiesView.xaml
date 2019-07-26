@@ -58,10 +58,6 @@
                       ItemsSource="{Binding Studies}"
                       BackgroundColor="{StaticResource DarkBlue}"
                       SeparatorVisibility="None">
-                <!--<ListView.Behaviors>
-                    <b:EventToCommandBehavior Command="{Binding OnItemTappedCommand}"
-                                              EventName="ItemTapped" />
-                </ListView.Behaviors>-->
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <controls:CustomViewCell x:Name="cello"
@@ -77,10 +73,6 @@
                                                                   Radius="5"
                                                                   Color="#525252" />
                                     </Grid.Effects>
-                                    <!--<Grid.GestureRecognizers>
-                                        <TapGestureRecognizer NumberOfTapsRequired="1"
-                                                              Tapped="Handle_Tapped" />
-                                    </Grid.GestureRecognizers>-->
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
@@ -89,7 +81,7 @@
                                         <StackLayout Orientation="Vertical">
                                             <Label x:Name="Title"
                                                    TextColor="Black"
-                                                   FontSize="Header"
+                                                   FontSize="Large"
                                                    Text="{Binding Title}" />
                                             <Label x:Name="Team"
                                                    TextColor="Black"
@@ -98,7 +90,8 @@
 
                                         </StackLayout>
                                         <CheckBox HorizontalOptions="EndAndExpand"
-                                                  Color="{StaticResource DarkBlue}" />
+                                                  Color="{StaticResource DarkBlue}"
+                                                  IsChecked="{Binding Paricipate}" />
                                     </StackLayout>
                                 </Grid>
                             </ContentView>
@@ -110,8 +103,9 @@
             <Button Text="Participate"
                     Grid.Row="2"
                     BackgroundColor="White"
-                    WidthRequest="100"
+                    WidthRequest="110"
                     TextColor="{StaticResource DarkBlue}"
+                    Command="{Binding OnParticipate}"
                     HorizontalOptions="Center"
                     VerticalOptions="Center"
                     Margin="0,45" />

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Firebase.Rest.Auth;
 using Firebase.Rest.Auth.Payloads;
+using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using Plugin.CloudFirestore;
 using Prism.Commands;
@@ -222,6 +223,7 @@ namespace Questonaut.ViewModels
             }
             catch (Exception e)
             {
+                Crashes.TrackError(e);
                 return false;
             }
         }

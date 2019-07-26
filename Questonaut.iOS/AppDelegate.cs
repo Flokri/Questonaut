@@ -27,9 +27,6 @@ namespace Questonaut.iOS
             global::Xamarin.Forms.Forms.SetFlags("CollectionView_Experimental");
             global::Xamarin.Forms.Forms.Init();
 
-            //initialize the effects framework
-            XamEffects.iOS.Effects.Init();
-
             //initialize the firebase sdk
             Firebase.Core.App.Configure();
 
