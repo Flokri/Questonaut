@@ -58,7 +58,8 @@
                       IsPullToRefreshEnabled="true"
                       ItemsSource="{Binding Studies}"
                       BackgroundColor="{StaticResource DarkBlue}"
-                      SeparatorVisibility="None">
+                      SeparatorVisibility="None"
+                      VerticalScrollBarVisibility="Never">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <controls:CustomViewCell x:Name="cello"

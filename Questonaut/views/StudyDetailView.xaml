@@ -103,7 +103,8 @@
                       IsPullToRefreshEnabled="false"
                       ItemsSource="{Binding Permissions}"
                       BackgroundColor="{StaticResource DarkBlue}"
-                      SeparatorVisibility="None">
+                      SeparatorVisibility="None"
+                      VerticalScrollBarVisibility="Never">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <controls:CustomViewCell x:Name="cello"
