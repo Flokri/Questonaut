@@ -37,6 +37,11 @@ namespace Questonaut.Model
         public List<IDocumentReference> Container { get; set; }
 
         /// <summary>
+        /// The end date of this study.
+        /// </summary>
+        public DateTime EndDate { get; set; }
+
+        /// <summary>
         /// This command will guide the user to the study detail screen. If he clicks the add button he get a selection of all studies to choose one to participate.
         /// </summary>
         [JsonIgnore]

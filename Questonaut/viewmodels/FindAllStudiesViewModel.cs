@@ -104,7 +104,7 @@ namespace Questonaut.viewmodels
 
                 foreach (var study in myModel)
                 {
-                    if (!study.Team.Equals("System"))
+                    if (!study.Team.Equals("System") && (!(study.EndDate < DateTime.Now) | (study.EndDate == DateTime.MinValue)))
                     {
                         if (CurrentUser.Instance.User.ActiveStudies.Contains(study.Id))
                         {

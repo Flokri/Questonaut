@@ -50,6 +50,16 @@ namespace Questonaut.Controller
         }
 
         /// <summary>
+        /// Updates the user instance (at firebase).
+        /// </summary>
+        /// <param name="paramName">The name of the parameter that should be updated.</param>
+        /// <param name="update">The value that should be updated.</param>
+        public void UpdateUser(string paramName, object update)
+        {
+            Update(paramName, update);
+        }
+
+        /// <summary>
         /// Logout the current user.
         /// </summary>
         /// <returns>Returns a bool representating if the logout was successfull.</returns>
@@ -60,6 +70,22 @@ namespace Questonaut.Controller
         #endregion
 
         #region private methods
+        private async void Update(string paramName, object update)
+        {
+            try
+            {
+                await CrossCloudFirestore.Current
+                                         .Instance
+                                         .GetCollection(QUser.CollectionPath)
+                                         .GetDocument(CurrentUser.Instance.User.Id)
+                                         .UpdateDataAsync(paramName, update);
+            }
+            catch (Exception e)
+            {
+
+            }
+        }
+
         /// <summary>
         /// Reset the current singleton instance and delte the in-memory user data.
         /// </summary>
@@ -104,6 +130,9 @@ namespace Questonaut.Controller
                 _user.ActiveStudies = myModel.First().ActiveStudies;
                 _user.ActiveStudiesObjects.Clear();
 
+                bool userChanged = false;
+                List<string> toDelete = new List<string>();
+
                 foreach (var study in _user.ActiveStudies)
                 {
                     var studyDoc = await CrossCloudFirestore.Current
@@ -113,25 +142,42 @@ namespace Questonaut.Controller
                                          .GetDocumentAsync();
                     QStudy temp = studyDoc.ToObject<QStudy>();
 
-                    if (temp.Team.Equals("System") && temp.Title.Equals("Add"))
+                    if (!temp.Team.Equals("System") && !(!(temp.EndDate < DateTime.Now) | (temp.EndDate == DateTime.MinValue)))
                     {
-                        temp.Command = new DelegateCommand(() =>
-                        {
-                            (Xamarin.Forms.Application.Current as App).GetNavigationService().NavigateAsync("FindAllStudiesView");
-                        });
+                        toDelete.Add(temp.Id);
+                        userChanged = true;
                     }
                     else
                     {
-                        temp.Command = new DelegateCommand(() =>
+                        if (temp.Team.Equals("System") && temp.Title.Equals("Add"))
                         {
-                            //implement the navigation to the detail view
-                        });
-                    }
+                            temp.Command = new DelegateCommand(() =>
+                            {
+                                (Xamarin.Forms.Application.Current as App).GetNavigationService().NavigateAsync("FindAllStudiesView", null, null, false);
+                            });
+                        }
+                        else
+                        {
+                            temp.Command = new DelegateCommand(() =>
+                            {
+                                var navigationParams = new NavigationParameters();
+                                navigationParams.Add("study", temp);
 
-                    _user.ActiveStudiesObjects.Add(temp);
+                                (Xamarin.Forms.Application.Current as App).GetNavigationService().NavigateAsync("StudyDetailView", navigationParams, null, false);
+                            });
+                        }
+
+                        _user.ActiveStudiesObjects.Add(temp);
+                    }
                 }
 
                 await BlobCache.UserAccount.InsertObject("user", CurrentUser.Instance.User);
+
+                if (userChanged)
+                {
+                    _user.ActiveStudies = _user.ActiveStudies.Except(toDelete).ToList();
+                    Update("ActiveStudies", _user.ActiveStudies);
+                }
             }
             catch (Exception e)
             {
