@@ -62,6 +62,7 @@
     <None Remove="SharedImages\survey.png" />
     <None Remove="SharedImages\health.png" />
     <None Remove="SharedImages\location.png" />
+    <None Remove="SharedImages\activity.png" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Frameworks\Firebase.Rest.Auth.dll">
@@ -74,6 +75,7 @@
     <EmbeddedResource Include="SharedImages\survey.png" />
     <EmbeddedResource Include="SharedImages\health.png" />
     <EmbeddedResource Include="SharedImages\location.png" />
+    <EmbeddedResource Include="SharedImages\activity.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="DependencyServices\IPicturePicker.cs" />

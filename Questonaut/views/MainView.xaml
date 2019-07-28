@@ -3,20 +3,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:controls="clr-namespace:Questonaut.Controls"
+             xmlns:converters="clr-namespace:Questonaut.Converters"
              x:Class="Questonaut.Views.MainView"
              BackgroundColor="#42506B">
 
     <ContentPage.Resources>
         <Color x:Key="DarkBlue">#42506B</Color>
         <Color x:Key="LightGreen">#52BF8B</Color>
+        <converters:TimeAgoConverter x:Key="TimeAgoConverter" />
+        <converters:ActivityImageConverter x:Key="ActivityImageConverter" />
     </ContentPage.Resources>
 
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="0.3*" />
-                <RowDefinition Height="0.7*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
             <StackLayout Orientation="Horizontal"
@@ -66,23 +70,22 @@
                 </Label>
 
                 <CollectionView ItemsSource="{Binding Studies}"
-                                ItemSizingStrategy="MeasureFirstItem"
-                                HeightRequest="200">
+                                ItemSizingStrategy="MeasureAllItems"
+                                HeightRequest="110">
                     <CollectionView.ItemsLayout>
-                        <GridItemsLayout Orientation="Vertical"
-                                         Span="2" />
+                        <GridItemsLayout Orientation="Horizontal"
+                                         Span="1" />
                     </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <StackLayout Padding="5,0"
+                            <StackLayout Padding="2,0"
                                          Grid.Column="0">
                                 <Frame x:Name="frame"
                                        HeightRequest="50"
                                        CornerRadius="10"
-                                       WidthRequest="60"
                                        HasShadow="False"
                                        BackgroundColor="White"
-                                       Margin="10,10">
+                                       Margin="5,10">
                                     <StackLayout Spacing="0"
                                                  Margin="12"
                                                  VerticalOptions="Center"
@@ -104,7 +107,9 @@
                                                     <Setter Property="Text"
                                                             Value="+" />
                                                     <Setter Property="FontSize"
-                                                            Value="28" />
+                                                            Value="33" />
+                                                    <Setter Property="Margin"
+                                                            Value="0,-8,0,0" />
                                                 </MultiTrigger>
                                             </Label.Triggers>
                                         </Label>
@@ -136,13 +141,94 @@
 
             </StackLayout>
 
-            <StackLayout Orientation="Vertical"
-                         VerticalOptions="Center"
-                         Grid.Row="2">
-                <Button Text="Intro View"
-                        TextColor="White"
-                        Command="{Binding AddUser}" />
-            </StackLayout>
+            <Label Text="Recent Activities"
+                   TextColor="White"
+                   FontSize="Large"
+                   Margin="15,5,0,20"
+                   Grid.Row="2" />
+
+            <AbsoluteLayout Grid.Row="3"
+                            Margin="0,-20,0,0">
+                <BoxView AbsoluteLayout.LayoutBounds=".3,0,1,.4"
+                         AbsoluteLayout.LayoutFlags="PositionProportional, HeightProportional"
+                         Color="White" />
+
+                <BoxView AbsoluteLayout.LayoutBounds=".3,1,1,.6"
+                         AbsoluteLayout.LayoutFlags="PositionProportional, HeightProportional"
+                         Color="White" />
+
+                <controls:ExtendedListView
+                    x:Name="timeline"
+                    AbsoluteLayout.LayoutBounds="0,0,1,1"
+                    AbsoluteLayout.LayoutFlags="All"
+                    Footer=""
+                    VerticalOptions="FillAndExpand"
+                    HasUnevenRows="True"
+                    BackgroundColor="Transparent"
+                    ItemsSource="{Binding Activities}"
+                    LoadMoreCommand="{Binding OnLoadMoreCommand}"
+                    SeparatorVisibility="None"
+                    SelectionMode="None">
+                    <controls:ExtendedListView.ItemTemplate>
+                        <DataTemplate>
+                            <controls:CustomViewCell x:Name="cello"
+                                                     AllowHighlight="false">
+                                <ContentView>
+                                    <Grid ColumnSpacing="30">
+                                        <Grid.Margin>
+                                            <OnPlatform x:TypeArguments="Thickness">
+                                                <On Platform="iOS"
+                                                    Value="45,30,0,0" />
+                                                <On Platform="Android"
+                                                    Value="45,42,0,0" />
+                                            </OnPlatform>
+                                        </Grid.Margin>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="32" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="18" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label FontAttributes="Bold"
+                                               FontSize="Medium"
+                                               Text="{Binding Date, StringFormat='{0: dd.MM}'}"
+                                               TextColor="White"
+                                               Grid.Column="0"
+                                               Grid.Row="0" />
+                                        <Image Grid.Column="1"
+                                               Source="{converters:ImageResource Questonaut.SharedImages.activity.png}"
+                                               Style="{DynamicResource iconStyle}"
+                                               VerticalOptions="Center"
+                                               HorizontalOptions="Center">
+                                            <Image.Margin>
+                                                <OnPlatform x:TypeArguments="Thickness">
+                                                    <On Platform="iOS"
+                                                        Value="-12,-10,0,0" />
+                                                    <On Platform="Android"
+                                                        Value="-22,-10,0,0" />
+                                                </OnPlatform>
+                                            </Image.Margin>
+                                        </Image>
+                                        <Label Grid.Column="2"
+                                               FontAttributes="Bold"
+                                               FontSize="Medium"
+                                               Text="{Binding Name}"
+                                               TextColor="White" />
+                                        <Label Grid.Row="1"
+                                               Grid.Column="2"
+                                               Text="{Binding Date, Converter={StaticResource TimeAgoConverter}}"
+                                               TextColor="White"
+                                               Margin="0,-10,0,0" />
+                                    </Grid>
+                                </ContentView>
+                            </controls:CustomViewCell>
+                        </DataTemplate>
+                    </controls:ExtendedListView.ItemTemplate>
+                </controls:ExtendedListView>
+            </AbsoluteLayout>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

@@ -6,7 +6,22 @@
                         xmlns:prism="clr-namespace:Prism.Unity;assembly=Prism.Unity.Forms"
                         mc:Ignorable="d"
                         x:Class="Questonaut.App">
-    <Application.Resources>
+    <prism:PrismApplication.Resources>
+        <ResourceDictionary>
+            <!--App colors-->
 
-    </Application.Resources>
+
+            <Style x:Key="iconStyle"
+                   TargetType="Image">
+                <Setter Property="HeightRequest"
+                        Value="18" />
+                <Setter Property="WidthRequest"
+                        Value="18" />
+                <Setter Property="HorizontalOptions"
+                        Value="Center" />
+                <Setter Property="VerticalOptions"
+                        Value="Center" />
+            </Style>
+        </ResourceDictionary>
+    </prism:PrismApplication.Resources>
 </prism:PrismApplication>

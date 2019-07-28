@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Akavache;
 using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
@@ -9,8 +11,10 @@ using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
 using Questonaut.Controller;
+using Questonaut.Helper;
 using Questonaut.Model;
 using Questonaut.Settings;
+using Xamarin.Forms;
 
 namespace Questonaut.ViewModels
 {
@@ -22,6 +26,19 @@ namespace Questonaut.ViewModels
         private string _header = "";
 
         private ObservableCollection<QStudy> _studies = CurrentUser.Instance.User.ActiveStudiesObjects;
+
+        private ObservableCollection<QActivity> _activities = new ObservableCollection<QActivity>();
+        public ActivityService _activityService { get; set; } = new ActivityService();
+        int _pageNumber = 0;
+
+        //start test code
+        // Notify the UI if the app is busy loading data.
+        public bool IsBusy { get; set; }
+
+        public ICommand OnLoadMoreCommand { get; set; }
+        public ICommand OnItemTappedCommand { get; set; }
+        //end testcode
+
         #endregion
 
         #region DependencyInjection
@@ -48,6 +65,37 @@ namespace Questonaut.ViewModels
 
             //set the header for the user
             _ = GetUserDataAsync();
+
+            //test code
+            // Command to load more data from our service
+            OnLoadMoreCommand = new DelegateCommand(async () =>
+            {
+                IsBusy = true;
+
+                try
+                {
+                    var users = _activityService.GetActivitiesAsync(_pageNumber++, 10);
+
+                    //Add the new data loaded from our service to our existing collection.
+                    foreach (var user in users)
+                    {
+                        Activities.Add(user);
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    //Log any errors that might had occured while calling or using your service.
+                    Debug.WriteLine(ex.Message);
+                }
+                finally
+                {
+                    IsBusy = false;
+                }
+
+            });
+
+            OnLoadMoreCommand.Execute(null);
         }
 
         #region privateMethods
@@ -140,6 +188,15 @@ namespace Questonaut.ViewModels
         {
             get => _studies;
             set => SetProperty(ref _studies, value);
+        }
+
+        /// <summary>
+        /// A list of the recent occured activities.
+        /// </summary>
+        public ObservableCollection<QActivity> Activities
+        {
+            get => _activities;
+            set => SetProperty(ref _activities, value);
         }
         #endregion
     }
