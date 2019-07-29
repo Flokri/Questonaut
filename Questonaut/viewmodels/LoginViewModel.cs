@@ -165,8 +165,16 @@ namespace Questonaut.ViewModels
                             }
                             else
                             {
+                                if (CurrentUser.Instance.User == null)
+                                {
+                                    CurrentUser.Instance.User = CurrentUser.Instance.User = new QUser() { Email = JsonConvert.DeserializeObject<User>(SettingsImp.UserValue).email };
+                                }
                                 //change to the main view
-                                await _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/MainView", System.UriKind.Absolute));
+                                Device.BeginInvokeOnMainThread(async () =>
+                                {
+                                    //change to the intro view
+                                    await _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/MainView", System.UriKind.Absolute));
+                                });
                             }
                         }
                         else
@@ -195,7 +203,12 @@ namespace Questonaut.ViewModels
             SettingsImp.ShowIntro = "true";
 
             //change to the create a user view
-            await _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/CreateUserView", System.UriKind.Absolute));
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                //change to the intro view
+                await _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/CreateUserView", System.UriKind.Absolute));
+            });
+
         }
 
         /// <summary>

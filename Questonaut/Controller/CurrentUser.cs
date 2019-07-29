@@ -24,6 +24,7 @@ namespace Questonaut.Controller
         #region instance
         private static CurrentUser _instance;
         private QUser _user;
+        private bool _deleteUserData;
         #endregion
 
         #region constructor
@@ -94,14 +95,14 @@ namespace Questonaut.Controller
         {
             try
             {
-                BlobCache.UserAccount.InvalidateAll().Subscribe();
+                BlobCache.UserAccount.InvalidateAll().Wait();
 
                 if (SettingsImp.UserValue != string.Empty)
                 {
                     SettingsImp.UserValue = "";
                 }
 
-                _instance = null;
+                _instance._user = null;
 
                 return true;
             }
@@ -236,6 +237,7 @@ namespace Questonaut.Controller
                         Crashes.TrackError(e);
                     }
                 }
+
                 return _instance;
             }
         }
@@ -247,6 +249,15 @@ namespace Questonaut.Controller
         {
             get => _user;
             set => _user = value;
+        }
+
+        /// <summary>
+        /// Inidicate if the current in-memory user data should be deleted.
+        /// </summary>
+        public bool DeleteUserData
+        {
+            get => _deleteUserData;
+            set => _deleteUserData = value;
         }
         #endregion
     }
