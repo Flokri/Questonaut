@@ -35,6 +35,7 @@
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
     <PackageReference Include="akavache" Version="6.5.9" />
     <PackageReference Include="Xamarin.Forms.PancakeView" Version="1.0.25-beta" />
+    <PackageReference Include="Microsoft.AppCenter.Push" Version="2.2.1-preview" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\" />
@@ -50,6 +51,8 @@
     <Folder Include="SharedImages\" />
     <Folder Include="Helper\" />
     <Folder Include="Effects\" />
+    <Folder Include="views\StudyScreensViews\" />
+    <Folder Include="viewmodels\StudyScreensViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Firebase.Rest.Auth">

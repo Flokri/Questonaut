@@ -19,6 +19,8 @@ using Akavache;
 using Questonaut.views;
 using Questonaut.viewmodels;
 using Prism.Navigation;
+using Questonaut.views.StudyScreensViews;
+using Questonaut.viewmodels.StudyScreensViewModels;
 
 namespace Questonaut
 {
@@ -56,6 +58,7 @@ namespace Questonaut
             containerRegistry.RegisterForNavigation<IntroView, IntroViewModel>();
             containerRegistry.RegisterForNavigation<FindAllStudiesView, FindAllStudiesViewModel>();
             containerRegistry.RegisterForNavigation<StudyDetailView, StudyDetailViewModel>();
+            containerRegistry.RegisterForNavigation<TextEntryView, TextEntryViewModel>();
         }
 
         protected override void OnStart()

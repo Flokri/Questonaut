@@ -106,8 +106,15 @@ namespace Questonaut.ViewModels
         {
             try
             {
-                CurrentUser.Instance.LogoutUser();
-                await _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/LoginView", System.UriKind.Absolute));
+                //test code
+                var navParameters = new NavigationParameters();
+                navParameters.Add("title", "Question");
+                navParameters.Add("text", "How many time in the week do you go to the gym.");
+                await _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/TextEntryView?", System.UriKind.Absolute), navParameters);
+                //end test code
+
+                //CurrentUser.Instance.LogoutUser();
+                //await _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/LoginView", System.UriKind.Absolute));
             }
             catch (Exception e)
             {

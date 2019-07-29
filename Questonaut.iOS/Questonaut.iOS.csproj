@@ -162,6 +162,9 @@
     <PackageReference Include="Xamarin.Forms.PancakeView">
       <Version>1.0.25-beta</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.AppCenter.Push">
+      <Version>2.2.1-preview</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
