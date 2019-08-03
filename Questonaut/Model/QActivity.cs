@@ -22,5 +22,10 @@ namespace Questonaut.Model
         /// The description of the activity.
         /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// The status of the activity
+        /// </summary>
+        public string Status { get; set; }
     }
 }

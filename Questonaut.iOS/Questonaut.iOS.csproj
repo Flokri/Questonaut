@@ -27,9 +27,11 @@
     <MtouchArch>x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
-    <CodesignProvision>VS: WildCard Development</CodesignProvision>
     <CodesignKey>iPhone Developer: Florian Kriegl (X44R58T3B9)</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <CodesignProvision>VS: WildCard Development</CodesignProvision>
+<MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+<MtouchExtraArgs>--interpreter</MtouchExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -80,6 +82,8 @@
     <Compile Include="CustomRenderer\CustomViewCellRenderer.cs" />
     <Compile Include="Effects\DropShadowEffect.cs" />
     <Compile Include="DependencyServices\SetStatusBar.cs" />
+    <Compile Include="DependencyServices\NotificationService.cs" />
+    <Compile Include="Services\iOSBackgroundService.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -162,8 +166,23 @@
     <PackageReference Include="Xamarin.Forms.PancakeView">
       <Version>1.0.25-beta</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.AppCenter.Push">
-      <Version>2.2.1-preview</Version>
+    <PackageReference Include="Shiny.Core">
+      <Version>1.0.0.306-beta</Version>
+    </PackageReference>
+    <PackageReference Include="Shiny.Sensors">
+      <Version>1.0.0.306-beta</Version>
+    </PackageReference>
+    <PackageReference Include="Shiny.Locations">
+      <Version>1.0.0.306-beta</Version>
+    </PackageReference>
+    <PackageReference Include="Shiny.Notifications">
+      <Version>1.0.0.306-beta</Version>
+    </PackageReference>
+    <PackageReference Include="ReactiveUI.XamForms">
+      <Version>10.0.1-preview.6</Version>
+    </PackageReference>
+    <PackageReference Include="SkiaSharp.Views.Forms">
+      <Version>1.68.0</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
@@ -179,6 +198,7 @@
     <Folder Include="DependencyServices\" />
     <Folder Include="CustomRenderer\" />
     <Folder Include="Effects\" />
+    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="GoogleService-Info.plist" />

@@ -33,7 +33,7 @@
                             <On Platform="iOS"
                                 Value="15,55,0,0" />
                             <On Platform="Android"
-                                Value="15,5,0,0" />
+                                Value="15,20,0,0" />
                         </OnPlatform>
                     </Label.Margin>
                 </Label>
@@ -41,13 +41,14 @@
                         TextColor="White"
                         Command="{Binding OnBack}"
                         HorizontalOptions="EndAndExpand"
-                        VerticalOptions="Center">
+                        VerticalOptions="Center"
+                        BackgroundColor="Transparent">
                     <Button.Margin>
                         <OnPlatform x:TypeArguments="Thickness">
                             <On Platform="iOS"
                                 Value="15,55,15,0" />
                             <On Platform="Android"
-                                Value="15,5,15,0" />
+                                Value="15,15,15,0" />
                         </OnPlatform>
                     </Button.Margin>
                 </Button>

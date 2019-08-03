@@ -5,13 +5,16 @@
              xmlns:controls="clr-namespace:Questonaut.Controls"
              xmlns:converters="clr-namespace:Questonaut.Converters"
              x:Class="Questonaut.Views.MainView"
+             xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
              BackgroundColor="#42506B">
 
     <ContentPage.Resources>
         <Color x:Key="DarkBlue">#42506B</Color>
         <Color x:Key="LightGreen">#52BF8B</Color>
+        <Color x:Key="Red">#EF4B4C</Color>
         <converters:TimeAgoConverter x:Key="TimeAgoConverter" />
         <converters:ActivityImageConverter x:Key="ActivityImageConverter" />
+        <converters:StatusConverter x:Key="StatusConverter" />
     </ContentPage.Resources>
 
     <ContentPage.Content>
@@ -49,7 +52,7 @@
                             <On Platform="iOS"
                                 Value="15,55,15,0" />
                             <On Platform="Android"
-                                Value="15,5,15,0" />
+                                Value="15,15,15,0" />
                         </OnPlatform>
                     </Button.Margin>
                 </Button>
@@ -149,14 +152,6 @@
 
             <AbsoluteLayout Grid.Row="3"
                             Margin="0,-20,0,0">
-                <BoxView AbsoluteLayout.LayoutBounds=".3,0,1,.4"
-                         AbsoluteLayout.LayoutFlags="PositionProportional, HeightProportional"
-                         Color="White" />
-
-                <BoxView AbsoluteLayout.LayoutBounds=".3,1,1,.6"
-                         AbsoluteLayout.LayoutFlags="PositionProportional, HeightProportional"
-                         Color="White" />
-
                 <controls:ExtendedListView
                     x:Name="timeline"
                     AbsoluteLayout.LayoutBounds="0,0,1,1"
@@ -174,54 +169,51 @@
                             <controls:CustomViewCell x:Name="cello"
                                                      AllowHighlight="false">
                                 <ContentView>
-                                    <Grid ColumnSpacing="30">
+                                    <Grid ColumnSpacing="30"
+                                          RowSpacing="0">
                                         <Grid.Margin>
                                             <OnPlatform x:TypeArguments="Thickness">
                                                 <On Platform="iOS"
-                                                    Value="45,30,0,0" />
+                                                    Value="45,8,15,0" />
                                                 <On Platform="Android"
-                                                    Value="45,42,0,0" />
+                                                    Value="45,8,15,0" />
                                             </OnPlatform>
                                         </Grid.Margin>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="32" />
-                                            <RowDefinition Height="*" />
-                                        </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="18" />
-                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
-                                        <Label FontAttributes="Bold"
-                                               FontSize="Medium"
-                                               Text="{Binding Date, StringFormat='{0: dd.MM}'}"
-                                               TextColor="White"
-                                               Grid.Column="0"
-                                               Grid.Row="0" />
-                                        <Image Grid.Column="1"
-                                               Source="{converters:ImageResource Questonaut.SharedImages.activity.png}"
-                                               Style="{DynamicResource iconStyle}"
-                                               VerticalOptions="Center"
-                                               HorizontalOptions="Center">
-                                            <Image.Margin>
-                                                <OnPlatform x:TypeArguments="Thickness">
-                                                    <On Platform="iOS"
-                                                        Value="-12.5,-10,0,0" />
-                                                    <On Platform="Android"
-                                                        Value="-22,-10,0,0" />
-                                                </OnPlatform>
-                                            </Image.Margin>
-                                        </Image>
-                                        <Label Grid.Column="2"
-                                               FontAttributes="Bold"
-                                               FontSize="Medium"
-                                               Text="{Binding Name}"
-                                               TextColor="White" />
-                                        <Label Grid.Row="1"
-                                               Grid.Column="2"
-                                               Text="{Binding Date, Converter={StaticResource TimeAgoConverter}}"
-                                               TextColor="White"
-                                               Margin="0,-10,0,0" />
+                                        <StackLayout Orientation="Vertical"
+                                                     Grid.Column="0">
+                                            <BoxView WidthRequest="10"
+                                                     HeightRequest="10"
+                                                     CornerRadius="5"
+                                                     HorizontalOptions="Center"
+                                                     BackgroundColor="{Binding Status, Converter={StaticResource StatusConverter}}" />
+                                            <BoxView HeightRequest="100"
+                                                     WidthRequest="2.5"
+                                                     BackgroundColor="{Binding Status, Converter={StaticResource StatusConverter}}"
+                                                     HorizontalOptions="Center"
+                                                     Margin="2.5,-3" />
+
+                                        </StackLayout>
+                                        <StackLayout Orientation="Vertical"
+                                                     Grid.Column="1">
+                                            <Label FontAttributes="Bold"
+                                                   FontSize="Caption"
+                                                   Text="{Binding Date, StringFormat='{0: dd.MM}'}"
+                                                   TextColor="White"
+                                                   Margin="-3,0" />
+                                            <Label FontAttributes="Bold"
+                                                   FontSize="Medium"
+                                                   Text="{Binding Name}"
+                                                   TextColor="White" />
+                                            <Label FontSize="Caption"
+                                                   Text="{Binding Description}"
+                                                   TextColor="White" />
+                                            <Label Text="{Binding Date, Converter={StaticResource TimeAgoConverter}}"
+                                                   TextColor="White" />
+                                        </StackLayout>
                                     </Grid>
                                 </ContentView>
                             </controls:CustomViewCell>

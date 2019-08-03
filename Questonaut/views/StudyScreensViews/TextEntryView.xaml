@@ -57,7 +57,7 @@
                                    TextColor="{StaticResource DarkBlue}"
                                    FontSize="Header"
                                    Margin="15,10" />
-                            <Editor Placeholder="tester"
+                            <Editor Placeholder="Enter your answer"
                                     AutoSize="TextChanges"
                                     Margin="15,5" />
                         </StackLayout>

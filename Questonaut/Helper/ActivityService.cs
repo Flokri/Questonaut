@@ -32,11 +32,11 @@ namespace Questonaut.Helper
             //sync the list with the saves activities
             //this code is just for testing
             Activities = new ObservableCollection<QActivity> {
-                new QActivity(){ ID = 1, Name =  "Recoreded steps", Date = DateTime.Now, Description="Recorded steps for a custome questionnair."},
-                new QActivity(){ID = 2, Name = "Recoreded location", Date = DateTime.Now.AddDays(-1), Description="Recorded location for a custome questionnair."},
-                new QActivity(){ ID = 3, Name =  "Recoreded steps", Date = DateTime.Now, Description="Recorded steps for a custome questionnair."},
-                new QActivity(){ID = 4, Name = "Recoreded location", Date = DateTime.Now.AddDays(-4), Description="Recorded location for a custome questionnair."},
-                new QActivity(){ID = 5, Name = "Recoreded location", Date = DateTime.Now.AddDays(-4), Description="Recorded location for a custome questionnair."},
+                new QActivity(){ ID = 1, Name =  "Question", Date = DateTime.Now, Description="Answerd a question based on a step context.", Status="open"},
+                new QActivity(){ID = 2, Name = "Rating", Date = DateTime.Now.AddDays(-1), Description="Rating based on a location context.",Status="open"},
+                new QActivity(){ ID = 3, Name =  "Multiple Choice", Date = DateTime.Now.AddDays(-2), Description="Answer a multiple choice question based on a time context",Status="closed"},
+                new QActivity(){ID = 4, Name = "Question", Date = DateTime.Now.AddDays(-4), Description="Answerd a question based on a location context.",Status="closed"},
+                new QActivity(){ID = 5, Name = "Rating", Date = DateTime.Now.AddDays(-4), Description="Answerd a question based on a location context.",Status="closed"},
             };
 
             return Activities.Skip(pageIndex * pageSize).Take(pageSize).ToList();

@@ -1,5 +1,4 @@
 ﻿using System;
-using Firebase.Rest.Auth.Payloads;
 using Plugin.Settings;
 using Plugin.Settings.Abstractions;
 using Plugin.Settings.Abstractions.Extensions;

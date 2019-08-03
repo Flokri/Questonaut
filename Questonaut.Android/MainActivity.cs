@@ -1,6 +1,4 @@
-﻿using System;
-
-using Android.App;
+﻿using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
@@ -9,8 +7,8 @@ using Prism.Ioc;
 using System.Threading.Tasks;
 using System.IO;
 using Plugin.CurrentActivity;
-using Plugin.Permissions;
 using PanCardView.Droid;
+using Shiny;
 using FFImageLoading.Forms.Platform;
 
 namespace Questonaut.Droid
@@ -62,7 +60,7 @@ namespace Questonaut.Droid
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
-            PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            AndroidShinyHost.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 

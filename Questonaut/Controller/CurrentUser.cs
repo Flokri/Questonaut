@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Akavache;
 using Firebase.Rest.Auth.Payloads;
@@ -15,7 +14,6 @@ using Questonaut.DependencyServices;
 using Questonaut.Model;
 using Questonaut.Settings;
 using Xamarin.Forms;
-using Xamarin.Forms.Internals;
 
 namespace Questonaut.Controller
 {
@@ -95,7 +93,14 @@ namespace Questonaut.Controller
         {
             try
             {
-                BlobCache.UserAccount.InvalidateAll().Wait();
+                try
+                {
+                    BlobCache.UserAccount.InvalidateAll().Wait();
+                }
+                catch (Exception e)
+                {
+                    Crashes.TrackError(e);
+                }
 
                 if (SettingsImp.UserValue != string.Empty)
                 {

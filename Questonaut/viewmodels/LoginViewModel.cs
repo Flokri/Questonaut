@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Firebase.Rest.Auth;
 using Firebase.Rest.Auth.Payloads;
@@ -14,6 +15,7 @@ using Prism.Services;
 using Questonaut.Controller;
 using Questonaut.DependencyServices;
 using Questonaut.Helpers;
+using Questonaut.Messages;
 using Questonaut.Model;
 using Questonaut.Settings;
 using Xamarin.Forms;
@@ -169,6 +171,11 @@ namespace Questonaut.ViewModels
                                 {
                                     CurrentUser.Instance.User = CurrentUser.Instance.User = new QUser() { Email = JsonConvert.DeserializeObject<User>(SettingsImp.UserValue).email };
                                 }
+
+                                //start the background service for all the user studies
+                                var message = new StartBackgroundTask();
+                                MessagingCenter.Send(message, "StartBackgroundTaskMessage");
+
                                 //change to the main view
                                 Device.BeginInvokeOnMainThread(async () =>
                                 {

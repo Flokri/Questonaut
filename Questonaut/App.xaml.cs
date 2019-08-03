@@ -12,7 +12,6 @@ using Xamarin.Forms;
 using Questonaut.Settings;
 using Questonaut.Controller;
 using Newtonsoft.Json;
-using Firebase.Rest.Auth.Payloads;
 using Plugin.CloudFirestore;
 using Questonaut.DependencyServices;
 using Akavache;
@@ -69,6 +68,7 @@ namespace Questonaut
                   "uwp={1};" +
                   "ios={2}", Secrets.AppCenter_Android_Secret, "Enter the AppCenter UWP Secret", Secrets.AppCenter_iOS_Secret),
                   typeof(Analytics), typeof(Crashes));
+
         }
 
         protected override void OnSleep()

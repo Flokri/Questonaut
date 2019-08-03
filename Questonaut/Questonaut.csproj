@@ -19,7 +19,6 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
     <PackageReference Include="Prism.Unity.Forms" Version="7.1.0.431" />
-    <PackageReference Include="LiveXAML" Version="2.1.72" />
     <PackageReference Include="Mobile.BuildTools" Version="1.4.0.638">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
@@ -35,7 +34,13 @@
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
     <PackageReference Include="akavache" Version="6.5.9" />
     <PackageReference Include="Xamarin.Forms.PancakeView" Version="1.0.25-beta" />
-    <PackageReference Include="Microsoft.AppCenter.Push" Version="2.2.1-preview" />
+    <PackageReference Include="Shiny.Core" Version="1.0.0.306-beta" />
+    <PackageReference Include="Shiny.Notifications" Version="1.0.0.306-beta" />
+    <PackageReference Include="Shiny.Locations" Version="1.0.0.306-beta" />
+    <PackageReference Include="Shiny.Sensors" Version="1.0.0.306-beta" />
+    <PackageReference Include="ReactiveUI.XamForms" Version="10.0.1-preview.6" />
+    <PackageReference Include="ReactiveUI.Fody" Version="10.0.1-preview.6" />
+    <PackageReference Include="SkiaSharp.Views.Forms" Version="1.68.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\" />
@@ -53,11 +58,10 @@
     <Folder Include="Effects\" />
     <Folder Include="views\StudyScreensViews\" />
     <Folder Include="viewmodels\StudyScreensViewModels\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Firebase.Rest.Auth">
-      <HintPath>Frameworks\Firebase.Rest.Auth.dll</HintPath>
-    </Reference>
+    <Folder Include="Messages\" />
+    <Folder Include="ShinyConfig\" />
+    <Folder Include="ShinyConfig\SetUp\" />
+    <Folder Include="ShinyConfig\Delegates\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="SharedImages\defaultUserImage.png" />
@@ -66,11 +70,6 @@
     <None Remove="SharedImages\health.png" />
     <None Remove="SharedImages\location.png" />
     <None Remove="SharedImages\activity.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="Frameworks\Firebase.Rest.Auth.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="SharedImages\defaultUserImage.png" />
@@ -82,10 +81,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="DependencyServices\IPicturePicker.cs" />
+    <Compile Remove="DependencyServices\IHealthService.cs" />
+    <Compile Remove="Shiny\SetUp\StartUp.cs" />
+    <Compile Remove="Shiny\Delegates\ShinyDelegates.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="views\StudyDetailView.xaml.cs">
       <DependentUpon>StudyDetailView.xaml</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Firebase.Rest.Auth">
+      <HintPath>Frameworks\Firebase.Rest.Auth.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

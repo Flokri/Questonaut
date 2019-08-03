@@ -5,6 +5,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
+using Xamarin.Forms;
 
 namespace Questonaut.viewmodels.StudyScreensViewModels
 {
@@ -22,7 +23,7 @@ namespace Questonaut.viewmodels.StudyScreensViewModels
         #endregion
 
         #region commands
-        public DelegateCommand OnSaveClicked { get; set; }
+        public DelegateCommand OnSave { get; set; }
         #endregion
 
         #region constructor
@@ -33,14 +34,18 @@ namespace Questonaut.viewmodels.StudyScreensViewModels
             _pageDialogservice = dialogService;
 
             //initialize the commands
-            OnSaveClicked = new DelegateCommand(async () => await Task.Run(() => Save()));
+            OnSave = new DelegateCommand(async () => await Task.Run(() => Save()));
         }
         #endregion
 
         #region private methods
         private async void Save()
         {
-            await _navigationService.GoBackAsync();
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                //change to the intro view
+                await _navigationService.GoBackAsync();
+            });
         }
         #endregion
 
