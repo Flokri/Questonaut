@@ -135,7 +135,6 @@
     <Compile Include="CustomRenderer\CustomViewCellRenderer.cs" />
     <Compile Include="Effects\DropShadowEffect.cs" />
     <Compile Include="DependencyServices\SetStatusBar.cs" />
-    <Compile Include="DependencyServices\NotificationService.cs" />
     <Compile Include="QuestonautApplication.cs" />
   </ItemGroup>
   <ItemGroup>
