@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.IO;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -12,9 +11,7 @@ using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
 using Questonaut.Controller;
-using Questonaut.DependencyServices;
 using Questonaut.Helper;
-using Questonaut.Messages;
 using Questonaut.Model;
 using Questonaut.Settings;
 using Xamarin.Forms;
@@ -99,8 +96,6 @@ namespace Questonaut.ViewModels
             });
 
             OnLoadMoreCommand.Execute(null);
-
-            HandleReceivedMessages();
         }
 
         #region privateMethods
@@ -111,25 +106,6 @@ namespace Questonaut.ViewModels
         {
             try
             {
-                try
-                {
-
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                }
-
-                //Xamarin.Forms.DependencyService.Get<INotificationService>().SendText("Time to answer a question!", "The Questonaut team has a question for you 📝");
-
-                ////test code
-                //var navParameters = new NavigationParameters();
-                //navParameters.Add("title", "Question");
-                //navParameters.Add("text", "How many time in the week do you go to the gym.");
-                //await _navigationService.NavigateAsync("TextEntryView", navParameters);
-
-                //end test code
-
                 CurrentUser.Instance.LogoutUser();
                 await _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/LoginView", System.UriKind.Absolute));
             }
@@ -175,28 +151,6 @@ namespace Questonaut.ViewModels
             //tod: change after creating the create view
             //change to the create a user view
             _navigationService.NavigateAsync("StudyDetailView");
-        }
-        #endregion
-
-        #region events
-        void HandleReceivedMessages()
-        {
-            MessagingCenter.Subscribe<UpdateMessage>(this, "TickedMessage", message =>
-            {
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    var activity = new QActivity() { Date = DateTime.Now, ID = 0, Name = message.Message };
-                    Console.WriteLine(message.Message);
-                });
-            });
-
-            MessagingCenter.Subscribe<CancelledMessage>(this, "CancelledMessage", message =>
-            {
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    Console.WriteLine("Background Task Cancelled");
-                });
-            });
         }
         #endregion
 
