@@ -10,6 +10,7 @@ using Plugin.CurrentActivity;
 using PanCardView.Droid;
 using FFImageLoading.Forms.Platform;
 using Plugin.Permissions;
+using Plugin.LocalNotifications;
 
 namespace Questonaut.Droid
 {
@@ -28,6 +29,9 @@ namespace Questonaut.Droid
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
+
+            //set the notification icon
+            LocalNotificationsImplementation.NotificationIconId = Resource.Drawable.Questonaut;
 
             // Name of the MainActivity theme you had there before.
             // Or you can use global::Android.Resource.Style.ThemeHoloLight

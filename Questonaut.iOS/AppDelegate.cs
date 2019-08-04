@@ -4,7 +4,9 @@ using Foundation;
 using PanCardView.iOS;
 using Prism;
 using Prism.Ioc;
+using Questonaut.iOS.DependencyServices;
 using UIKit;
+using UserNotifications;
 
 namespace Questonaut.iOS
 {
@@ -25,6 +27,9 @@ namespace Questonaut.iOS
         {
             global::Xamarin.Forms.Forms.SetFlags("CollectionView_Experimental");
             global::Xamarin.Forms.Forms.Init();
+
+            // Watch for notifications while the app is active
+            UNUserNotificationCenter.Current.Delegate = new UserNotificationCenterDelegate();
 
             //initialize the firebase sdk
             Firebase.Core.App.Configure();

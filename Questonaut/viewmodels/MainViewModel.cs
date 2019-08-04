@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Akavache;
 using Microsoft.AppCenter.Crashes;
+using Plugin.LocalNotifications;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
 using Questonaut.Controller;
+using Questonaut.DependencyServices;
 using Questonaut.Helper;
 using Questonaut.Model;
 using Questonaut.Settings;
@@ -104,15 +106,20 @@ namespace Questonaut.ViewModels
         /// </summary>
         private async void Logout()
         {
-            try
-            {
-                CurrentUser.Instance.LogoutUser();
-                await _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/LoginView", System.UriKind.Absolute));
-            }
-            catch (Exception e)
-            {
-                Crashes.TrackError(e);
-            }
+
+            //test code
+            CrossLocalNotifications.Current.Show("title", "body");
+            //end test code
+
+            //try
+            //{
+            //    CurrentUser.Instance.LogoutUser();
+            //    await _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/LoginView", System.UriKind.Absolute));
+            //}
+            //catch (Exception e)
+            //{
+            //    Crashes.TrackError(e);
+            //}
         }
 
         /// <summary>

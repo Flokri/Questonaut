@@ -108,6 +108,9 @@
     <PackageReference Include="Xamarin.Forms.PancakeView">
       <Version>1.1.5</Version>
     </PackageReference>
+    <PackageReference Include="Xam.Plugins.Notifier">
+      <Version>3.0.1</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
@@ -120,7 +123,6 @@
     <Compile Include="CustomRenderer\CustomViewCellRenderer.cs" />
     <Compile Include="Effects\DropShadowEffect.cs" />
     <Compile Include="DependencyServices\SetStatusBar.cs" />
-    <Compile Include="DependencyServices\NotificationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

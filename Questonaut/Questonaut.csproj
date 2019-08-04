@@ -35,6 +35,7 @@
     <PackageReference Include="akavache" Version="6.5.9" />
     <PackageReference Include="Xamarin.Forms.PancakeView" Version="1.0.25-beta" />
     <PackageReference Include="LiveXAML" Version="2.1.72" />
+    <PackageReference Include="Xam.Plugins.Notifier" Version="3.0.1" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\" />
