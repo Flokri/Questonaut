@@ -26,6 +26,7 @@ namespace Questonaut.ViewModels
         private string _username = "";
         private string _id = "";
         private string _header = "";
+        private bool _isRefreshing = false;
 
         private ObservableCollection<QStudy> _studies = CurrentUser.Instance.User.ActiveStudiesObjects;
 
@@ -51,6 +52,7 @@ namespace Questonaut.ViewModels
         #region Commands
         public DelegateCommand OnLogout { get; set; }
         public DelegateCommand AddUser { get; set; }
+        public DelegateCommand OnRefresh { get; set; }
         #endregion
 
         public MainViewModel(INavigationService navigationService, IPageDialogService pageDialogService)
@@ -64,6 +66,14 @@ namespace Questonaut.ViewModels
             //set the commands
             OnLogout = new DelegateCommand(() => Logout());
             AddUser = new DelegateCommand(() => Add());
+            OnRefresh = new DelegateCommand(async () =>
+            {
+                IsRefreshing = true;
+                Activities.Clear();
+                foreach (var tmp in _activityService.GetActivitiesAsync(0, 1000))
+                    Activities.Add(tmp);
+                IsRefreshing = false;
+            });
 
             //set the header for the user
             _ = GetUserDataAsync();
@@ -106,9 +116,9 @@ namespace Questonaut.ViewModels
         /// </summary>
         private async void Logout()
         {
-
             //test code
-            CrossLocalNotifications.Current.Show("title", "body");
+            var test = new ActivityDB();
+            test.AddActivity(new QActivity() { Name = "Question", Date = DateTime.Now, Description = "Answerd a question based on a step context.", Status = "closed" });
             //end test code
 
             //try
@@ -204,6 +214,15 @@ namespace Questonaut.ViewModels
         {
             get => _activities;
             set => SetProperty(ref _activities, value);
+        }
+
+        /// <summary>
+        /// Sets the refreshing status of the listview.
+        /// </summary>
+        public bool IsRefreshing
+        {
+            get => _isRefreshing;
+            set => SetProperty(ref _isRefreshing, value);
         }
         #endregion
     }

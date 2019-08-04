@@ -1,4 +1,6 @@
 ﻿using System;
+using SQLite.Net.Attributes;
+
 namespace Questonaut.Model
 {
     public class QActivity
@@ -6,6 +8,7 @@ namespace Questonaut.Model
         /// <summary>
         /// The id of the activity.
         /// </summary>
+        [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
 
         /// <summary>

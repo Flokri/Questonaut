@@ -82,6 +82,7 @@
     <Compile Include="Effects\DropShadowEffect.cs" />
     <Compile Include="DependencyServices\SetStatusBar.cs" />
     <Compile Include="DependencyServices\NotificationService.cs" />
+    <Compile Include="DependencyServices\SQLiteService.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -166,6 +167,9 @@
     </PackageReference>
     <PackageReference Include="Xam.Plugins.Notifier">
       <Version>3.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="SQLite.Net-PCL">
+      <Version>3.1.1</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

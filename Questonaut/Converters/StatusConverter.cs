@@ -8,9 +8,9 @@ namespace Questonaut.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == "open")
+            if (value.Equals("open"))
                 return Color.FromHex("#EF4B4C");
-            else if (value == "closed")
+            else if (value.Equals("closed"))
                 return Color.FromHex("#52BF8B");
             else
                 return Color.White;

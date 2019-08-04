@@ -5,7 +5,6 @@
              xmlns:controls="clr-namespace:Questonaut.Controls"
              xmlns:converters="clr-namespace:Questonaut.Converters"
              x:Class="Questonaut.Views.MainView"
-             xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
              BackgroundColor="#42506B">
 
     <ContentPage.Resources>
@@ -161,6 +160,9 @@
                     HasUnevenRows="True"
                     BackgroundColor="Transparent"
                     ItemsSource="{Binding Activities}"
+                    IsPullToRefreshEnabled="True"
+                    RefreshCommand="{Binding OnRefresh}"
+                    IsRefreshing="{Binding IsRefreshing}"
                     LoadMoreCommand="{Binding OnLoadMoreCommand}"
                     SeparatorVisibility="None"
                     SelectionMode="None">
