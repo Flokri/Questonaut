@@ -50,8 +50,8 @@
     <Folder Include="SharedImages\" />
     <Folder Include="Helper\" />
     <Folder Include="Effects\" />
-    <Folder Include="views\StudyScreensViews\" />
-    <Folder Include="viewmodels\StudyScreensViewModels\" />
+    <Folder Include="Views\StudyScreensViews\" />
+    <Folder Include="ViewModels\StudyScreensViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="SharedImages\defaultUserImage.png" />
@@ -76,7 +76,7 @@
     <Compile Remove="Shiny\Delegates\ShinyDelegates.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="views\StudyDetailView.xaml.cs">
+    <Compile Update="Views\StudyDetailView.xaml.cs">
       <DependentUpon>StudyDetailView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>

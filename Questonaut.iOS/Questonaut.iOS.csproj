@@ -81,6 +81,7 @@
     <Compile Include="CustomRenderer\CustomViewCellRenderer.cs" />
     <Compile Include="Effects\DropShadowEffect.cs" />
     <Compile Include="DependencyServices\SetStatusBar.cs" />
+    <Compile Include="DependencyServices\NotificationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
