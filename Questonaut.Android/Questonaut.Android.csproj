@@ -108,21 +108,6 @@
     <PackageReference Include="Xamarin.Forms.PancakeView">
       <Version>1.1.5</Version>
     </PackageReference>
-    <PackageReference Include="Shiny.Core">
-      <Version>1.0.0.306-beta</Version>
-    </PackageReference>
-    <PackageReference Include="Shiny.Notifications">
-      <Version>1.0.0.306-beta</Version>
-    </PackageReference>
-    <PackageReference Include="Shiny.Locations">
-      <Version>1.0.0.306-beta</Version>
-    </PackageReference>
-    <PackageReference Include="Shiny.Sensors">
-      <Version>1.0.0.306-beta</Version>
-    </PackageReference>
-    <PackageReference Include="ReactiveUI.XamForms">
-      <Version>10.0.1-preview.6</Version>
-    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
@@ -135,7 +120,6 @@
     <Compile Include="CustomRenderer\CustomViewCellRenderer.cs" />
     <Compile Include="Effects\DropShadowEffect.cs" />
     <Compile Include="DependencyServices\SetStatusBar.cs" />
-    <Compile Include="QuestonautApplication.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

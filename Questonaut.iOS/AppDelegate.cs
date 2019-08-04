@@ -4,10 +4,7 @@ using Foundation;
 using PanCardView.iOS;
 using Prism;
 using Prism.Ioc;
-using Shiny;
-using Shiny.Jobs;
 using UIKit;
-using Questonaut.ShinyConfig.SetUp;
 
 namespace Questonaut.iOS
 {
@@ -26,9 +23,6 @@ namespace Questonaut.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-            // this needs to be loaded before EVERYTHING
-            iOSShinyHost.Init(new ShinyStartupClass());
-
             global::Xamarin.Forms.Forms.SetFlags("CollectionView_Experimental");
             global::Xamarin.Forms.Forms.Init();
 
@@ -48,9 +42,6 @@ namespace Questonaut.iOS
 
             return base.FinishedLaunching(app, options);
         }
-
-        public override void PerformFetch(UIApplication application, Action<UIBackgroundFetchResult> completionHandler)
-            => JobManager.OnBackgroundFetch(completionHandler);
 
         public class iOSInitializer : IPlatformInitializer
         {

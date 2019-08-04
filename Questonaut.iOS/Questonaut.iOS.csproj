@@ -163,24 +163,6 @@
     <PackageReference Include="Xamarin.Forms.PancakeView">
       <Version>1.0.25-beta</Version>
     </PackageReference>
-    <PackageReference Include="Shiny.Core">
-      <Version>1.0.0.306-beta</Version>
-    </PackageReference>
-    <PackageReference Include="Shiny.Sensors">
-      <Version>1.0.0.306-beta</Version>
-    </PackageReference>
-    <PackageReference Include="Shiny.Locations">
-      <Version>1.0.0.306-beta</Version>
-    </PackageReference>
-    <PackageReference Include="Shiny.Notifications">
-      <Version>1.0.0.306-beta</Version>
-    </PackageReference>
-    <PackageReference Include="ReactiveUI.XamForms">
-      <Version>10.0.1-preview.6</Version>
-    </PackageReference>
-    <PackageReference Include="SkiaSharp.Views.Forms">
-      <Version>1.68.0</Version>
-    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>

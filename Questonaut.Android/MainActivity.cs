@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 using System.IO;
 using Plugin.CurrentActivity;
 using PanCardView.Droid;
-using Shiny;
 using FFImageLoading.Forms.Platform;
+using Plugin.Permissions;
 
 namespace Questonaut.Droid
 {
@@ -60,7 +60,7 @@ namespace Questonaut.Droid
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
-            AndroidShinyHost.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 

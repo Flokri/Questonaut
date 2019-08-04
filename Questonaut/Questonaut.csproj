@@ -34,13 +34,6 @@
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
     <PackageReference Include="akavache" Version="6.5.9" />
     <PackageReference Include="Xamarin.Forms.PancakeView" Version="1.0.25-beta" />
-    <PackageReference Include="Shiny.Core" Version="1.0.0.306-beta" />
-    <PackageReference Include="Shiny.Notifications" Version="1.0.0.306-beta" />
-    <PackageReference Include="Shiny.Locations" Version="1.0.0.306-beta" />
-    <PackageReference Include="Shiny.Sensors" Version="1.0.0.306-beta" />
-    <PackageReference Include="ReactiveUI.XamForms" Version="10.0.1-preview.6" />
-    <PackageReference Include="ReactiveUI.Fody" Version="10.0.1-preview.6" />
-    <PackageReference Include="SkiaSharp.Views.Forms" Version="1.68.0" />
     <PackageReference Include="LiveXAML" Version="2.1.72" />
   </ItemGroup>
   <ItemGroup>
@@ -59,10 +52,6 @@
     <Folder Include="Effects\" />
     <Folder Include="views\StudyScreensViews\" />
     <Folder Include="viewmodels\StudyScreensViewModels\" />
-    <Folder Include="Messages\" />
-    <Folder Include="ShinyConfig\" />
-    <Folder Include="ShinyConfig\SetUp\" />
-    <Folder Include="ShinyConfig\Delegates\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="SharedImages\defaultUserImage.png" />
