@@ -114,6 +114,15 @@
     <PackageReference Include="SQLite.Net-PCL">
       <Version>3.1.1</Version>
     </PackageReference>
+    <PackageReference Include="Shiny.Core">
+      <Version>1.0.0.306-beta</Version>
+    </PackageReference>
+    <PackageReference Include="Shiny.Notifications">
+      <Version>1.0.0.306-beta</Version>
+    </PackageReference>
+    <PackageReference Include="Shiny.Sensors">
+      <Version>1.0.0.306-beta</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
@@ -127,6 +136,7 @@
     <Compile Include="Effects\DropShadowEffect.cs" />
     <Compile Include="DependencyServices\SetStatusBar.cs" />
     <Compile Include="DependencyServices\SQLiteService.cs" />
+    <Compile Include="MainApplication.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

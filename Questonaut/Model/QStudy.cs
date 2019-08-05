@@ -4,6 +4,8 @@ using Newtonsoft.Json;
 using Plugin.CloudFirestore;
 using Plugin.CloudFirestore.Attributes;
 using Prism.Commands;
+using Unity.ResolverPolicy;
+using Xamarin.Forms;
 
 namespace Questonaut.Model
 {
@@ -33,8 +35,13 @@ namespace Questonaut.Model
         /// <summary>
         /// Alle the user elements that contains in this study.
         /// </summary>
-        [JsonIgnore]
-        public List<IDocumentReference> Container { get; set; }
+        public List<string> Container { get; set; }
+
+        /// <summary>
+        /// Elements that represents the study controls
+        /// </summary>
+        [Ignored]
+        public List<QElement> Elements { get; set; }
 
         /// <summary>
         /// The end date of this study.

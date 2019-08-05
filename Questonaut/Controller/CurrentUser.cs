@@ -173,6 +173,18 @@ namespace Questonaut.Controller
                             });
                         }
 
+                        var elementsDoc = await CrossCloudFirestore.Current
+                        .Instance
+                        .GetCollection(QStudy.CollectionPath + "/" + temp.Id + "/" + QElement.CollectionPath)
+                        .GetDocumentsAsync();
+
+                        IEnumerable<QElement> elements = elementsDoc.ToObjects<QElement>();
+
+                        if (elements.Count() > 0)
+                        {
+                            temp.Elements = new List<QElement>(elements.ToList());
+                        }
+
                         _user.ActiveStudiesObjects.Add(temp);
                     }
                 }
@@ -182,7 +194,7 @@ namespace Questonaut.Controller
                 if (userChanged)
                 {
                     _user.ActiveStudies = _user.ActiveStudies.Except(toDelete).ToList();
-                    Update("ActiveStudies", _user.ActiveStudies);
+                    Update("AciveStudies", _user.ActiveStudies);
                 }
             }
             catch (Exception e)

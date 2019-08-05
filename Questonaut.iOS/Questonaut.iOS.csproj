@@ -171,6 +171,18 @@
     <PackageReference Include="SQLite.Net-PCL">
       <Version>3.1.1</Version>
     </PackageReference>
+    <PackageReference Include="System.Reactive.PlatformServices">
+      <Version>4.1.5</Version>
+    </PackageReference>
+    <PackageReference Include="Shiny.Notifications">
+      <Version>1.0.0.306-beta</Version>
+    </PackageReference>
+    <PackageReference Include="Shiny.Core">
+      <Version>1.0.0.306-beta</Version>
+    </PackageReference>
+    <PackageReference Include="Shiny.Sensors">
+      <Version>1.0.0.306-beta</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>

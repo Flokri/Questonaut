@@ -63,6 +63,11 @@ namespace Questonaut.Helper
 
             return false;
         }
+        public int GetElementCountForToday(string elementId)
+        {
+            var data = _sqLiteConnection.Table<QActivity>();
+            return data.Where(x => x.ElementId.Equals(elementId) && x.Date == DateTime.Today).Count();
+        }
         #endregion
     }
 }

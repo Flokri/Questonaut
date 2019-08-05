@@ -8,18 +8,18 @@ using Questonaut.Views;
 using Questonaut.ViewModels;
 using System;
 using Questonaut.Helpers;
-using Xamarin.Forms;
 using Questonaut.Settings;
-using Questonaut.Controller;
-using Newtonsoft.Json;
-using Plugin.CloudFirestore;
-using Questonaut.DependencyServices;
 using Akavache;
 using Questonaut.views;
 using Questonaut.viewmodels;
 using Prism.Navigation;
 using Questonaut.views.StudyScreensViews;
 using Questonaut.viewmodels.StudyScreensViewModels;
+using Questonaut.Model;
+using Shiny.Jobs;
+using Xamarin.Forms;
+using Questonaut.Helper;
+using Shiny;
 
 namespace Questonaut
 {
@@ -68,7 +68,6 @@ namespace Questonaut
                   "uwp={1};" +
                   "ios={2}", Secrets.AppCenter_Android_Secret, "Enter the AppCenter UWP Secret", Secrets.AppCenter_iOS_Secret),
                   typeof(Analytics), typeof(Crashes));
-
         }
 
         protected override void OnSleep()
@@ -79,7 +78,7 @@ namespace Questonaut
 
         protected override void OnResume()
         {
-            // Handle when your app resumes
+            // Handle when your app resume       
         }
 
         public INavigationService GetNavigationService() => this.NavigationService;

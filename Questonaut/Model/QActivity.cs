@@ -12,6 +12,11 @@ namespace Questonaut.Model
         public int ID { get; set; }
 
         /// <summary>
+        /// The id of the study
+        /// </summary>
+        public string ElementId { get; set; }
+
+        /// <summary>
         /// The name of the activity.
         /// </summary>
         public string Name { get; set; }
@@ -30,5 +35,20 @@ namespace Questonaut.Model
         /// The status of the activity
         /// </summary>
         public string Status { get; set; }
+
+        /// <summary>
+        /// The link to the element in firebase.
+        /// </summary>
+        public string Link { get; set; }
+
+        /// <summary>
+        /// The type of the activity.
+        /// </summary>
+        public string Type { get; set; }
+
+        /// <summary>
+        /// The answer to the specific question.
+        /// </summary>
+        public string Answer { get; set; }
     }
 }
