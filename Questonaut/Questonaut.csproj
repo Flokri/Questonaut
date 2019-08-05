@@ -1,0 +1,95 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+    <ReleaseVersion>0.2</ReleaseVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Xamarin.Forms" Version="4.1.0.483098-pre1" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.1.0" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="2.1.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
+    <PackageReference Include="Prism.Unity.Forms" Version="7.1.0.431" />
+    <PackageReference Include="Mobile.BuildTools" Version="1.4.0.638">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Xam.Plugins.Settings" Version="4.1.0-beta" />
+    <PackageReference Include="Plugin.CloudFirestore" Version="2.0.0-pre1" />
+    <PackageReference Include="Xam.Plugins.Forms.ImageCircle" Version="3.1.1.1-beta" />
+    <PackageReference Include="FirebaseStorage.net" Version="1.0.3" />
+    <PackageReference Include="Xam.Plugin.Media" Version="4.3.1-beta" />
+    <PackageReference Include="Plugin.Permissions" Version="5.0.0-beta" />
+    <PackageReference Include="CardsView" Version="2.1.6" />
+    <PackageReference Include="Xamarin.FFImageLoading" Version="2.4.11.982" />
+    <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
+    <PackageReference Include="akavache" Version="6.5.9" />
+    <PackageReference Include="Xamarin.Forms.PancakeView" Version="1.0.25-beta" />
+    <PackageReference Include="LiveXAML" Version="2.1.72" />
+    <PackageReference Include="Xam.Plugins.Notifier" Version="3.0.1" />
+    <PackageReference Include="SQLite.Net-PCL" Version="3.1.1" />
+    <PackageReference Include="Shiny.Notifications" Version="1.0.0.306-beta" />
+    <PackageReference Include="Shiny.Core" Version="1.0.0.306-beta" />
+    <PackageReference Include="Shiny.Sensors" Version="1.0.0.306-beta" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\" />
+    <Folder Include="ViewModels\" />
+    <Folder Include="DependencyServices\" />
+    <Folder Include="Converters\" />
+    <Folder Include="Behaviors\" />
+    <Folder Include="Validators\" />
+    <Folder Include="Settings\" />
+    <Folder Include="Model\" />
+    <Folder Include="Controller\" />
+    <Folder Include="Controls\" />
+    <Folder Include="SharedImages\" />
+    <Folder Include="Helper\" />
+    <Folder Include="Effects\" />
+    <Folder Include="Views\StudyScreensViews\" />
+    <Folder Include="ViewModels\StudyScreensViewModels\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="SharedImages\defaultUserImage.png" />
+    <None Remove="SharedImages\qeustonaut_intro.png" />
+    <None Remove="SharedImages\survey.png" />
+    <None Remove="SharedImages\health.png" />
+    <None Remove="SharedImages\location.png" />
+    <None Remove="SharedImages\activity.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SharedImages\defaultUserImage.png" />
+    <EmbeddedResource Include="SharedImages\qeustonaut_intro.png" />
+    <EmbeddedResource Include="SharedImages\survey.png" />
+    <EmbeddedResource Include="SharedImages\health.png" />
+    <EmbeddedResource Include="SharedImages\location.png" />
+    <EmbeddedResource Include="SharedImages\activity.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="DependencyServices\IPicturePicker.cs" />
+    <Compile Remove="DependencyServices\IHealthService.cs" />
+    <Compile Remove="Shiny\SetUp\StartUp.cs" />
+    <Compile Remove="Shiny\Delegates\ShinyDelegates.cs" />
+    <Compile Remove="Model\QJob.cs" />
+    <Compile Remove="Helper\SqlliteConnection.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Views\StudyDetailView.xaml.cs">
+      <DependentUpon>StudyDetailView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Firebase.Rest.Auth">
+      <HintPath>Frameworks\Firebase.Rest.Auth.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

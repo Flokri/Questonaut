@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<prism:PrismApplication xmlns="http://xamarin.com/schemas/2014/forms"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                        xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                        xmlns:prism="clr-namespace:Prism.Unity;assembly=Prism.Unity.Forms"
+                        mc:Ignorable="d"
+                        x:Class="Questonaut.App">
+    <prism:PrismApplication.Resources>
+        <ResourceDictionary>
+            <!--App colors-->
+
+
+            <Style x:Key="iconStyle"
+                   TargetType="Image">
+                <Setter Property="HeightRequest"
+                        Value="18" />
+                <Setter Property="WidthRequest"
+                        Value="18" />
+                <Setter Property="HorizontalOptions"
+                        Value="Center" />
+                <Setter Property="VerticalOptions"
+                        Value="Center" />
+            </Style>
+        </ResourceDictionary>
+    </prism:PrismApplication.Resources>
+</prism:PrismApplication>

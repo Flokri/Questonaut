@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:controls="clr-namespace:Questonaut.Controls"
+             xmlns:converters="clr-namespace:Questonaut.Converters"
+             x:Class="Questonaut.Views.MainView"
+             BackgroundColor="#42506B">
+
+    <ContentPage.Resources>
+        <Color x:Key="DarkBlue">#42506B</Color>
+        <Color x:Key="LightGreen">#52BF8B</Color>
+        <Color x:Key="Red">#EF4B4C</Color>
+        <converters:TimeAgoConverter x:Key="TimeAgoConverter" />
+        <converters:ActivityImageConverter x:Key="ActivityImageConverter" />
+        <converters:StatusConverter x:Key="StatusConverter" />
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <StackLayout Orientation="Horizontal"
+                         Grid.Row="0">
+                <Label TextColor="White"
+                       FontSize="28"
+                       HorizontalOptions="Start"
+                       Text="{Binding Header}">
+                    <Label.Margin>
+                        <OnPlatform x:TypeArguments="Thickness">
+                            <On Platform="iOS"
+                                Value="15,55,0,0" />
+                            <On Platform="Android"
+                                Value="15,20,0,0" />
+                        </OnPlatform>
+                    </Label.Margin>
+                </Label>
+                <Button Text="Logout"
+                        TextColor="White"
+                        BackgroundColor="Transparent"
+                        Command="{Binding OnLogout}"
+                        HorizontalOptions="EndAndExpand"
+                        VerticalOptions="Center">
+                    <Button.Margin>
+                        <OnPlatform x:TypeArguments="Thickness">
+                            <On Platform="iOS"
+                                Value="15,55,15,0" />
+                            <On Platform="Android"
+                                Value="15,15,15,0" />
+                        </OnPlatform>
+                    </Button.Margin>
+                </Button>
+            </StackLayout>
+
+            <StackLayout Orientation="Vertical"
+                         Grid.Row="1"
+                         Margin="0,-10,0,0"
+                         VerticalOptions="Start">
+                <Label Text="your studies"
+                       FontSize="Medium"
+                       TextColor="White"
+                       Margin="20,0,0,0">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1"
+                                              Command="{Binding AddUser}" />
+                    </Label.GestureRecognizers>
+                </Label>
+
+                <CollectionView ItemsSource="{Binding Studies}"
+                                ItemSizingStrategy="MeasureAllItems"
+                                HeightRequest="110">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Horizontal"
+                                         Span="1" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Padding="2,0"
+                                         Grid.Column="0">
+                                <Frame x:Name="frame"
+                                       HeightRequest="50"
+                                       CornerRadius="10"
+                                       HasShadow="False"
+                                       BackgroundColor="White"
+                                       Margin="5,10">
+                                    <StackLayout Spacing="0"
+                                                 Margin="12"
+                                                 VerticalOptions="Center"
+                                                 HorizontalOptions="Center">
+                                        <Label Grid.Column="1"
+                                               Text="{Binding Title}"
+                                               FontAttributes="Bold"
+                                               LineBreakMode="TailTruncation">
+                                            <Label.Triggers>
+                                                <MultiTrigger TargetType="Label">
+                                                    <MultiTrigger.Conditions>
+                                                        <BindingCondition Binding="{Binding Title}"
+                                                                          Value="Add" />
+                                                        <BindingCondition Binding="{Binding Team}"
+                                                                          Value="System" />
+                                                    </MultiTrigger.Conditions>
+                                                    <Setter Property="TextColor"
+                                                            Value="White" />
+                                                    <Setter Property="Text"
+                                                            Value="+" />
+                                                    <Setter Property="FontSize"
+                                                            Value="33" />
+                                                    <Setter Property="Margin"
+                                                            Value="0,-8,0,0" />
+                                                </MultiTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                    </StackLayout>
+
+                                    <Frame.Triggers>
+                                        <MultiTrigger TargetType="Frame">
+                                            <MultiTrigger.Conditions>
+                                                <BindingCondition Binding="{Binding Title}"
+                                                                  Value="Add" />
+                                                <BindingCondition Binding="{Binding Team}"
+                                                                  Value="System" />
+                                            </MultiTrigger.Conditions>
+                                            <Setter Property="BackgroundColor"
+                                                    Value="{StaticResource LightGreen}" />
+                                        </MultiTrigger>
+                                    </Frame.Triggers>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Command}"
+                                            Tapped="Handle_Tapped_Visual"
+                                            NumberOfTapsRequired="1" />
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </StackLayout>
+
+            <Label Text="Recent Activities"
+                   TextColor="White"
+                   FontSize="Large"
+                   Margin="15,5,0,20"
+                   Grid.Row="2" />
+
+            <AbsoluteLayout Grid.Row="3"
+                            Margin="0,-20,0,0">
+                <controls:ExtendedListView
+                    x:Name="timeline"
+                    AbsoluteLayout.LayoutBounds="0,0,1,1"
+                    AbsoluteLayout.LayoutFlags="All"
+                    Footer=""
+                    VerticalOptions="FillAndExpand"
+                    HasUnevenRows="True"
+                    BackgroundColor="Transparent"
+                    ItemsSource="{Binding Activities}"
+                    IsPullToRefreshEnabled="True"
+                    RefreshCommand="{Binding OnRefresh}"
+                    IsRefreshing="{Binding IsRefreshing}"
+                    LoadMoreCommand="{Binding OnLoadMoreCommand}"
+                    SeparatorVisibility="None"
+                    TappedCommand="{Binding OnItemTapped}"
+                    SelectedItem="{Binding SelectedItem}">
+                    <controls:ExtendedListView.ItemTemplate>
+                        <DataTemplate>
+                            <controls:CustomViewCell x:Name="cello"
+                                                     AllowHighlight="false">
+                                <ContentView>
+                                    <Grid ColumnSpacing="30"
+                                          RowSpacing="0">
+                                        <Grid.Margin>
+                                            <OnPlatform x:TypeArguments="Thickness">
+                                                <On Platform="iOS"
+                                                    Value="45,8,15,0" />
+                                                <On Platform="Android"
+                                                    Value="45,8,15,0" />
+                                            </OnPlatform>
+                                        </Grid.Margin>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <StackLayout Orientation="Vertical"
+                                                     Grid.Column="0">
+                                            <BoxView WidthRequest="10"
+                                                     HeightRequest="10"
+                                                     CornerRadius="5"
+                                                     HorizontalOptions="Center"
+                                                     BackgroundColor="{Binding Status, Converter={StaticResource StatusConverter}}" />
+                                            <BoxView HeightRequest="100"
+                                                     WidthRequest="2.5"
+                                                     BackgroundColor="{Binding Status, Converter={StaticResource StatusConverter}}"
+                                                     HorizontalOptions="Center"
+                                                     Margin="2.5,-3" />
+
+                                        </StackLayout>
+                                        <StackLayout Orientation="Vertical"
+                                                     Grid.Column="1">
+                                            <Label FontAttributes="Bold"
+                                                   FontSize="Caption"
+                                                   Text="{Binding Date, StringFormat='{0: dd.MM}'}"
+                                                   TextColor="White"
+                                                   Margin="-3,0" />
+                                            <Label FontAttributes="Bold"
+                                                   FontSize="Medium"
+                                                   Text="{Binding Name}"
+                                                   TextColor="White" />
+                                            <Label FontSize="Caption"
+                                                   Text="{Binding Description}"
+                                                   TextColor="White" />
+                                            <Label Text="{Binding Date, Converter={StaticResource TimeAgoConverter}}"
+                                                   TextColor="White" />
+                                        </StackLayout>
+                                    </Grid>
+                                </ContentView>
+                            </controls:CustomViewCell>
+                        </DataTemplate>
+                    </controls:ExtendedListView.ItemTemplate>
+                </controls:ExtendedListView>
+            </AbsoluteLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

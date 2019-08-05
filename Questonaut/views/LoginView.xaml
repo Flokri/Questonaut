@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:Questonaut.Converters"
+    xmlns:Behaviors="clr-namespace:Questonaut.Behaviors"
+    xmlns:Validators="clr-namespace:Questonaut.Validators"
+    x:Class="Questonaut.Views.LoginView"
+    NavigationPage.HasNavigationBar="False">
+
+    <ContentPage.Resources>
+        <Color x:Key="DarkBlue">#42506B</Color>
+        <converters:ScreenSizeToRelativeSizeConverter x:Key="SizeToRelativeSizeConverter" />
+        <x:Double x:Key="sizeFactor">0.16</x:Double>
+        <x:Double x:Key="fontSizeFactor">0.045</x:Double>
+        <x:Double x:Key="entryFontSizeFactor">0.02</x:Double>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <AbsoluteLayout Padding="0"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand">
+
+            <BoxView Color="{StaticResource DarkBlue}"
+                     AbsoluteLayout.LayoutBounds="0, 0, 1, 0.5"
+                     AbsoluteLayout.LayoutFlags="All">
+            </BoxView>
+
+            <Grid AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                  AbsoluteLayout.LayoutFlags="All"
+                  Margin="0,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.25*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="2.5*" />
+                </Grid.RowDefinitions>
+
+                <Image Grid.Row="1"
+                       Aspect="AspectFit"
+                       HorizontalOptions="Center"
+                       HeightRequest="{Binding Converter={StaticResource SizeToRelativeSizeConverter},ConverterParameter={StaticResource sizeFactor}}"
+                       VerticalOptions="Center">
+                    <Image.Source>
+                        <OnPlatform x:TypeArguments="ImageSource"
+                                    iOS="Questonaut"
+                                    Android="Questonaut" />
+                    </Image.Source>
+                </Image>
+            </Grid>
+
+            <StackLayout Orientation="Vertical"
+                         Grid.Row="1"
+                         AbsoluteLayout.LayoutFlags="PositionProportional"
+                         AbsoluteLayout.LayoutBounds="0.5, 0.5, -1, -1">
+
+                <Grid Margin="60,0,60,0"
+                      HorizontalOptions="CenterAndExpand">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackLayout Orientation="Horizontal"
+                                 HorizontalOptions="CenterAndExpand"
+                                 Grid.Column="1">
+                        <Button Grid.Column="1"
+                                Text="Login"
+                                Padding="0,0,10,0"
+                                TextColor="White"
+                                Opacity="{Binding LoginButtonOp}"
+                                FontSize="{Binding ButtonFontSize}"
+                                BackgroundColor="Transparent"
+                                Command="{Binding OnLoginClickedCommand}">
+                            <Button.Padding>
+                                <OnPlatform x:TypeArguments="Thickness"
+                                            Android="0, 0, -5, 0"
+                                            iOS="0, 0, 15, 0" />
+                            </Button.Padding>
+                        </Button>
+                        <Button Grid.Column="1"
+                                Text="Signup"
+                                TextColor="White"
+                                Opacity="{Binding SignupButtonOp}"
+                                FontSize="{Binding ButtonFontSize}"
+                                BackgroundColor="Transparent"
+                                Command="{Binding OnSignupClickedCommand}">
+                        </Button>
+                    </StackLayout>
+                </Grid>
+
+                <Frame Padding="12"
+                       Margin="40,-7,40,0"
+                       BorderColor="White"
+                       HasShadow="true"
+                       BackgroundColor="White"
+                       CornerRadius="15">
+                    <StackLayout Orientation="Vertical"
+                                 Margin="0,3,3,0"
+                                 Spacing="10">
+                        <Entry WidthRequest="250"
+                               Placeholder="Email"
+                               Keyboard="Email"
+                               Text="{Binding Email}">
+                            <Entry.FontSize>
+                                <OnPlatform x:TypeArguments="x:Double"
+                                            Android="14"
+                                            iOS="16" />
+                            </Entry.FontSize>
+                        </Entry>
+                        <Entry x:Name="PasswordEntry"
+                               WidthRequest="250"
+                               Placeholder="Password"
+                               IsPassword="true"
+                               Text="{Binding Password}">
+                            <Entry.FontSize>
+                                <OnPlatform x:TypeArguments="x:Double"
+                                            Android="14"
+                                            iOS="16" />
+                            </Entry.FontSize>
+                        </Entry>
+                        <Entry WidthRequest="250"
+                               Placeholder="Retype Password"
+                               IsPassword="true"
+                               IsVisible="{Binding Register}">
+                            <Entry.FontSize>
+                                <OnPlatform x:TypeArguments="x:Double"
+                                            Android="14"
+                                            iOS="16" />
+                            </Entry.FontSize>
+                            <Entry.Behaviors>
+                                <Behaviors:ValidationBehavior PropertyName="Text">
+                                    <Behaviors:ValidationBehavior.Validators>
+                                        <Validators:RequiredValidator />
+                                        <Validators:PasswordValidator
+                                            Message="The passwords does not match"
+                                            PasswordValidation="{Binding Source={x:Reference PasswordEntry},
+                                                                         Path=Text}" />
+                                    </Behaviors:ValidationBehavior.Validators>
+                                </Behaviors:ValidationBehavior>
+                            </Entry.Behaviors>
+                        </Entry>
+                    </StackLayout>
+                </Frame>
+
+                <Grid Margin="60,8,60,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="2"
+                           Text="Forgot Password?"
+                           TextColor="{StaticResource DarkBlue}"
+                           Opacity="1"
+                           FontSize="16"
+                           TextDecorations="Underline">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding TappedForgotPassword}"
+                                NumberOfTapsRequired="1" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Grid>
+            </StackLayout>
+
+            <Button Text="{Binding Action}"
+                    BackgroundColor="{StaticResource DarkBlue}"
+                    TextColor="White"
+                    WidthRequest="150"
+                    FontSize="18"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    AbsoluteLayout.LayoutBounds="0.5,0.9,-1,-1"
+                    Margin="15,0"
+                    Command="{Binding OnActionClickedCommand}" />
+
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>
