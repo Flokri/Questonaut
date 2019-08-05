@@ -59,6 +59,7 @@
                                    Margin="15,10" />
                             <Editor Placeholder="Enter your answer"
                                     AutoSize="TextChanges"
+                                    Text="{Binding Answer}"
                                     Margin="15,5" />
                         </StackLayout>
                     </pancake:PancakeView>

@@ -33,7 +33,7 @@ namespace Questonaut.Helper
                             .GetDocumentAsync();
                         QContext context = contextDoc.ToObject<QContext>();
 
-                        if (CheckContextForElement(context) && db.GetElementCountForToday(element.ID) <= element.RepeatPerDay)
+                        if (CheckContextForElement(context) && db.GetElementCountForToday(element.ID) < element.RepeatPerDay)
                         {
                             db.AddActivity(
                                 new QActivity

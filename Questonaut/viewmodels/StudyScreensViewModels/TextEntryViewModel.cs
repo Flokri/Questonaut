@@ -8,6 +8,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
+using Questonaut.Helper;
 using Questonaut.Model;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
@@ -20,6 +21,8 @@ namespace Questonaut.viewmodels.StudyScreensViewModels
         private string _answer = "";
         private string _title = "";
         private string _text = "";
+
+        private int _activityId;
 
         private QQuestion _question;
         #endregion
@@ -48,11 +51,23 @@ namespace Questonaut.viewmodels.StudyScreensViewModels
         #region private methods
         private async void Save()
         {
-            Device.BeginInvokeOnMainThread(async () =>
+            if (!Answer.Equals(""))
             {
-                //change to the intro view
-                await _navigationService.GoBackAsync();
-            });
+                new ActivityDB().SetActivityAsAnswered(Answer, _activityId);
+
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    //change to the intro view
+                    await _navigationService.GoBackAsync();
+                });
+            }
+            else
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await _pageDialogservice.DisplayAlertAsync("Something is missing", "Please provide all informations to submit this question", "Cancel");
+                });
+            }
         }
         #endregion
 
@@ -65,9 +80,12 @@ namespace Questonaut.viewmodels.StudyScreensViewModels
         public void OnNavigatedTo(INavigationParameters parameters)
         {
             //get the parameter
-            Question = parameters["activity"] as QQuestion;
+            Question = parameters["question"] as QQuestion;
             Title = Question?.Title;
             Text = Question?.Body;
+
+            //get the activity id
+            _activityId = (parameters["activity"] as QActivity).ID;
         }
         #endregion
 

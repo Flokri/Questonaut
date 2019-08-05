@@ -128,6 +128,13 @@ namespace Questonaut.ViewModels
                 {
                     LoadElementAndNavigateAsync();
                 }
+                else
+                {
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await _pageDialogservice.DisplayAlertAsync("Already Answered", "You've already answered this question ✔", "Ok");
+                    });
+                }
             }
         }
 
@@ -154,10 +161,11 @@ namespace Questonaut.ViewModels
 
                             var navigationParams = new NavigationParameters();
                             navigationParams.Add("question", question);
+                            navigationParams.Add("activity", SelectedItem);
 
                             Device.BeginInvokeOnMainThread(async () =>
                             {
-                                await _navigationService.NavigateAsync("TextEntryView", navigationParams);
+                                await _navigationService.NavigateAsync("TextEntryView", navigationParams, null, false);
                             });
                             break;
                         case "Slider":
