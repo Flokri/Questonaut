@@ -1,11 +1,16 @@
 ﻿using System;
+using System.ComponentModel.Design;
 using System.Globalization;
 using System.Threading.Tasks;
+using Microsoft.AppCenter.Crashes;
+using Plugin.CloudFirestore;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
+using Questonaut.Model;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 
 namespace Questonaut.viewmodels.StudyScreensViewModels
 {
@@ -15,6 +20,8 @@ namespace Questonaut.viewmodels.StudyScreensViewModels
         private string _answer = "";
         private string _title = "";
         private string _text = "";
+
+        private QQuestion _question;
         #endregion
 
         #region dependency injection
@@ -58,8 +65,9 @@ namespace Questonaut.viewmodels.StudyScreensViewModels
         public void OnNavigatedTo(INavigationParameters parameters)
         {
             //get the parameter
-            Title = parameters["title"] as string;
-            Text = parameters["text"] as string;
+            Question = parameters["activity"] as QQuestion;
+            Title = Question?.Title;
+            Text = Question?.Body;
         }
         #endregion
 
@@ -89,6 +97,15 @@ namespace Questonaut.viewmodels.StudyScreensViewModels
         {
             get => _answer;
             set => SetProperty(ref _answer, value);
+        }
+
+        /// <summary>
+        /// The current question.
+        /// </summary>
+        private QQuestion Question
+        {
+            get => _question;
+            set => SetProperty(ref _question, value);
         }
         #endregion
     }

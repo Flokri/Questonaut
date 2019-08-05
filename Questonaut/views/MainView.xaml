@@ -165,7 +165,8 @@
                     IsRefreshing="{Binding IsRefreshing}"
                     LoadMoreCommand="{Binding OnLoadMoreCommand}"
                     SeparatorVisibility="None"
-                    SelectionMode="None">
+                    TappedCommand="{Binding OnItemTapped}"
+                    SelectedItem="{Binding SelectedItem}">
                     <controls:ExtendedListView.ItemTemplate>
                         <DataTemplate>
                             <controls:CustomViewCell x:Name="cello"

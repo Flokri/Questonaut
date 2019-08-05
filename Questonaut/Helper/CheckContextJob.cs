@@ -11,16 +11,15 @@ namespace Questonaut.Helper
     public class CheckContextJob : Shiny.Jobs.IJob
     {
         private readonly CoreDelegateServices dependency;
-        private readonly ActivityDB activityDB;
 
         public CheckContextJob(CoreDelegateServices dependency)
         {
             this.dependency = dependency;
-            activityDB = new ActivityDB();
         }
 
         public async Task<bool> Run(JobInfo jobInfo, CancellationToken cancelToken)
         {
+            var db = new ActivityDB();
             foreach (QStudy study in CurrentUser.Instance.User.ActiveStudiesObjects)
             {
                 if (study.Elements != null)
@@ -34,9 +33,9 @@ namespace Questonaut.Helper
                             .GetDocumentAsync();
                         QContext context = contextDoc.ToObject<QContext>();
 
-                        if (CheckContextForElement(context) && activityDB.GetElementCountForToday(element.ID) <= element.RepeatPerDay)
+                        if (CheckContextForElement(context) && db.GetElementCountForToday(element.ID) <= element.RepeatPerDay)
                         {
-                            activityDB.AddActivity(
+                            db.AddActivity(
                                 new QActivity
                                 {
                                     Name = study.Title,
@@ -44,7 +43,7 @@ namespace Questonaut.Helper
                                     Description = element.Description,
                                     ElementId = element.ID,
                                     Status = "open",
-                                    Link = context.ID
+                                    Link = element.LinkToUserElement,
                                 });
 
                             await this.dependency.SendNotification(study.Title, "You're in the right context answer a question. Go ahead 🚀");

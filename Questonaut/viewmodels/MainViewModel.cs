@@ -2,10 +2,12 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Reactive.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Akavache;
 using Microsoft.AppCenter.Crashes;
+using Plugin.CloudFirestore;
 using Plugin.LocalNotifications;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -27,6 +29,8 @@ namespace Questonaut.ViewModels
         private string _id = "";
         private string _header = "";
         private bool _isRefreshing = false;
+
+        private QActivity _selectedItem;
 
         private ObservableCollection<QStudy> _studies = CurrentUser.Instance.User.ActiveStudiesObjects;
 
@@ -53,6 +57,7 @@ namespace Questonaut.ViewModels
         public DelegateCommand OnLogout { get; set; }
         public DelegateCommand AddUser { get; set; }
         public DelegateCommand OnRefresh { get; set; }
+        public DelegateCommand OnItemTapped { get; set; }
         #endregion
 
         public MainViewModel(INavigationService navigationService, IPageDialogService pageDialogService)
@@ -74,6 +79,7 @@ namespace Questonaut.ViewModels
                     Activities.Add(tmp);
                 IsRefreshing = false;
             });
+            OnItemTapped = new DelegateCommand(() => ItemTapped());
 
             //set the header for the user
             _ = GetUserDataAsync();
@@ -112,13 +118,71 @@ namespace Questonaut.ViewModels
 
         #region privateMethods
         /// <summary>
+        /// Get called when the user tapps a activity item.
+        /// </summary>
+        private async void ItemTapped()
+        {
+            if (SelectedItem != null)
+            {
+                if (SelectedItem.Status.Equals("open"))
+                {
+                    LoadElementAndNavigateAsync();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Load the user element from firebase.
+        /// </summary>
+        private async void LoadElementAndNavigateAsync()
+        {
+            var questionDoc = await CrossCloudFirestore.Current
+                                                      .Instance
+                                                      .GetCollection(QBaseQuestion.CollectionPath)
+                                                      .GetDocument(SelectedItem.Link)
+                                                      .GetDocumentAsync();
+            QBaseQuestion baseQuestion = questionDoc.ToObject<QBaseQuestion>();
+
+            try
+            {
+                if (baseQuestion != null && baseQuestion.Type != null)
+                {
+                    switch (baseQuestion.Type)
+                    {
+                        case "TextEntry":
+                            QQuestion question = questionDoc.ToObject<QQuestion>();
+
+                            var navigationParams = new NavigationParameters();
+                            navigationParams.Add("question", question);
+
+                            Device.BeginInvokeOnMainThread(async () =>
+                            {
+                                await _navigationService.NavigateAsync("TextEntryView", navigationParams);
+                            });
+                            break;
+                        case "Slider":
+                            break;
+                        case "MultipleChoice":
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Crashes.TrackError(e);
+            }
+        }
+
+        /// <summary>
         /// Logout the current user and reset the in-memory user data.
         /// </summary>
         private async void Logout()
         {
             //test code
             var test = new ActivityDB();
-            test.AddActivity(new QActivity() { Name = "Question", Date = DateTime.Now, Description = "Answerd a question based on a step context.", Status = "closed" });
+            test.AddActivity(new QActivity() { Name = "Question", Date = DateTime.Now, Description = "Answered a question based on a step context.", Status = "closed" });
             //end test code
 
             //try
@@ -223,6 +287,15 @@ namespace Questonaut.ViewModels
         {
             get => _isRefreshing;
             set => SetProperty(ref _isRefreshing, value);
+        }
+
+        /// <summary>
+        /// The selected item from the list view.
+        /// </summary>
+        public QActivity SelectedItem
+        {
+            get => _selectedItem;
+            set => SetProperty(ref _selectedItem, value);
         }
         #endregion
     }
