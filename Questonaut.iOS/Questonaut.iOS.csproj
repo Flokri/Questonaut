@@ -29,7 +29,7 @@
     <MtouchDebug>true</MtouchDebug>
     <CodesignKey>iPhone Developer: Florian Kriegl (X44R58T3B9)</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <CodesignProvision>VS: WildCard Development</CodesignProvision>
+    <CodesignProvision>VS: com.floriankriegl.Questonaut Development</CodesignProvision>
 <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
@@ -183,11 +183,14 @@
     <PackageReference Include="Shiny.Sensors">
       <Version>1.0.0.306-beta</Version>
     </PackageReference>
+    <PackageReference Include="Plugin.FirebasePushNotification">
+      <Version>2.3.6</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\Questonaut\Questonaut.csproj">
-      <Project>{92893E8B-2233-4041-8787-98D9E33DC64D}</Project>
+      <Project>{BF745D05-C57B-48B2-890E-9824FAC9FB3B}</Project>
       <Name>Questonaut</Name>
     </ProjectReference>
   </ItemGroup>

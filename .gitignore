@@ -160,3 +160,5 @@ FakesAssemblies/
 config.json
 Questonaut.Android/google-services.json
 Questonaut.iOS/GoogleService-Info.plist
+AuthKey_XSGQQ7H4LN.p8
+Questonaut_Profile.mobileprovision

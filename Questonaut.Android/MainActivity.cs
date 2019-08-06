@@ -11,6 +11,7 @@ using PanCardView.Droid;
 using FFImageLoading.Forms.Platform;
 using Plugin.Permissions;
 using Plugin.LocalNotifications;
+using Plugin.FirebasePushNotification;
 
 namespace Questonaut.Droid
 {
@@ -60,6 +61,9 @@ namespace Questonaut.Droid
             CachedImageRenderer.InitImageViewHandler();
 
             LoadApplication(new App(new AndroidInitializer()));
+
+            //intialize the firebase push notification framework
+            FirebasePushNotificationManager.ProcessIntent(this, Intent);
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
