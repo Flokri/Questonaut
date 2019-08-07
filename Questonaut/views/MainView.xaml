@@ -4,6 +4,7 @@
              xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:controls="clr-namespace:Questonaut.Controls"
              xmlns:converters="clr-namespace:Questonaut.Converters"
+             xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
              x:Class="Questonaut.Views.MainView"
              BackgroundColor="#42506B">
 
@@ -151,7 +152,7 @@
 
             <AbsoluteLayout Grid.Row="3"
                             Margin="0,-20,0,0">
-                <controls:ExtendedListView
+                <ListView
                     x:Name="timeline"
                     AbsoluteLayout.LayoutBounds="0,0,1,1"
                     AbsoluteLayout.LayoutFlags="All"
@@ -163,11 +164,13 @@
                     IsPullToRefreshEnabled="True"
                     RefreshCommand="{Binding OnRefresh}"
                     IsRefreshing="{Binding IsRefreshing}"
-                    LoadMoreCommand="{Binding OnLoadMoreCommand}"
                     SeparatorVisibility="None"
-                    TappedCommand="{Binding OnItemTapped}"
                     SelectedItem="{Binding SelectedItem}">
-                    <controls:ExtendedListView.ItemTemplate>
+                    <ListView.Behaviors>
+                        <b:EventToCommandBehavior EventName="ItemTapped"
+                                                  Command="{Binding OnItemTapped}" />
+                    </ListView.Behaviors>
+                    <ListView.ItemTemplate>
                         <DataTemplate>
                             <controls:CustomViewCell x:Name="cello"
                                                      AllowHighlight="false">
@@ -221,8 +224,8 @@
                                 </ContentView>
                             </controls:CustomViewCell>
                         </DataTemplate>
-                    </controls:ExtendedListView.ItemTemplate>
-                </controls:ExtendedListView>
+                    </ListView.ItemTemplate>
+                </ListView>
             </AbsoluteLayout>
         </Grid>
     </ContentPage.Content>

@@ -27,14 +27,14 @@
                         <On Platform="iOS"
                             Value="15,45,0,-10" />
                         <On Platform="Android"
-                            Value="-10,20,0,-10" />
+                            Value="15,20,0,-10" />
                     </OnPlatform>
                 </StackLayout.Margin>
                 <Label Text="{Binding Title}"
                        TextColor="white">
                     <Label.FontSize>
                         <OnPlatform x:TypeArguments="x:Double"
-                                    Android="30"
+                                    Android="28"
                                     iOS="35" />
                     </Label.FontSize>
                 </Label>
@@ -56,7 +56,13 @@
                             <Label Text="Answer"
                                    TextColor="{StaticResource DarkBlue}"
                                    FontSize="Header"
-                                   Margin="15,10" />
+                                   Margin="15,10">
+                                <Label.FontSize>
+                                    <OnPlatform x:TypeArguments="x:Double"
+                                                Android="28"
+                                                iOS="30" />
+                                </Label.FontSize>
+                            </Label>
                             <Editor Placeholder="Enter your answer"
                                     AutoSize="TextChanges"
                                     Text="{Binding Answer}"

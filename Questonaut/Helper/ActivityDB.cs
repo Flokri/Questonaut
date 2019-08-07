@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.AppCenter.Crashes;
 using Questonaut.DependencyServices;
 using Questonaut.Model;
-using SQLite.Net;
+using SQLite;
 using Xamarin.Forms;
 
 namespace Questonaut.Helper

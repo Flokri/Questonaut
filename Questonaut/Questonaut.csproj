@@ -36,10 +36,10 @@
     <PackageReference Include="Xamarin.Forms.PancakeView" Version="1.0.25-beta" />
     <PackageReference Include="LiveXAML" Version="2.1.72" />
     <PackageReference Include="Xam.Plugins.Notifier" Version="3.0.1" />
-    <PackageReference Include="SQLite.Net-PCL" Version="3.1.1" />
     <PackageReference Include="Shiny.Notifications" Version="1.0.0.306-beta" />
     <PackageReference Include="Shiny.Core" Version="1.0.0.306-beta" />
     <PackageReference Include="Shiny.Sensors" Version="1.0.0.306-beta" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.6.258-beta" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\" />

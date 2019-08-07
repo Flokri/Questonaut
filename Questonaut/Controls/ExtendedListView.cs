@@ -8,7 +8,7 @@ namespace Questonaut.Controls
     public class ExtendedListView : ListView
     {
         #region constructor
-        //There is currently a bug in XF 4 so the recycle Element does not work as expected. If the bug is fixed use the commented code as this boostes the performance.
+        //There is currently a bug in XF 4 so the recycle Element does not work as expected. If the bug is fixed use the commented code as this boosts the performance.
         //public ExtendedListView() : this(ListViewCachingStrategy.RecycleElement) { }
 
         //public ExtendedListView(ListViewCachingStrategy cachingStrategy) : base(cachingStrategy)
