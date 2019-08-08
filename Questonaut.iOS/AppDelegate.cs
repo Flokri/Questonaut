@@ -2,7 +2,6 @@
 using FFImageLoading.Forms.Platform;
 using Foundation;
 using PanCardView.iOS;
-using Plugin.FirebasePushNotification;
 using Prism;
 using Prism.Ioc;
 using Questonaut.Helper;
@@ -50,41 +49,11 @@ namespace Questonaut.iOS
 
             LoadApplication(new App(new iOSInitializer()));
 
-            //intialize the firebase push notification framework
-            FirebasePushNotificationManager.Initialize(options, true);
-
             return base.FinishedLaunching(app, options);
         }
 
         public override void PerformFetch(UIApplication application, Action<UIBackgroundFetchResult> completionHandler)
                 => Shiny.Jobs.JobManager.OnBackgroundFetch(completionHandler);
-
-        public override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
-        {
-            FirebasePushNotificationManager.DidRegisterRemoteNotifications(deviceToken);
-        }
-
-        public override void FailedToRegisterForRemoteNotifications(UIApplication application, NSError error)
-        {
-            FirebasePushNotificationManager.RemoteNotificationRegistrationFailed(error);
-
-        }
-        // To receive notifications in foregroung on iOS 9 and below.
-        // To receive notifications in background in any iOS version
-        public override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
-        {
-            // If you are receiving a notification message while your app is in the background,
-            // this callback will not be fired 'till the user taps on the notification launching the application.
-
-            // If you disable method swizzling, you'll need to call this method. 
-            // This lets FCM track message delivery and analytics, which is performed
-            // automatically with method swizzling enabled.
-            FirebasePushNotificationManager.DidReceiveMessage(userInfo);
-            // Do your magic to handle the notification data
-            System.Console.WriteLine(userInfo);
-
-            completionHandler(UIBackgroundFetchResult.NewData);
-        }
 
         public class iOSInitializer : IPlatformInitializer
         {

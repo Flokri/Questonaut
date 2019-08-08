@@ -40,7 +40,6 @@
     <PackageReference Include="Shiny.Notifications" Version="1.0.0.306-beta" />
     <PackageReference Include="Shiny.Core" Version="1.0.0.306-beta" />
     <PackageReference Include="Shiny.Sensors" Version="1.0.0.306-beta" />
-    <PackageReference Include="Plugin.FirebasePushNotification" Version="2.3.6" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\" />

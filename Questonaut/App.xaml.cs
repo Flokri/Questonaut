@@ -20,7 +20,6 @@ using Shiny.Jobs;
 using Xamarin.Forms;
 using Questonaut.Helper;
 using Shiny;
-using Plugin.FirebasePushNotification;
 
 namespace Questonaut
 {
@@ -46,29 +45,6 @@ namespace Questonaut
                 //if there is no user go to the login screen
                 NavigationService.NavigateAsync(new System.Uri("https://www.Questonaut/LoginView", System.UriKind.Absolute));
             }
-
-            CrossFirebasePushNotification.Current.OnTokenRefresh += (s, p) =>
-            {
-                System.Diagnostics.Debug.WriteLine($"TOKEN : {p.Token}");
-            };
-
-            CrossFirebasePushNotification.Current.OnNotificationReceived += (s, p) =>
-            {
-
-                System.Diagnostics.Debug.WriteLine("Received");
-
-            };
-
-            CrossFirebasePushNotification.Current.OnNotificationOpened += (s, p) =>
-            {
-                System.Diagnostics.Debug.WriteLine("Opened");
-                foreach (var data in p.Data)
-                {
-                    System.Diagnostics.Debug.WriteLine($"{data.Key} : {data.Value}");
-                }
-
-
-            };
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
