@@ -55,7 +55,6 @@
     <CodesignKey>iPhone Developer: Florian Kriegl (X44R58T3B9)</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
     <CodesignProvision>Questonaut Profile</CodesignProvision>
-    <MtouchExtraArgs>-v -v -v -v</MtouchExtraArgs>
     <MtouchLink>SdkOnly</MtouchLink>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
