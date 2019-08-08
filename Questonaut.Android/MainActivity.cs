@@ -11,6 +11,7 @@ using PanCardView.Droid;
 using FFImageLoading.Forms.Platform;
 using Plugin.Permissions;
 using Plugin.LocalNotifications;
+using Com.OneSignal;
 
 namespace Questonaut.Droid
 {

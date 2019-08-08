@@ -40,6 +40,7 @@
     <PackageReference Include="Shiny.Core" Version="1.0.0.306-beta" />
     <PackageReference Include="Shiny.Sensors" Version="1.0.0.306-beta" />
     <PackageReference Include="sqlite-net-pcl" Version="1.6.258-beta" />
+    <PackageReference Include="Com.OneSignal" Version="3.4.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\" />

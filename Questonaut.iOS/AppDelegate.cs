@@ -1,4 +1,5 @@
 ﻿using System;
+using Com.OneSignal;
 using FFImageLoading.Forms.Platform;
 using Foundation;
 using PanCardView.iOS;

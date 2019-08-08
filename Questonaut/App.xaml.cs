@@ -20,6 +20,8 @@ using Shiny.Jobs;
 using Xamarin.Forms;
 using Questonaut.Helper;
 using Shiny;
+using Com.OneSignal;
+using Com.OneSignal.Abstractions;
 
 namespace Questonaut
 {
@@ -30,6 +32,11 @@ namespace Questonaut
         protected override void OnInitialized()
         {
             InitializeComponent();
+
+
+            //initialize the one signal framework
+            OneSignal.Current.StartInit(Secrets.ONESIGNAL_APP_ID)
+                             .EndInit();
 
             //intialize the akavache framework
             Akavache.Registrations.Start("Questonaut");
@@ -62,6 +69,15 @@ namespace Questonaut
 
         protected override void OnStart()
         {
+            //register the one signal
+            OneSignal.Current.RegisterForPushNotifications();
+
+            //Handle when the onesignal notification is received
+            OneSignal.Current.StartInit(Secrets.ONESIGNAL_APP_ID)
+            .HandleNotificationReceived(HandleNotificationReceived)
+            .InFocusDisplaying(OSInFocusDisplayOption.None)
+            .EndInit();
+
             //Start the appcenter services
             AppCenter.Start(
                 String.Format("android={0};" +
@@ -79,6 +95,25 @@ namespace Questonaut
         protected override void OnResume()
         {
             // Handle when your app resume       
+        }
+
+        // Called when your app is in focus and a notificaiton is recieved.
+        // The name of the method can be anything as long as the signature matches.
+        // Method must be static or this object should be marked as DontDestroyOnLoad
+        private static async void HandleNotificationReceived(OSNotification notification)
+        {
+            OSNotificationPayload payload = notification.payload;
+
+            try
+            {
+                if (payload.additionalData.ContainsKey("action"))
+                {
+                    payload.additionalData["action"].Equals("checkContext");
+
+                    var results = await Shiny.ShinyHost.Resolve<Shiny.Jobs.IJobManager>().RunAll();
+                }
+            }
+            catch (Exception e) { }
         }
 
         public INavigationService GetNavigationService() => this.NavigationService;
