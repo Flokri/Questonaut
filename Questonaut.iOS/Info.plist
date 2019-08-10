@@ -48,11 +48,12 @@
 	<key>NSMotionUsageDescription</key>
 	<string>Questonaut needs to access your motion data.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>New Entry</string>
+	<string>Questonaut needs to access your location data.</string>
 	<key>UIStatusBarStyle</key>
 	<string>UIStatusBarStyleLightContent</string>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>location</string>
 		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>

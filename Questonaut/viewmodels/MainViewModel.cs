@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Reactive.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Akavache;
@@ -84,36 +85,12 @@ namespace Questonaut.ViewModels
             //set the header for the user
             _ = GetUserDataAsync();
 
-            //test code
-            // Command to load more data from our service
-            OnLoadMoreCommand = new DelegateCommand(async () =>
+            Activities = new ObservableCollection<QActivity>(_activityService.GetActivitiesAsync(0, 100));
+
+            MessagingCenter.Subscribe<string>("Questonaut", "refreshDB", (arg) =>
             {
-                IsBusy = true;
-
-                try
-                {
-                    var users = _activityService.GetActivitiesAsync(_pageNumber++, 10);
-
-                    //Add the new data loaded from our service to our existing collection.
-                    foreach (var user in users)
-                    {
-                        Activities.Add(user);
-                    }
-
-                }
-                catch (Exception ex)
-                {
-                    //Log any errors that might had occured while calling or using your service.
-                    Debug.WriteLine(ex.Message);
-                }
-                finally
-                {
-                    IsBusy = false;
-                }
-
+                Activities = new ObservableCollection<QActivity>(_activityService.GetActivitiesAsync(0, 100));
             });
-
-            OnLoadMoreCommand.Execute(null);
         }
 
         #region privateMethods

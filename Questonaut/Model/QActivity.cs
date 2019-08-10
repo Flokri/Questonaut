@@ -50,5 +50,10 @@ namespace Questonaut.Model
         /// The answer to the specific question.
         /// </summary>
         public string Answer { get; set; }
+
+        /// <summary>
+        /// Indicates if this answer is already uploaded to the server.
+        /// </summary>
+        public bool Uploaded { get; set; }
     }
 }

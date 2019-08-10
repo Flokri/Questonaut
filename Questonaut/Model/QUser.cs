@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Plugin.CloudFirestore.Attributes;
 using System.Collections.ObjectModel;
+using System.Collections;
 
 namespace Questonaut.Model
 {
@@ -49,14 +50,14 @@ namespace Questonaut.Model
         public string Gender { get; set; }
 
         /// <summary>
-        /// Alle the user elements that contains in this study.
-        /// </summary>
-        public List<string> ActiveStudies { get; set; } = new List<string>() { "AddStudy" };
-
-        /// <summary>
         /// The real Study objects
         /// </summary>
         [Ignored]
         public ObservableCollection<QStudy> ActiveStudiesObjects { get; set; } = new ObservableCollection<QStudy>();
+
+        /// <summary>
+        /// Contains every study the user participate at. And contains a list of all anserwers from the user.
+        /// </summary>
+        public Dictionary<string, List<string>> Studies { get; set; } = new Dictionary<string, List<string>> { { "AddStudy", new List<string>() } };
     }
 }

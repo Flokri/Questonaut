@@ -22,6 +22,11 @@ using Questonaut.Helper;
 using Shiny;
 using Com.OneSignal;
 using Com.OneSignal.Abstractions;
+using Shiny.Locations;
+using Shiny.Notifications;
+using Questonaut.Controller;
+using Plugin.CloudFirestore;
+using System.Collections.Generic;
 
 namespace Questonaut
 {
@@ -84,6 +89,11 @@ namespace Questonaut
                   "uwp={1};" +
                   "ios={2}", Secrets.AppCenter_Android_Secret, "Enter the AppCenter UWP Secret", Secrets.AppCenter_iOS_Secret),
                   typeof(Analytics), typeof(Crashes));
+
+            //Register the geofences from the studies
+            //check if a user is logged in
+            if (SettingsImp.UserValue != string.Empty)
+                RegisterGeofences();
         }
 
         protected override void OnSleep()
@@ -114,6 +124,48 @@ namespace Questonaut
                 }
             }
             catch (Exception e) { }
+        }
+
+        private async void RegisterGeofences()
+        {
+            var geofences = ShinyHost.Resolve<IGeofenceManager>();
+
+            foreach (QStudy study in CurrentUser.Instance.User.ActiveStudiesObjects)
+            {
+                var elementsDoc = await CrossCloudFirestore.Current
+                       .Instance
+                       .GetCollection(QStudy.CollectionPath + "/" + study.Id + "/" + QElement.CollectionPath)
+                       .GetDocumentsAsync();
+
+                IEnumerable<QElement> elements = elementsDoc.ToObjects<QElement>();
+
+                // this is really only required on iOS, but do it to be safe
+                if (elements != null)
+                {
+                    foreach (QElement element in elements)
+                    {
+                        var contextDoc = await CrossCloudFirestore.Current
+                            .Instance
+                            .GetCollection(QContext.CollectionPath)
+                            .GetDocument(element.LinkToContext)
+                            .GetDocumentAsync();
+                        QContext context = contextDoc.ToObject<QContext>();
+
+                        if (context.Location != null)
+                        {
+                            await geofences.StartMonitoring(new GeofenceRegion(
+                                context.LocationName + "|" + context.LocationAction,
+                            new Position(context.Location.Latitude, context.Location.Longitude),
+                            Distance.FromMeters(200))
+                            {
+                                NotifyOnEntry = true,
+                                NotifyOnExit = true,
+                                SingleUse = false
+                            });
+                        }
+                    }
+                }
+            }
         }
 
         public INavigationService GetNavigationService() => this.NavigationService;

@@ -10,6 +10,7 @@ using Prism.Navigation;
 using Prism.Services;
 using Questonaut.Helper;
 using Questonaut.Model;
+using Questonaut.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 
@@ -54,6 +55,7 @@ namespace Questonaut.viewmodels.StudyScreensViewModels
             if (!Answer.Equals(""))
             {
                 new ActivityDB().SetActivityAsAnswered(Answer, _activityId);
+                MessagingCenter.Send<string>("Questonaut", "refreshDB");
 
                 Device.BeginInvokeOnMainThread(async () =>
                 {

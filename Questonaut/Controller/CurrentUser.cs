@@ -13,6 +13,9 @@ using Prism.Navigation;
 using Questonaut.DependencyServices;
 using Questonaut.Model;
 using Questonaut.Settings;
+using Shiny;
+using Shiny.Locations;
+using Shiny.Notifications;
 using Xamarin.Forms;
 
 namespace Questonaut.Controller
@@ -23,6 +26,7 @@ namespace Questonaut.Controller
         private static CurrentUser _instance;
         private QUser _user;
         private bool _deleteUserData;
+        private bool _registeredGeofences = false;
         #endregion
 
         #region constructor
@@ -118,6 +122,52 @@ namespace Questonaut.Controller
             }
         }
 
+        private async void RegisterGeofences()
+        {
+            var geofences = ShinyHost.Resolve<IGeofenceManager>();
+
+            if (CurrentUser.Instance.User.ActiveStudiesObjects != null && CurrentUser.Instance.User.ActiveStudiesObjects.Count > 0)
+            {
+                foreach (QStudy study in CurrentUser.Instance.User.ActiveStudiesObjects)
+                {
+                    var elementsDoc = await CrossCloudFirestore.Current
+                           .Instance
+                           .GetCollection(QStudy.CollectionPath + "/" + study.Id + "/" + QElement.CollectionPath)
+                           .GetDocumentsAsync();
+
+                    IEnumerable<QElement> elements = elementsDoc.ToObjects<QElement>();
+
+                    // this is really only required on iOS, but do it to be safe
+                    if (elements != null)
+                    {
+                        foreach (QElement element in elements)
+                        {
+                            var contextDoc = await CrossCloudFirestore.Current
+                                .Instance
+                                .GetCollection(QContext.CollectionPath)
+                                .GetDocument(element.LinkToContext)
+                                .GetDocumentAsync();
+                            QContext context = contextDoc.ToObject<QContext>();
+
+                            if (context.Location != null && !_registeredGeofences)
+                            {
+                                await geofences.StartMonitoring(new GeofenceRegion(
+                                    context.LocationName + "|" + context.LocationAction,
+                                new Position(context.Location.Latitude, context.Location.Longitude),
+                                Distance.FromMeters(200))
+                                {
+                                    NotifyOnEntry = true,
+                                    NotifyOnExit = true,
+                                    SingleUse = false
+                                });
+                            }
+                        }
+                    }
+                }
+                _registeredGeofences = true;
+            }
+        }
+
         /// <summary>
         /// Load all studies the current user is participating at.
         /// </summary>
@@ -133,18 +183,18 @@ namespace Questonaut.Controller
                                         .GetDocumentsAsync();
 
                 IEnumerable<QUser> myModel = documents.ToObjects<QUser>();
-                _user.ActiveStudies = myModel.First().ActiveStudies;
+                _user.Studies = myModel.First().Studies;
                 _user.ActiveStudiesObjects.Clear();
 
                 bool userChanged = false;
                 List<string> toDelete = new List<string>();
 
-                foreach (var study in _user.ActiveStudies)
+                foreach (var study in _user.Studies)
                 {
                     var studyDoc = await CrossCloudFirestore.Current
                                          .Instance
                                          .GetCollection(QStudy.CollectionPath)
-                                         .GetDocument(study)
+                                         .GetDocument(study.Key)
                                          .GetDocumentAsync();
                     QStudy temp = studyDoc.ToObject<QStudy>();
 
@@ -193,13 +243,22 @@ namespace Questonaut.Controller
 
                 if (userChanged)
                 {
-                    _user.ActiveStudies = _user.ActiveStudies.Except(toDelete).ToList();
-                    Update("AciveStudies", _user.ActiveStudies);
+                    foreach (var delete in toDelete)
+                    {
+                        if (_user.Studies.Keys.Contains(delete))
+                            _user.Studies.Remove(delete);
+                    }
+                    Update("Studies", _user.Studies);
                 }
             }
             catch (Exception e)
             {
                 Crashes.TrackError(e);
+            }
+
+            finally
+            {
+                RegisterGeofences();
             }
         }
 
@@ -241,6 +300,7 @@ namespace Questonaut.Controller
 
                     //save the use to the user controller to access the data in the rest of the app.
                     User userdata = JsonConvert.DeserializeObject<User>(SettingsImp.UserValue);
+
                     CurrentUser.Instance.User = new QUser() { Email = userdata.email };
 
                     try

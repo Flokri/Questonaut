@@ -1,4 +1,5 @@
 ﻿using System;
+using Plugin.CloudFirestore;
 using Plugin.CloudFirestore.Attributes;
 using Xamarin.Essentials;
 
@@ -17,7 +18,7 @@ namespace Questonaut.Model
         /// <summary>
         /// The location of the user-
         /// </summary>
-        public string Location { get; set; }
+        public GeoPoint Location { get; set; }
 
         /// <summary>
         /// The batter state.
@@ -33,5 +34,17 @@ namespace Questonaut.Model
         /// The end time of the event.
         /// </summary>
         public DateTime EndTime { get; set; }
+
+        /// <summary>
+        /// This is the name of the location geo point.
+        /// </summary>
+        public string LocationName { get; set; }
+
+        /// <summary>
+        /// The action based on the location.
+        /// Enter -> The user entered the specified location.
+        /// Leave -> The user leaves the specified location.
+        /// </summary>
+        public string LocationAction { get; set; }
     }
 }

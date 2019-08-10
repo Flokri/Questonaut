@@ -16,9 +16,8 @@ namespace Questonaut.Converters
             int daysDiff = (date2 - date).Days;
 
 
-            daysDiff++;
-            if (daysDiff < 2)
-                return $"{daysDiff} day ago";
+            if (daysDiff == 0)
+                return "today";
 
             return $"{daysDiff} days ago";
         }

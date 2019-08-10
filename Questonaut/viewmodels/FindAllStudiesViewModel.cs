@@ -13,6 +13,9 @@ using Prism.Navigation;
 using Prism.Services;
 using Questonaut.Controller;
 using Questonaut.Model;
+using Shiny;
+using Shiny.Locations;
+using Shiny.Notifications;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 
@@ -58,13 +61,14 @@ namespace Questonaut.viewmodels
         {
             foreach (StudiesToParticipate temp in Studies)
             {
-                if (temp.Paricipate && !CurrentUser.Instance.User.ActiveStudies.Contains(temp.Id))
+                if (temp.Paricipate && !CurrentUser.Instance.User.Studies.Keys.Contains(temp.Id))
                 {
-                    CurrentUser.Instance.User.ActiveStudies.Add(temp.Id);
+                    CurrentUser.Instance.User.Studies.Add(temp.Id, new List<string>());
+                    RegisterGeofences(temp);
                 }
-                else if (!temp.Paricipate && CurrentUser.Instance.User.ActiveStudies.Contains(temp.Id))
+                else if (!temp.Paricipate && CurrentUser.Instance.User.Studies.Keys.Contains(temp.Id))
                 {
-                    CurrentUser.Instance.User.ActiveStudies.Remove(temp.Id);
+                    CurrentUser.Instance.User.Studies.Remove(temp.Id);
                 }
             }
 
@@ -72,11 +76,58 @@ namespace Questonaut.viewmodels
                          .Instance
                          .GetCollection(QUser.CollectionPath)
                          .GetDocument(CurrentUser.Instance.User.Id)
-                         .UpdateDataAsync(new { ActiveStudies = CurrentUser.Instance.User.ActiveStudies });
+                         .UpdateDataAsync(new { Studies = CurrentUser.Instance.User.Studies });
 
             CurrentUser.Instance.LoadNewStudies();
 
             Back();
+        }
+
+        /// <summary>
+        /// Add geofence to the new study.
+        /// </summary>
+        private async void RegisterGeofences(QStudy study)
+        {
+            try
+            {
+                var geofences = ShinyHost.Resolve<IGeofenceManager>();
+                var notifications = ShinyHost.Resolve<INotificationManager>();
+
+                var elementsDoc = await CrossCloudFirestore.Current
+                       .Instance
+                       .GetCollection(QStudy.CollectionPath + "/" + study.Id + "/" + QElement.CollectionPath)
+                       .GetDocumentsAsync();
+
+                IEnumerable<QElement> elements = elementsDoc.ToObjects<QElement>();
+
+                // this is really only required on iOS, but do it to be safe
+                if (elements != null)
+                {
+                    foreach (QElement element in elements)
+                    {
+                        var contextDoc = await CrossCloudFirestore.Current
+                            .Instance
+                            .GetCollection(QContext.CollectionPath)
+                            .GetDocument(element.LinkToContext)
+                            .GetDocumentAsync();
+                        QContext context = contextDoc.ToObject<QContext>();
+
+                        if (context.Location != null)
+                        {
+                            await geofences.StartMonitoring(new GeofenceRegion(
+                                context.LocationName + "|" + context.LocationAction,
+                            new Position(context.Location.Latitude, context.Location.Longitude),
+                            Distance.FromMeters(200))
+                            {
+                                NotifyOnEntry = true,
+                                NotifyOnExit = true,
+                                SingleUse = false
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception e) { Crashes.TrackError(e); }
         }
 
         /// <summary>
@@ -106,7 +157,7 @@ namespace Questonaut.viewmodels
                 {
                     if (!study.Team.Equals("System") && (!(study.EndDate < DateTime.Now) | (study.EndDate == DateTime.MinValue)))
                     {
-                        if (CurrentUser.Instance.User.ActiveStudies.Contains(study.Id))
+                        if (CurrentUser.Instance.User.Studies.Keys.Contains(study.Id))
                         {
                             study.Paricipate = true;
                         }

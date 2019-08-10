@@ -18,6 +18,9 @@ namespace Questonaut.Helper
             //use the pedometer
             services.UsePedometer();
 
+            //setting up the geofence delegate
+            services.UseGeofencing<GeofenceDelegate>();
+
             //create the background context checker job
             var job = new JobInfo
             {

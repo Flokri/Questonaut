@@ -13,6 +13,7 @@ using Prism.Navigation;
 using Prism.Services;
 using Questonaut.DependencyServices;
 using Questonaut.Settings;
+using Xamarin.Forms;
 
 namespace Questonaut.ViewModels
 {
@@ -57,7 +58,7 @@ namespace Questonaut.ViewModels
             {
                new { Source = "resource://Questonaut.SharedImages.qeustonaut_intro.png",
                     Ind = _ImageCount++,
-                    Color = Color.Transparent,
+                    Color = Xamarin.Forms.Color.Transparent,
                     Title ="Start your Journey",
                     Content = "In order to participate in studies, you must allow this app a few permissions. This is necessary to capture the context.",
                     ImageSize = VariableHeigth,
@@ -66,7 +67,7 @@ namespace Questonaut.ViewModels
 
                 new { Source = "resource://Questonaut.SharedImages.health.png",
                     Ind = _ImageCount++,
-                    Color = Color.Transparent,
+                    Color = Xamarin.Forms.Color.Transparent,
                     Title ="Sensors",
                     Content = "To messure the context for the studies you want to participate this app requires to use the sensors of your phone to check if you are currently in the rigth context to answer the survey. To do so please grant the permission to use your sensor values.",
                     ImageSize = VariableHeigth,
@@ -76,7 +77,7 @@ namespace Questonaut.ViewModels
 
                 new { Source = "resource://Questonaut.SharedImages.location.png",
                     Ind = _ImageCount++,
-                    Color = Color.Transparent,
+                    Color = Xamarin.Forms.Color.Transparent,
                     Title ="GPS Permission",
                     Content = "In order to get your correct position you have to allow the App to access your location.",
                     ImageSize = VariableHeigth,
@@ -86,7 +87,7 @@ namespace Questonaut.ViewModels
 
                 new { Source = "resource://Questonaut.SharedImages.survey.png",
                     Ind = _ImageCount++,
-                    Color = Color.Transparent,
+                    Color = Xamarin.Forms.Color.Transparent,
                     Title ="Finished",
                     Content = "In order to participate in studies, you must allow this app a few permissions. This is necessary to capture the context.",
                     ImageSize = VariableHeigth,
@@ -101,8 +102,11 @@ namespace Questonaut.ViewModels
             //Set the show intro view to false
             SettingsImp.ShowIntro = "false";
 
-            //ce to the intro view
-            await _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/MainView", System.UriKind.Absolute));
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                //navigate to the intro view
+                await _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/MainView", System.UriKind.Absolute));
+            });
         }
 
         /// <summary>
