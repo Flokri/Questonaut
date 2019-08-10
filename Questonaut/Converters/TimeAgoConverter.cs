@@ -13,7 +13,7 @@ namespace Questonaut.Converters
 
             DateTime date2 = DateTime.Today;
 
-            int daysDiff = (date2 - date).Days;
+            int daysDiff = date2.Day - date.Day;
 
 
             if (daysDiff == 0)
