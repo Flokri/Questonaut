@@ -131,23 +131,34 @@ namespace Questonaut.ViewModels
             {
                 if (baseQuestion != null && baseQuestion.Type != null)
                 {
+
                     switch (baseQuestion.Type)
                     {
                         case "TextEntry":
                             QQuestion question = questionDoc.ToObject<QQuestion>();
 
-                            var navigationParams = new NavigationParameters();
-                            navigationParams.Add("question", question);
-                            navigationParams.Add("activity", SelectedItem);
+                            var navigationParamsQuestion = new NavigationParameters();
+                            navigationParamsQuestion.Add("question", question);
+                            navigationParamsQuestion.Add("activity", SelectedItem);
 
                             Device.BeginInvokeOnMainThread(async () =>
                             {
-                                await _navigationService.NavigateAsync("TextEntryView", navigationParams, null, false);
+                                await _navigationService.NavigateAsync("TextEntryView", navigationParamsQuestion, null, false);
                             });
                             break;
                         case "Slider":
                             break;
                         case "MultipleChoice":
+                            QMultipleQuestion multipleChoice = questionDoc.ToObject<QMultipleQuestion>();
+
+                            var navigationParamsMultipleChoice = new NavigationParameters();
+                            navigationParamsMultipleChoice.Add("question", multipleChoice);
+                            navigationParamsMultipleChoice.Add("activity", SelectedItem);
+
+                            Device.BeginInvokeOnMainThread(async () =>
+                            {
+                                await _navigationService.NavigateAsync("MultipleChoiceView", navigationParamsMultipleChoice, null, false);
+                            });
                             break;
                         default:
                             break;
@@ -167,7 +178,7 @@ namespace Questonaut.ViewModels
         {
             //test code
             var test = new ActivityDB();
-            test.AddActivity(new QActivity() { Name = "Question", Date = DateTime.Now, Description = "Answered a question based on a step context.", Status = "open", Link = "hZHNTCXL9af3hKInIOs5" });
+            test.AddActivity(new QActivity() { Name = "Question", Date = DateTime.Now, Description = "Answered a question based on a step context.", Status = "open", Link = "58ZIoxSLNUbncyXB2xxb" });
             //end test code
 
             //try

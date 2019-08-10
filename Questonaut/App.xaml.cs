@@ -27,6 +27,8 @@ using Shiny.Notifications;
 using Questonaut.Controller;
 using Plugin.CloudFirestore;
 using System.Collections.Generic;
+using Questonaut.Views.StudyScreensViews;
+using Questonaut.ViewModels.StudyScreensViewModels;
 
 namespace Questonaut
 {
@@ -70,6 +72,7 @@ namespace Questonaut
             containerRegistry.RegisterForNavigation<FindAllStudiesView, FindAllStudiesViewModel>();
             containerRegistry.RegisterForNavigation<StudyDetailView, StudyDetailViewModel>();
             containerRegistry.RegisterForNavigation<TextEntryView, TextEntryViewModel>();
+            containerRegistry.RegisterForNavigation<MultipleChoiceView, MultipleChoiceViewModel>();
         }
 
         protected override void OnStart()
