@@ -146,7 +146,17 @@ namespace Questonaut.ViewModels
                                 await _navigationService.NavigateAsync("TextEntryView", navigationParamsQuestion, null, false);
                             });
                             break;
-                        case "Slider":
+                        case "SliderEntry":
+                            QSlider slider = questionDoc.ToObject<QSlider>();
+
+                            var navigationParamsSlider = new NavigationParameters();
+                            navigationParamsSlider.Add("question", slider);
+                            navigationParamsSlider.Add("activity", SelectedItem);
+
+                            Device.BeginInvokeOnMainThread(async () =>
+                            {
+                                await _navigationService.NavigateAsync("SliderEntryView", navigationParamsSlider, null, false);
+                            });
                             break;
                         case "MultipleChoice":
                             QMultipleQuestion multipleChoice = questionDoc.ToObject<QMultipleQuestion>();
@@ -178,7 +188,7 @@ namespace Questonaut.ViewModels
         {
             //test code
             var test = new ActivityDB();
-            test.AddActivity(new QActivity() { Name = "Question", Date = DateTime.Now, Description = "Answered a question based on a step context.", Status = "open", Link = "58ZIoxSLNUbncyXB2xxb" });
+            test.AddActivity(new QActivity() { Name = "Question", Date = DateTime.Now, Description = "Answered a question based on a step context.", Status = "open", Link = "wuBomdj98G4GGdX7Zt5s" });
             //end test code
 
             //try

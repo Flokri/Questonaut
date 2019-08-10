@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Questonaut.Views.StudyScreensViews.SliderEntryView"
+             xmlns:pancake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             BackgroundColor="#42506B">
+
+    <ContentPage.Resources>
+        <Color x:Key="DarkBlue">#42506B</Color>
+        <Color x:Key="LightGreen">#52BF8B</Color>
+        <Color x:Key="Gray">#707070</Color>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+
+            <StackLayout Orientation="Horizontal"
+                         Grid.Row="0">
+                <StackLayout.Margin>
+                    <OnPlatform x:TypeArguments="Thickness">
+                        <On Platform="iOS"
+                            Value="15,45,0,-10" />
+                        <On Platform="Android"
+                            Value="15,20,0,-10" />
+                    </OnPlatform>
+                </StackLayout.Margin>
+                <Label Text="{Binding Title}"
+                       TextColor="white">
+                    <Label.FontSize>
+                        <OnPlatform x:TypeArguments="x:Double"
+                                    Android="28"
+                                    iOS="35" />
+                    </Label.FontSize>
+                </Label>
+            </StackLayout>
+
+            <Label Text="{Binding Text}"
+                   FontSize="Medium"
+                   TextColor="white"
+                   Grid.Row="1"
+                   Margin="15, 15" />
+
+            <ScrollView Orientation="Vertical"
+                        Grid.Row="2">
+                <StackLayout Orientation="Vertical">
+                    <pancake:PancakeView BackgroundColor="white"
+                                         Margin="15,0"
+                                         CornerRadius="15">
+                        <StackLayout Orientation="Vertical">
+                            <Label Text="Answer"
+                                   TextColor="{StaticResource DarkBlue}"
+                                   FontSize="Header"
+                                   Margin="15,10">
+                                <Label.FontSize>
+                                    <OnPlatform x:TypeArguments="x:Double"
+                                                Android="28"
+                                                iOS="30" />
+                                </Label.FontSize>
+                            </Label>
+                            <Label Text="{Binding Answer}"
+                                   TextColor="{StaticResource DarkBlue}"
+                                   FontSize="Header"
+                                   Margin="15,10"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center">
+                                <Label.FontSize>
+                                    <OnPlatform x:TypeArguments="x:Double"
+                                                Android="20"
+                                                iOS="24" />
+                                </Label.FontSize>
+                            </Label>
+                            <Slider Maximum="{Binding MaxValue}"
+                                    Minimum="{Binding MinValue}"
+                                    Value="{Binding Answer}"
+                                    Margin="20,0,5,20" />
+                        </StackLayout>
+                    </pancake:PancakeView>
+                </StackLayout>
+            </ScrollView>
+
+            <Button Text="Send"
+                    BackgroundColor="White"
+                    TextColor="{StaticResource DarkBlue}"
+                    Command="{Binding OnSave}"
+                    Margin="15,0,15,45"
+                    Grid.Row="3" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
+
