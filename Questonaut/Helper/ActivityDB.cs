@@ -6,6 +6,7 @@ using Questonaut.DependencyServices;
 using Questonaut.Model;
 using SQLite;
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 
 namespace Questonaut.Helper
 {
@@ -126,6 +127,67 @@ namespace Questonaut.Helper
             }
             return 0;
         }
+
+        /// <summary>
+        /// Get all activities that are not uploaded to the server.
+        /// </summary>
+        /// <returns>Returns a list with all not uploaded activities.</returns>
+        public List<QActivity> GetReadyForUpload()
+        {
+            var data = _sqLiteConnection.Table<QActivity>();
+            try
+            {
+                if (data.Count() == 0)
+                {
+                    return null;
+                }
+
+                return data.ToList().Where(x => !x.Uploaded && x.Answer != null).ToList();
+            }
+            catch (Exception e)
+            {
+                Crashes.TrackError(e);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Set the uploaded status of a list of activities.
+        /// </summary>
+        /// <param name="activities">The activities that should be updated.</param>
+        /// <param name="status">The status the activies should be updated to.</param>
+        /// <returns></returns>
+        public bool SetUploadStatus(List<QActivity> activities)
+        {
+            try
+            {
+                foreach (QActivity act in activities)
+                {
+                    var data = _sqLiteConnection.Table<QActivity>();
+                    var d1 = data.Where(x => x.ID == act.ID).FirstOrDefault();
+                    if (d1 != null)
+                    {
+                        d1.Uploaded = act.Uploaded;
+                        if (d1 != null)
+                        {
+                            _sqLiteConnection.Update(d1);
+                            return true;
+                        }
+                        else
+                            return false;
+                    }
+                    return false;
+                }
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         private bool CompareDateTimes(DateTime d1, DateTime d2)
         {
             if (d1.Date == d2.Date)

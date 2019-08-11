@@ -49,7 +49,8 @@ namespace Questonaut.ViewModels.StudyScreensViewModels
         #region private methods
         private async void Save()
         {
-            string answer = JsonConvert.SerializeObject(Answer);
+            Question.Answer = this.Answer.ToString();
+            string answer = JsonConvert.SerializeObject(Question);
 
             new ActivityDB().SetActivityAsAnswered(answer, _activityId);
             MessagingCenter.Send<string>("Questonaut", "refreshDB");

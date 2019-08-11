@@ -14,5 +14,11 @@ namespace Questonaut.Model
         /// The body of the question
         /// </summary>
         public string Body { get; set; }
+
+        /// <summary>
+        /// The answer to this question.
+        /// </summary>
+        [Ignored]
+        public string Answer { get; set; }
     }
 }

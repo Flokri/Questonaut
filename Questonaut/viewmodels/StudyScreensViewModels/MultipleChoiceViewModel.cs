@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Prism.Commands;
@@ -53,7 +54,8 @@ namespace Questonaut.ViewModels.StudyScreensViewModels
         {
             if (Ticks.Where(x => x.Checked).Count() > 0)
             {
-                string answer = JsonConvert.SerializeObject(instance);
+                Question.Answer = JsonConvert.SerializeObject(Ticks);
+                string answer = JsonConvert.SerializeObject(Question);
 
                 new ActivityDB().SetActivityAsAnswered(answer, _activityId);
                 MessagingCenter.Send<string>("Questonaut", "refreshDB");
@@ -134,6 +136,15 @@ namespace Questonaut.ViewModels.StudyScreensViewModels
         {
             get => _ticks;
             set => SetProperty(ref _ticks, value);
+        }
+
+        /// <summary>
+        /// The question instance of the current multiple choice question.
+        /// </summary>
+        private QMultipleQuestion Question
+        {
+            get => instance;
+            set => SetProperty(ref instance, value);
         }
         #endregion
     }

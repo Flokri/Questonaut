@@ -3,6 +3,7 @@ using System.ComponentModel.Design;
 using System.Globalization;
 using System.Threading.Tasks;
 using Microsoft.AppCenter.Crashes;
+using Newtonsoft.Json;
 using Plugin.CloudFirestore;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -54,7 +55,8 @@ namespace Questonaut.viewmodels.StudyScreensViewModels
         {
             if (!Answer.Equals(""))
             {
-                new ActivityDB().SetActivityAsAnswered(Answer, _activityId);
+                Question.Answer = this.Answer;
+                new ActivityDB().SetActivityAsAnswered(JsonConvert.SerializeObject(Question), _activityId);
                 MessagingCenter.Send<string>("Questonaut", "refreshDB");
 
                 Device.BeginInvokeOnMainThread(async () =>

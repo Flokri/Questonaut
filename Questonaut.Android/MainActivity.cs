@@ -2,6 +2,7 @@
 using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
+using Shiny;
 using Prism;
 using Prism.Ioc;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using FFImageLoading.Forms.Platform;
 using Plugin.Permissions;
 using Plugin.LocalNotifications;
 using Com.OneSignal;
+using Android.Content;
 
 namespace Questonaut.Droid
 {
@@ -67,6 +69,11 @@ namespace Questonaut.Droid
         {
             Shiny.AndroidShinyHost.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+        protected override void OnNewIntent(Intent intent)
+        {
+            base.OnNewIntent(intent);
         }
 
         public class AndroidInitializer : IPlatformInitializer

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using Com.OneSignal;
 using FFImageLoading.Forms.Platform;
 using Foundation;
+using Microsoft.AppCenter.Crashes;
 using PanCardView.iOS;
 using Prism;
 using Prism.Ioc;

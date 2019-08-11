@@ -12,9 +12,14 @@ namespace Questonaut.Model
         public int ID { get; set; }
 
         /// <summary>
-        /// The id of the study
+        /// The id of the element in the study
         /// </summary>
         public string ElementId { get; set; }
+
+        /// <summary>
+        /// The element of the study this element is in.
+        /// </summary>
+        public string StudyId { get; set; }
 
         /// <summary>
         /// The name of the activity.

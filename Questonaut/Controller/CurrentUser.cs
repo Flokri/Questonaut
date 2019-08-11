@@ -57,9 +57,9 @@ namespace Questonaut.Controller
         /// </summary>
         /// <param name="paramName">The name of the parameter that should be updated.</param>
         /// <param name="update">The value that should be updated.</param>
-        public void UpdateUser(string paramName, object update)
+        public async Task<bool> UpdateUser(string paramName, object update)
         {
-            Update(paramName, update);
+            return await Update(paramName, update);
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Questonaut.Controller
         #endregion
 
         #region private methods
-        private async void Update(string paramName, object update)
+        private async Task<bool> Update(string paramName, object update)
         {
             try
             {
@@ -82,10 +82,12 @@ namespace Questonaut.Controller
                                          .GetCollection(QUser.CollectionPath)
                                          .GetDocument(CurrentUser.Instance.User.Id)
                                          .UpdateDataAsync(paramName, update);
+
+                return true;
             }
             catch (Exception e)
             {
-
+                return false;
             }
         }
 

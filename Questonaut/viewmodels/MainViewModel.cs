@@ -188,7 +188,7 @@ namespace Questonaut.ViewModels
         {
             //test code
             var test = new ActivityDB();
-            test.AddActivity(new QActivity() { Name = "Question", Date = DateTime.Now, Description = "Answered a question based on a step context.", Status = "open", Link = "wuBomdj98G4GGdX7Zt5s" });
+            test.AddActivity(new QActivity() { StudyId = "nCEviVVAF6CqEQEdM5Hn", Name = "Question", Date = DateTime.Now, Description = "Answered a question based on a step context.", Status = "open", Link = "wuBomdj98G4GGdX7Zt5s" });
             //end test code
 
             //try

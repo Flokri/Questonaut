@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Globalization;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AppCenter.Crashes;
 using Plugin.CloudFirestore;
 using Questonaut.Controller;
 using Questonaut.Model;
@@ -13,11 +10,11 @@ using Xamarin.Forms;
 
 namespace Questonaut.Helper
 {
-    public class CheckContextJob : Shiny.Jobs.IJob
+    public class GeoContextJob : Shiny.Jobs.IJob
     {
         private readonly CoreDelegateServices dependency;
 
-        public CheckContextJob(CoreDelegateServices dependency)
+        public GeoContextJob(CoreDelegateServices dependency)
         {
             this.dependency = dependency;
         }
@@ -40,7 +37,7 @@ namespace Questonaut.Helper
                             .GetDocumentAsync();
                         QContext context = contextDoc.ToObject<QContext>();
 
-                        if (CheckContextForElement(context, jobInfo, element, db) && db.GetElementCountForToday(element.ID) < element.RepeatPerDay)
+                        if (CheckContextForElement(context, jobInfo) && db.GetElementCountForToday(element.ID) < element.RepeatPerDay)
                         {
                             db.AddActivity(
                                 new QActivity
@@ -76,7 +73,7 @@ namespace Questonaut.Helper
             return true; // this is for iOS - try not to lie about this - return true when you actually do receive new data from the remote method
         }
 
-        private bool CheckContextForElement(QContext context, JobInfo info, QElement element, ActivityDB db)
+        private bool CheckContextForElement(QContext context, JobInfo info)
         {
             bool isRightContext = false;
 
@@ -94,10 +91,31 @@ namespace Questonaut.Helper
                     context.Location != null &&
                     context.LocationFallBack)
                 {
-                    //only for 24h time format
-                    if (db.GetElementCountForToday(element.ID) == 0 && DateTime.Now.Hour > 18 && DateTime.Now.Hour < 19)
+                    if (info.Parameters.ContainsKey("region"))
                     {
-                        temp = true;
+                        var region = info.Parameters["region"];
+                        if (region != null)
+                        {
+                            var splitted = ((GeofenceRegion)region).Identifier.Split('|');
+
+                            //only for 24h time format
+                            if (splitted.Length == 2 && splitted[0].Equals(context.LocationName))
+                            {
+                                temp = true;
+                            }
+                            else
+                            {
+                                temp = false;
+                            }
+                        }
+                        else if (DateTime.Now.Hour > 18 && DateTime.Now.Hour < 19)
+                        {
+                            temp = true;
+                        }
+                        else
+                        {
+                            temp = false;
+                        }
                     }
                     else
                     {

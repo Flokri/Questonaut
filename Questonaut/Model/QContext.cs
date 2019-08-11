@@ -46,5 +46,10 @@ namespace Questonaut.Model
         /// Leave -> The user leaves the specified location.
         /// </summary>
         public string LocationAction { get; set; }
+
+        /// <summary>
+        /// Indicates if the context should be triggered at the end of the day when the location couldn't be captured.
+        /// </summary>
+        public bool LocationFallBack { get; set; }
     }
 }
