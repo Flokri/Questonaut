@@ -3,6 +3,8 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Com.OneSignal;
+using Com.OneSignal.Abstractions;
 using Microsoft.AppCenter.Crashes;
 using Plugin.CloudFirestore;
 using Questonaut.Controller;
@@ -65,11 +67,11 @@ namespace Questonaut.Helper
             {
                 if (activityCount >= 2)
                 {
-                    await this.dependency.SendNotification("Questonaut", "You're in the right context to answer a question. Go ahead 🚀");
+                    await this.dependency.SendNotification("Questonaut", "You're in the right context to answer multiple questions. Go ahead 🚀");
                 }
                 else
                 {
-                    await this.dependency.SendNotification("Questonaut", "You're in the right context to answer multiple questions. Go ahead 🚀");
+                    await this.dependency.SendNotification("Questonaut", "You're in the right context to answer a question. Go ahead 🚀");
                 }
             }
 
@@ -103,9 +105,9 @@ namespace Questonaut.Helper
                     {
                         temp = false;
                     }
-
-                    isRightContext = temp;
                 }
+
+                isRightContext = temp;
             }
             catch (Exception e)
             {

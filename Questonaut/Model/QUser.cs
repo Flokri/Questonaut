@@ -19,6 +19,12 @@ namespace Questonaut.Model
         public string Id { get; set; }
 
         /// <summary>
+        /// The user id of the onesignal framework
+        /// </summary>
+        [Ignored]
+        public string OnesignalId { get; set; }
+
+        /// <summary>
         /// The username.
         /// </summary>
         public string Name { get; set; }

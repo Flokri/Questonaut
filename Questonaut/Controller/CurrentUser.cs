@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Akavache;
+using Com.OneSignal;
 using Firebase.Rest.Auth.Payloads;
 using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
@@ -304,6 +306,19 @@ namespace Questonaut.Controller
                     User userdata = JsonConvert.DeserializeObject<User>(SettingsImp.UserValue);
 
                     CurrentUser.Instance.User = new QUser() { Email = userdata.email };
+
+                    //try to get the onesingal id
+                    try
+                    {
+                        OneSignal.Current.IdsAvailable(new Com.OneSignal.Abstractions.IdsAvailableCallback((userId, arg) =>
+                        {
+                            CurrentUser.Instance.User.OnesignalId = userId;
+                        }));
+                    }
+                    catch (Exception e)
+                    {
+                        Crashes.TrackError(e);
+                    }
 
                     try
                     {

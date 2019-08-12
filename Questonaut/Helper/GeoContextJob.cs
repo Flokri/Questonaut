@@ -62,11 +62,11 @@ namespace Questonaut.Helper
             {
                 if (activityCount >= 2)
                 {
-                    await this.dependency.SendNotification("Questonaut", "You're in the right context to answer a question. Go ahead 🚀");
+                    await this.dependency.SendNotification("Questonaut", "You're in the right context to answer multiple questions. Go ahead 🚀");
                 }
                 else
                 {
-                    await this.dependency.SendNotification("Questonaut", "You're in the right context to answer multiple questions. Go ahead 🚀");
+                    await this.dependency.SendNotification("Questonaut", "You're in the right context to answer a question questions. Go ahead 🚀");
                 }
             }
 
