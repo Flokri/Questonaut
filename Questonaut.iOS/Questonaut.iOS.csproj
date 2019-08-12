@@ -28,7 +28,6 @@
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
     <CodesignKey>iPhone Developer: Florian Kriegl (X44R58T3B9)</CodesignKey>
-    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <CodesignProvision>VS: WildCard Development</CodesignProvision>
 <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
 <MtouchExtraArgs>--registrar:static</MtouchExtraArgs>
