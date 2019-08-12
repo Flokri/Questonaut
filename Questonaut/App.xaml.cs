@@ -49,7 +49,7 @@ namespace Questonaut
             Akavache.Registrations.Start("Questonaut");
 
             //check if user is already logged in
-            if (SettingsImp.UserValue != string.Empty)
+            if (SettingsImp.UserValue != string.Empty && CurrentUser.Instance.User != null && CurrentUser.Instance.User.Email != null && !CurrentUser.Instance.User.Email.Equals(""))
             {
                 //if there is a user logged in go to the mainscreen
                 NavigationService.NavigateAsync(new System.Uri("https://www.Questonaut/MainView", System.UriKind.Absolute));

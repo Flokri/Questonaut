@@ -182,12 +182,20 @@ namespace Questonaut.ViewModels
                             await ChangeToCreationAsync();
                         }
                     }
+                    else
+                    {
+                        SettingsImp.UserValue = "";
+                    }
 
                     break;
                 case "Signup":
                     if (await SignupAsync() == true)
                     {
                         await ChangeToCreationAsync();
+                    }
+                    else
+                    {
+                        SettingsImp.UserValue = "";
                     }
                     break;
                 default:
