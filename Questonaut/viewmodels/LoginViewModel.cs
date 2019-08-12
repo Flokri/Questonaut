@@ -298,17 +298,27 @@ namespace Questonaut.ViewModels
 
                     if (response != null)
                     {
-                        var sendverification = await _firebase.SendVerification(new SendVerificationEmailRequest()
-                        {
-                            RequestType = "VERIFY_EMAIL",
-                            IdToken = response.IdToken,
-                        });
+                        var userData = await _firebase.GetUserData(new GetUserDataRequest() { IdToken = response.IdToken });
 
-                        if (sendverification != null)
+                        if (userData != null)
                         {
-                            await _pageDialogservice.DisplayAlertAsync("Verify", "Your account was created successfully. Please confirm the account with the mail we send to you.", "Ok");
-                            return true;
+                            //save a flag to the application data to know that a user is logged in
+                            SettingsImp.UserValue = JsonConvert.SerializeObject(userData.users[0]);
+
+
+                            var sendverification = await _firebase.SendVerification(new SendVerificationEmailRequest()
+                            {
+                                RequestType = "VERIFY_EMAIL",
+                                IdToken = response.IdToken,
+                            });
+
+                            if (sendverification != null)
+                            {
+                                await _pageDialogservice.DisplayAlertAsync("Verify", "Your account was created successfully. Please confirm the account with the mail we send to you.", "Ok");
+                                return true;
+                            }
                         }
+                        return false;
                     }
                 }
                 catch (FirebaseAuthException e)

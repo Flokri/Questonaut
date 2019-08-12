@@ -62,7 +62,6 @@
                        Margin="15,0" />
                 <Entry Text="{Binding HomeAddress}"
                        TextColor="Black"
-                       HeightRequest="30"
                        Placeholder="Streetname #Number, City (optional Country)"
                        Margin="15,0" />
                 <Button Text="Set"
@@ -75,7 +74,6 @@
                        Margin="15,20,15,0" />
                 <Entry Text="{Binding WorkAddress}"
                        TextColor="Black"
-                       HeightRequest="30"
                        Placeholder="Streetname #Number, City (optional Country)"
                        Margin="15,0" />
                 <Button Text="Set"

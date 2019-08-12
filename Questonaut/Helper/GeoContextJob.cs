@@ -88,7 +88,6 @@ namespace Questonaut.Helper
 
                 if (context.LocationName != null &&
                     context.LocationAction != null &&
-                    context.Location != null &&
                     context.LocationFallBack)
                 {
                     if (info.Parameters.ContainsKey("region"))

@@ -112,11 +112,11 @@ namespace Questonaut.viewmodels
                             .GetDocumentAsync();
                         QContext context = contextDoc.ToObject<QContext>();
 
-                        if (context.Location != null)
+                        if (context.LocationName != null && CurrentUser.Instance.User.Locations.ContainsKey(context.LocationName))
                         {
                             await geofences.StartMonitoring(new GeofenceRegion(
                                 context.LocationName + "|" + context.LocationAction,
-                            new Position(context.Location.Latitude, context.Location.Longitude),
+                            new Position(CurrentUser.Instance.User.Locations[context.LocationName].Latitude, CurrentUser.Instance.User.Locations[context.LocationName].Longitude),
                             Distance.FromMeters(200))
                             {
                                 NotifyOnEntry = true,

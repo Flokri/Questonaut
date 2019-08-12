@@ -85,7 +85,14 @@ namespace Questonaut.Controller
                 CurrentUser.Instance.User.Locations.Add(key, new Plugin.CloudFirestore.GeoPoint(loc.Latitude, loc.Longitude));
                 CurrentUser.Instance.UpdateUser("Locations", CurrentUser.Instance.User.Locations);
             }
-            await BlobCache.UserAccount.InsertObject("user", CurrentUser.Instance.User);
+            try
+            {
+                await BlobCache.UserAccount.InsertObject("user", CurrentUser.Instance.User);
+            }
+            catch (Exception e)
+            {
+                Crashes.TrackError(e);
+            }
         }
         #endregion
 
@@ -168,11 +175,11 @@ namespace Questonaut.Controller
                                 .GetDocumentAsync();
                             QContext context = contextDoc.ToObject<QContext>();
 
-                            if (context.Location != null && !_registeredGeofences)
+                            if (context.LocationName != null && CurrentUser.Instance.User.Locations.ContainsKey(context.LocationName) && !_registeredGeofences)
                             {
                                 await geofences.StartMonitoring(new GeofenceRegion(
                                     context.LocationName + "|" + context.LocationAction,
-                                new Position(context.Location.Latitude, context.Location.Longitude),
+                                new Position(CurrentUser.Instance.User.Locations[context.LocationName].Latitude, CurrentUser.Instance.User.Locations[context.LocationName].Longitude),
                                 Distance.FromMeters(200))
                                 {
                                     NotifyOnEntry = true,

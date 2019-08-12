@@ -46,7 +46,6 @@
     <PackageReference Include="Refit" Version="4.7.9" />
     <PackageReference Include="Xamarin.CustomControls.AutoCompleteView" Version="1.0.14" />
     <PackageReference Include="dotMorten.Xamarin.Forms.AutoSuggestBox" Version="0.7.0" />
-    <PackageReference Include="Xamarin.Forms.GoogleMaps" Version="3.2.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\" />

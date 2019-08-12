@@ -93,7 +93,6 @@ namespace Questonaut.Helper
 
                 if (context.LocationName != null &&
                     context.LocationAction != null &&
-                    context.Location != null &&
                     context.LocationFallBack)
                 {
                     //only for 24h time format
