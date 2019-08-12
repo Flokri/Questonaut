@@ -48,8 +48,8 @@
                    Grid.Row="1"
                    Margin="15, 15" />
 
-            <ScrollView Orientation="Vertical"
-                        Grid.Row="2">
+            <StackLayout Orientation="Vertical"
+                         Grid.Row="2">
                 <StackLayout Orientation="Vertical">
                     <ListView x:Name="Questions"
                               HasUnevenRows="true"
@@ -95,7 +95,7 @@
                         </ListView.ItemTemplate>
                     </ListView>
                 </StackLayout>
-            </ScrollView>
+            </StackLayout>
 
             <Button Text="Send"
                     BackgroundColor="White"

@@ -103,7 +103,7 @@ namespace Questonaut.ViewModels
             {
                 if (SelectedItem.Status.Equals("open"))
                 {
-                    LoadElementAndNavigateAsync();
+                    LoadElementAndNavigateAsync(SelectedItem.ElementId);
                 }
                 else
                 {
@@ -118,7 +118,7 @@ namespace Questonaut.ViewModels
         /// <summary>
         /// Load the user element from firebase.
         /// </summary>
-        private async void LoadElementAndNavigateAsync()
+        private async void LoadElementAndNavigateAsync(string elemId)
         {
             var questionDoc = await CrossCloudFirestore.Current
                                                       .Instance
@@ -131,6 +131,10 @@ namespace Questonaut.ViewModels
             {
                 if (baseQuestion != null && baseQuestion.Type != null)
                 {
+                    if (elemId != null)
+                    {
+                        baseQuestion.ElementId = elemId;
+                    }
 
                     switch (baseQuestion.Type)
                     {

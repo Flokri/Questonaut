@@ -17,5 +17,11 @@ namespace Questonaut.Model
         /// The type of the user element.
         /// </summary>
         public string Type { get; set; }
+
+        /// <summary>
+        /// The Link to the element in which the question is located.
+        /// </summary>
+        [Ignored]
+        public string ElementId { get; set; }
     }
 }
