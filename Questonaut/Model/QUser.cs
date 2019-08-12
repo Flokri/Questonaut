@@ -2,6 +2,7 @@
 using Plugin.CloudFirestore.Attributes;
 using System.Collections.ObjectModel;
 using System.Collections;
+using Plugin.CloudFirestore;
 
 namespace Questonaut.Model
 {
@@ -54,6 +55,11 @@ namespace Questonaut.Model
         /// The gender of the user.
         /// </summary>
         public string Gender { get; set; }
+
+        /// <summary>
+        /// The saved location points of the user.
+        /// </summary>
+        public IDictionary<string, GeoPoint> Locations { get; set; }
 
         /// <summary>
         /// The real Study objects

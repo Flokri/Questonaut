@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Questonaut.Views.SettingsView"
+             xmlns:controls="clr-namespace:Questonaut.Controls"
+             xmlns:effects="clr-namespace:Questonaut.Effects"
+             xmlns:forms="clr-namespace:dotMorten.Xamarin.Forms;assembly=dotMorten.Xamarin.Forms.AutoSuggestBox"
+             xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
+             BackgroundColor="#42506B">
+
+    <ContentPage.Resources>
+        <Color x:Key="DarkBlue">#42506B</Color>
+        <Color x:Key="LightGreen">#52BF8B</Color>
+        <Color x:Key="Gray">#707070</Color>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackLayout Orientation="Horizontal"
+                         Grid.Row="0">
+                <Label TextColor="White"
+                       FontSize="28"
+                       HorizontalOptions="Start"
+                       Text="Settings">
+                    <Label.Margin>
+                        <OnPlatform x:TypeArguments="Thickness">
+                            <On Platform="iOS"
+                                Value="15,55,0,0" />
+                            <On Platform="Android"
+                                Value="15,20,0,0" />
+                        </OnPlatform>
+                    </Label.Margin>
+                </Label>
+                <Button Text="Back"
+                        TextColor="White"
+                        BackgroundColor="Transparent"
+                        Command="{Binding OnBack}"
+                        HorizontalOptions="EndAndExpand"
+                        VerticalOptions="Center">
+                    <Button.Margin>
+                        <OnPlatform x:TypeArguments="Thickness">
+                            <On Platform="iOS"
+                                Value="15,55,15,0" />
+                            <On Platform="Android"
+                                Value="15,15,15,0" />
+                        </OnPlatform>
+                    </Button.Margin>
+                </Button>
+            </StackLayout>
+
+            <StackLayout Orientation="Vertical"
+                         Grid.Row="1">
+                <Label Text="Home Address"
+                       TextColor="White"
+                       Margin="15,0" />
+                <Entry Text="{Binding HomeAddress}"
+                       TextColor="Black"
+                       HeightRequest="30"
+                       Placeholder="Streetname #Number, City (optional Country)"
+                       Margin="15,0" />
+                <Button Text="Set"
+                        BackgroundColor="Transparent"
+                        TextColor="White"
+                        Command="{Binding OnEnterHomeAddress}" />
+
+                <Label Text="Work Address"
+                       TextColor="White"
+                       Margin="15,20,15,0" />
+                <Entry Text="{Binding WorkAddress}"
+                       TextColor="Black"
+                       HeightRequest="30"
+                       Placeholder="Streetname #Number, City (optional Country)"
+                       Margin="15,0" />
+                <Button Text="Set"
+                        BackgroundColor="Transparent"
+                        TextColor="White"
+                        Command="{Binding OnEnterWorkAddress}" />
+            </StackLayout>
+
+            <Button Text="Logout"
+                    TextColor="{StaticResource DarkBlue}"
+                    BackgroundColor="White"
+                    WidthRequest="150"
+                    VerticalOptions="EndAndExpand"
+                    Command="{Binding OnLogout}"
+                    Grid.Row="3"
+                    Margin="15,0,15,40" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

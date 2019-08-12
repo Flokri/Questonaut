@@ -55,7 +55,7 @@ namespace Questonaut.ViewModels
         #endregion
 
         #region Commands
-        public DelegateCommand OnLogout { get; set; }
+        public DelegateCommand OnSettings { get; set; }
         public DelegateCommand AddUser { get; set; }
         public DelegateCommand OnRefresh { get; set; }
         public DelegateCommand OnItemTapped { get; set; }
@@ -70,7 +70,7 @@ namespace Questonaut.ViewModels
             _pageDialogservice = pageDialogService;
 
             //set the commands
-            OnLogout = new DelegateCommand(() => Logout());
+            OnSettings = new DelegateCommand(() => Settings());
             AddUser = new DelegateCommand(() => Add());
             OnRefresh = new DelegateCommand(async () =>
             {
@@ -181,25 +181,21 @@ namespace Questonaut.ViewModels
             }
         }
 
-        /// <summary>
-        /// Logout the current user and reset the in-memory user data.
-        /// </summary>
-        private async void Logout()
+        private async void Settings()
         {
             //test code
-            var test = new ActivityDB();
-            test.AddActivity(new QActivity() { StudyId = "nCEviVVAF6CqEQEdM5Hn", Name = "Question", Date = DateTime.Now, Description = "Answered a question based on a step context.", Status = "open", Link = "wuBomdj98G4GGdX7Zt5s" });
+            //var test = new ActivityDB();
+            //test.AddActivity(new QActivity() { StudyId = "nCEviVVAF6CqEQEdM5Hn", Name = "Question", Date = DateTime.Now, Description = "Answered a question based on a step context.", Status = "open", Link = "wuBomdj98G4GGdX7Zt5s" });
             //end test code
 
-            //try
-            //{
-            //    CurrentUser.Instance.LogoutUser();
-            //    await _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/LoginView", System.UriKind.Absolute));
-            //}
-            //catch (Exception e)
-            //{
-            //    Crashes.TrackError(e);
-            //}
+            try
+            {
+                await _navigationService.NavigateAsync("SettingsView");
+            }
+            catch (Exception e)
+            {
+                Crashes.TrackError(e);
+            }
         }
 
         /// <summary>

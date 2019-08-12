@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
+using Questonaut.Controller;
 using Questonaut.DependencyServices;
 using Questonaut.Model;
 
@@ -24,6 +26,7 @@ namespace Questonaut.viewmodels
 
         #region Commands
         public DelegateCommand OnBack { get; set; }
+        public DelegateCommand OnLogout { get; set; }
         #endregion
 
         #region constructor
@@ -35,6 +38,7 @@ namespace Questonaut.viewmodels
 
             //initialize the back command
             OnBack = new DelegateCommand(() => Back());
+            OnLogout = new DelegateCommand(() => Logout());
 
             Xamarin.Forms.DependencyService.Get<ISetStatusBar>().SetColorToBlack();
 
@@ -51,6 +55,28 @@ namespace Questonaut.viewmodels
         #endregion
 
         #region private methods
+        /// <summary>
+        /// Logout the current user and reset the in-memory user data.
+        /// </summary>
+        private async void Logout()
+        {
+            //test code
+            //var test = new ActivityDB();
+            //test.AddActivity(new QActivity() { StudyId = "nCEviVVAF6CqEQEdM5Hn", Name = "Question", Date = DateTime.Now, Description = "Answered a question based on a step context.", Status = "open", Link = "wuBomdj98G4GGdX7Zt5s" });
+            //end test code
+
+            try
+            {
+                CurrentUser.Instance.LogoutUser();
+                await _navigationService.NavigateAsync(new System.Uri("https://www.Questonaut/LoginView", System.UriKind.Absolute));
+
+            }
+            catch (Exception e)
+            {
+                Crashes.TrackError(e);
+            }
+        }
+
         /// <summary>
         /// Navigates the user back to the view he comes from.
         /// </summary>

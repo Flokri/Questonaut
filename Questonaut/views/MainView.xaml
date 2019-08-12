@@ -41,10 +41,10 @@
                         </OnPlatform>
                     </Label.Margin>
                 </Label>
-                <Button Text="Logout"
+                <Button Text="Settings"
                         TextColor="White"
                         BackgroundColor="Transparent"
-                        Command="{Binding OnLogout}"
+                        Command="{Binding OnSettings}"
                         HorizontalOptions="EndAndExpand"
                         VerticalOptions="Center">
                     <Button.Margin>

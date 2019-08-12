@@ -74,6 +74,7 @@ namespace Questonaut
             containerRegistry.RegisterForNavigation<TextEntryView, TextEntryViewModel>();
             containerRegistry.RegisterForNavigation<MultipleChoiceView, MultipleChoiceViewModel>();
             containerRegistry.RegisterForNavigation<SliderEntryView, SliderEntryViewModel>();
+            containerRegistry.RegisterForNavigation<SettingsView, SettingsViewModel>();
         }
 
         protected override void OnStart()

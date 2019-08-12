@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Reflection;
@@ -116,6 +117,7 @@ namespace Questonaut.ViewModels
                     CurrentUser.Instance.User.Birthday = this.Birthday.ToShortDateString();
                     CurrentUser.Instance.User.Gender = this.Male ? "Male" : "Female";
                     CurrentUser.Instance.User.Image = storedImage;
+                    CurrentUser.Instance.User.Locations = new Dictionary<string, GeoPoint>();
 
                     await CrossCloudFirestore.Current
                          .Instance

@@ -18,6 +18,7 @@ using Questonaut.Settings;
 using Shiny;
 using Shiny.Locations;
 using Shiny.Notifications;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace Questonaut.Controller
@@ -71,6 +72,20 @@ namespace Questonaut.Controller
         public bool LogoutUser()
         {
             return Logout();
+        }
+
+        public async void AddLocation(string key, Location loc)
+        {
+            if (CurrentUser.Instance.User.Locations.ContainsKey(key))
+            {
+                CurrentUser.Instance.User.Locations[key] = new Plugin.CloudFirestore.GeoPoint(loc.Latitude, loc.Longitude);
+            }
+            else
+            {
+                CurrentUser.Instance.User.Locations.Add(key, new Plugin.CloudFirestore.GeoPoint(loc.Latitude, loc.Longitude));
+                CurrentUser.Instance.UpdateUser("Locations", CurrentUser.Instance.User.Locations);
+            }
+            await BlobCache.UserAccount.InsertObject("user", CurrentUser.Instance.User);
         }
         #endregion
 
