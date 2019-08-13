@@ -34,6 +34,7 @@
                 </Label>
                 <Button Text="Cancel"
                         TextColor="White"
+                        BackgroundColor="Transparent"
                         Command="{Binding OnCancel}"
                         HorizontalOptions="EndAndExpand">
                     <Button.Margin>

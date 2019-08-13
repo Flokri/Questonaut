@@ -131,15 +131,11 @@ namespace Questonaut.ViewModels
             {
                 if (baseQuestion != null && baseQuestion.Type != null)
                 {
-                    if (elemId != null)
-                    {
-                        baseQuestion.ElementId = elemId;
-                    }
-
                     switch (baseQuestion.Type)
                     {
                         case "TextEntry":
                             QQuestion question = questionDoc.ToObject<QQuestion>();
+                            question.ElementId = elemId;
 
                             var navigationParamsQuestion = new NavigationParameters();
                             navigationParamsQuestion.Add("question", question);
@@ -152,6 +148,7 @@ namespace Questonaut.ViewModels
                             break;
                         case "SliderEntry":
                             QSlider slider = questionDoc.ToObject<QSlider>();
+                            slider.ElementId = elemId;
 
                             var navigationParamsSlider = new NavigationParameters();
                             navigationParamsSlider.Add("question", slider);
@@ -164,6 +161,7 @@ namespace Questonaut.ViewModels
                             break;
                         case "MultipleChoice":
                             QMultipleQuestion multipleChoice = questionDoc.ToObject<QMultipleQuestion>();
+                            multipleChoice.ElementId = elemId;
 
                             var navigationParamsMultipleChoice = new NavigationParameters();
                             navigationParamsMultipleChoice.Add("question", multipleChoice);

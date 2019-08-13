@@ -64,23 +64,33 @@ namespace Questonaut.ViewModels
         #region private methods
         private async void FillPreData()
         {
-            foreach (KeyValuePair<string, GeoPoint> point in CurrentUser.Instance.User.Locations)
+            try
             {
-                Placemark mark = await ResolveLocation(new Location(point.Value.Latitude, point.Value.Longitude));
-                switch (point.Key)
+                foreach (KeyValuePair<string, GeoPoint> point in CurrentUser.Instance.User.Locations)
                 {
-                    case "HOME":
-                        HomeAddress = mark.FeatureName + ", " + mark.Locality;
-                        break;
+                    Placemark mark = await ResolveLocation(new Location(point.Value.Latitude, point.Value.Longitude));
+                    switch (point.Key)
+                    {
+                        case "HOME":
+                            HomeAddress = mark.FeatureName + ", " + mark.Locality;
+                            break;
 
-                    case "WORK":
-                        WorkAddress = mark.FeatureName + ", " + mark.Locality;
-                        break;
+                        case "WORK":
+                            WorkAddress = mark.FeatureName + ", " + mark.Locality;
+                            break;
 
-                    default:
-                        break;
+                        default:
+                            break;
+                    }
                 }
             }
+            catch (NullReferenceException e)
+            {
+                Crashes.TrackError(e);
+                CurrentUser.Instance.LogoutUser();
+                _navigationService.NavigateAsync(new Uri("http://www.Questonaut/LoginView", UriKind.Absolute));
+            }
+
         }
 
         /// <summary>
