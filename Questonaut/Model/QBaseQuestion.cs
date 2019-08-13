@@ -23,5 +23,11 @@ namespace Questonaut.Model
         /// </summary>
         [Ignored]
         public string ElementId { get; set; }
+
+        /// <summary>
+        /// The time the user answered the question.
+        /// </summary>
+        [Ignored]
+        public DateTime Timestamp { get; set; }
     }
 }

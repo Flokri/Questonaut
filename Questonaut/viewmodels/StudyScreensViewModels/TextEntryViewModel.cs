@@ -55,6 +55,7 @@ namespace Questonaut.viewmodels.StudyScreensViewModels
         {
             if (!Answer.Equals(""))
             {
+                Question.Timestamp = DateTime.Now;
                 Question.Answer = this.Answer;
                 new ActivityDB().SetActivityAsAnswered(JsonConvert.SerializeObject(Question), _activityId);
                 MessagingCenter.Send<string>("Questonaut", "refreshDB");

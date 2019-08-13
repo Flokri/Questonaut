@@ -54,6 +54,7 @@ namespace Questonaut.ViewModels.StudyScreensViewModels
         {
             if (Ticks.Where(x => x.Checked).Count() > 0)
             {
+                Question.Timestamp = DateTime.Now;
                 Question.Answer = JsonConvert.SerializeObject(Ticks);
                 string answer = JsonConvert.SerializeObject(Question);
 

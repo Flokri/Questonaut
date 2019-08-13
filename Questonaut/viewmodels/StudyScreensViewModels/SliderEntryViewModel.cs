@@ -49,6 +49,7 @@ namespace Questonaut.ViewModels.StudyScreensViewModels
         #region private methods
         private async void Save()
         {
+            Question.Timestamp = DateTime.Now;
             Question.Answer = this.Answer.ToString();
             string answer = JsonConvert.SerializeObject(Question);
 
