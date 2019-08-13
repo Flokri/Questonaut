@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Firebase.Auth;
+using Microsoft.AppCenter.Crashes;
 using Questonaut.DependencyServices;
 using Questonaut.iOS.DependencyServices;
 using Xamarin.Forms;
@@ -17,8 +18,16 @@ namespace Questonaut.iOS.DependencyServices
 
         public async Task<string> LoginWithEmailPassword(string email, string password)
         {
-            var user = await Auth.DefaultInstance.SignInWithPasswordAsync(email, password);
-            return await user.User.GetIdTokenAsync();
+            try
+            {
+                var user = await Auth.DefaultInstance.SignInWithPasswordAsync(email, password);
+                return await user.User.GetIdTokenAsync();
+            }
+            catch (Exception e)
+            {
+                Crashes.TrackError(e);
+                return "";
+            }
         }
     }
 }

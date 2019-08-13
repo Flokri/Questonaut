@@ -14,6 +14,7 @@ using Plugin.Permissions;
 using Plugin.LocalNotifications;
 using Com.OneSignal;
 using Android.Content;
+using Android.Views;
 
 namespace Questonaut.Droid
 {
@@ -63,6 +64,10 @@ namespace Questonaut.Droid
 
             //using the ffloading for the standard Xamarin.Forms.Image
             CachedImageRenderer.InitImageViewHandler();
+
+            //Take care of the notch
+            Window.Attributes.LayoutInDisplayCutoutMode = LayoutInDisplayCutoutMode.Never;
+            Window.ClearFlags(WindowManagerFlags.Fullscreen);
 
             LoadApplication(new App(new AndroidInitializer()));
         }

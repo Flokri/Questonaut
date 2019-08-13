@@ -46,7 +46,7 @@ namespace Questonaut.Helper
             var job = new JobInfo
             {
                 Identifier = "GeoContext",
-                Type = typeof(CheckContextJob),
+                Type = typeof(GeoContextJob),
                 Repeat = false,
                 BatteryNotLow = false,
                 DeviceCharging = false,

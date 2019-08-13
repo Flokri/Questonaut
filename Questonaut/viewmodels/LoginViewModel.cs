@@ -372,7 +372,13 @@ namespace Questonaut.ViewModels
 
                             if (CheckIfVerified(userData))
                             {
-                                await Xamarin.Forms.DependencyService.Get<IFirebaseAuthenticator>().LoginWithEmailPassword(this.Email, this.Password);
+                                string token = await Xamarin.Forms.DependencyService.Get<IFirebaseAuthenticator>().LoginWithEmailPassword(this.Email, this.Password);
+
+                                if (token.Equals(""))
+                                {
+                                    return false;
+                                }
+
                                 //SettingsImp.UserNameValue = await GetUserDataAsync();
                                 return true;
                             }

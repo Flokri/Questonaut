@@ -87,8 +87,6 @@ namespace Questonaut.ViewModels
             catch (NullReferenceException e)
             {
                 Crashes.TrackError(e);
-                CurrentUser.Instance.LogoutUser();
-                _navigationService.NavigateAsync(new Uri("http://www.Questonaut/LoginView", UriKind.Absolute));
             }
 
         }

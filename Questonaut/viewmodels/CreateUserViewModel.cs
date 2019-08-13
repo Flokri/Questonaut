@@ -157,21 +157,28 @@ namespace Questonaut.ViewModels
         /// <returns></returns>
         private async Task<string> StoreImage(Stream imageStream)
         {
-            //set the authentication token 
-            var options = new FirebaseStorageOptions
+            try
             {
-                AuthTokenAsyncFactory = async () => await Xamarin.Forms.DependencyService.Get<IFirebaseAuthenticator>().GetCurrentUser()
-            };
+                //set the authentication token 
+                var options = new FirebaseStorageOptions
+                {
+                    AuthTokenAsyncFactory = async () => await Xamarin.Forms.DependencyService.Get<IFirebaseAuthenticator>().GetCurrentUser()
+                };
 
-            var storageImage = await new FirebaseStorage("questonaut.appspot.com", options)
-                                                        .Child("UserImages")
-                                                        .Child(CurrentUser.Instance.User.Email + ".jpg")
-                                                        .PutAsync(imageStream);
+                var storageImage = await new FirebaseStorage("questonaut.appspot.com", options)
+                                                            .Child("UserImages")
+                                                            .Child(CurrentUser.Instance.User.Email + ".jpg")
+                                                            .PutAsync(imageStream);
 
-            //set the image localy
-            CurrentUser.Instance.User.LocalImage = GetImageStreamAsBytes.Convert(imageStream);
+                //set the image localy
+                CurrentUser.Instance.User.LocalImage = GetImageStreamAsBytes.Convert(imageStream);
 
-            return storageImage;
+                return storageImage;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
 
         /// <summary>

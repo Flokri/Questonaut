@@ -175,7 +175,10 @@ namespace Questonaut.Controller
                                 .GetDocumentAsync();
                             QContext context = contextDoc.ToObject<QContext>();
 
-                            if (context.LocationName != null && CurrentUser.Instance.User.Locations.ContainsKey(context.LocationName) && !_registeredGeofences)
+                            if (context.LocationName != null &&
+                                CurrentUser.Instance.User.Locations != null &&
+                                CurrentUser.Instance.User.Locations.ContainsKey(context.LocationName)
+                                && !_registeredGeofences)
                             {
                                 await geofences.StartMonitoring(new GeofenceRegion(
                                     context.LocationName + "|" + context.LocationAction,
