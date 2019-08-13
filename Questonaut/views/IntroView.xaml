@@ -7,7 +7,9 @@
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:controls="clr-namespace:PanCardView.Controls;assembly=PanCardView"
              BackgroundColor="#42506B"
-             NavigationPage.HasNavigationBar="False">
+             NavigationPage.HasNavigationBar="False"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             ios:Page.UseSafeArea="true">
     <ContentPage.Resources>
         <Color x:Key="DarkBlue">#42506B</Color>
     </ContentPage.Resources>
@@ -33,7 +35,7 @@
                                 <Label.Margin>
                                     <OnPlatform x:TypeArguments="Thickness">
                                         <On Platform="iOS"
-                                            Value="25,50,0,0" />
+                                            Value="25,0,0,0" />
                                         <On Platform="Android"
                                             Value="25,20,0,0" />
                                     </OnPlatform>

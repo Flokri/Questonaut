@@ -7,7 +7,9 @@
     xmlns:effects="clr-namespace:Questonaut.Effects"
     x:Class="Questonaut.views.FindAllStudiesView"
     BackgroundColor="#42506B"
-    NavigationPage.HasNavigationBar="False">
+    NavigationPage.HasNavigationBar="False"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    ios:Page.UseSafeArea="true">
 
     <ContentPage.Resources>
         <Color x:Key="DarkBlue">#42506B</Color>
@@ -31,7 +33,7 @@
                     <Label.Margin>
                         <OnPlatform x:TypeArguments="Thickness">
                             <On Platform="iOS"
-                                Value="15,55,0,0" />
+                                Value="15,0,0,0" />
                             <On Platform="Android"
                                 Value="15,20,0,0" />
                         </OnPlatform>
@@ -46,7 +48,7 @@
                     <Button.Margin>
                         <OnPlatform x:TypeArguments="Thickness">
                             <On Platform="iOS"
-                                Value="15,55,15,0" />
+                                Value="15,0,15,0" />
                             <On Platform="Android"
                                 Value="15,15,15,0" />
                         </OnPlatform>

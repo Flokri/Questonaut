@@ -5,7 +5,9 @@
              xmlns:circleImage="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
              xmlns:controls="clr-namespace:Questonaut.Controls"
              BackgroundColor="#42506B"
-             NavigationPage.HasNavigationBar="false">
+             NavigationPage.HasNavigationBar="false"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             ios:Page.UseSafeArea="true">
     <ContentPage.Resources>
         <Color x:Key="DarkBlue">#42506B</Color>
     </ContentPage.Resources>
@@ -26,7 +28,7 @@
                     <Label.Margin>
                         <OnPlatform x:TypeArguments="Thickness">
                             <On Platform="iOS"
-                                Value="15,45,0,5" />
+                                Value="15,0,0,5" />
                             <On Platform="Android"
                                 Value="15,5,0,5" />
                         </OnPlatform>
@@ -40,7 +42,7 @@
                     <Button.Margin>
                         <OnPlatform x:TypeArguments="Thickness">
                             <On Platform="iOS"
-                                Value="15,45,15,5" />
+                                Value="15,0,15,5" />
                             <On Platform="Android"
                                 Value="15,5,15,5" />
                         </OnPlatform>

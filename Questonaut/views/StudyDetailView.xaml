@@ -5,7 +5,9 @@
              xmlns:controls="clr-namespace:Questonaut.Controls"
              xmlns:effects="clr-namespace:Questonaut.Effects"
              x:Class="Questonaut.views.StudyDetailView"
-             BackgroundColor="#42506B">
+             BackgroundColor="#42506B"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             ios:Page.UseSafeArea="true">
 
     <ContentPage.Resources>
         <Color x:Key="DarkBlue">#42506B</Color>
@@ -36,7 +38,7 @@
                         <StackLayout.Margin>
                             <OnPlatform x:TypeArguments="Thickness">
                                 <On Platform="iOS"
-                                    Value="15,35,0,-10" />
+                                    Value="15,0,0,-10" />
                                 <On Platform="Android"
                                     Value="-10,20,0,-10" />
                             </OnPlatform>
