@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Com.OneSignal;
 using Com.OneSignal.Abstractions;
+using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Plugin.CloudFirestore;
 using Questonaut.Controller;
@@ -28,6 +30,13 @@ namespace Questonaut.Helper
         {
             var db = new ActivityDB();
             int activityCount = 0;
+
+            Analytics.TrackEvent("Started to check context.");
+            Analytics.TrackEvent("The user obect.", new Dictionary<string, string>
+            {
+                {"User Id", CurrentUser.Instance.User.Id ?? "null"},
+                {"Email", CurrentUser.Instance.User.Email ?? "null"},
+            });
 
             foreach (QStudy study in CurrentUser.Instance.User.ActiveStudiesObjects)
             {

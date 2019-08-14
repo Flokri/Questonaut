@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Plugin.CloudFirestore;
 using Questonaut.Controller;
@@ -35,6 +36,13 @@ namespace Questonaut.Helper
             {
                 var db = new ActivityDB();
                 List<QActivity> data = db.GetReadyForUpload();
+
+                Analytics.TrackEvent("Upload all the activities");
+                Analytics.TrackEvent("The user obect.", new Dictionary<string, string>
+                {
+                    {"User Id", CurrentUser.Instance.User.Id ?? "null"},
+                    {"Email", CurrentUser.Instance.User.Email ?? "null"},
+                });
 
                 var contextDoc = await CrossCloudFirestore.Current
                     .Instance

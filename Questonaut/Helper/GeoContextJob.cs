@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AppCenter.Analytics;
 using Plugin.CloudFirestore;
 using Questonaut.Controller;
 using Questonaut.Model;
@@ -23,6 +25,13 @@ namespace Questonaut.Helper
         {
             var db = new ActivityDB();
             int activityCount = 0;
+
+            Analytics.TrackEvent("Entered the geo context checker job");
+            Analytics.TrackEvent("The user obect.", new Dictionary<string, string>
+            {
+                {"User Id", CurrentUser.Instance.User.Id ?? "null"},
+                {"Email", CurrentUser.Instance.User.Email ?? "null"},
+            });
 
             foreach (QStudy study in CurrentUser.Instance.User.ActiveStudiesObjects)
             {

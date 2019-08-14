@@ -40,7 +40,6 @@ namespace Questonaut
         {
             InitializeComponent();
 
-
             //initialize the one signal framework
             OneSignal.Current.StartInit(Secrets.ONESIGNAL_APP_ID)
                              .EndInit();

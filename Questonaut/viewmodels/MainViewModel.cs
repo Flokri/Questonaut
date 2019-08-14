@@ -1,24 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Reactive.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Akavache;
+using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Plugin.CloudFirestore;
-using Plugin.LocalNotifications;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
 using Questonaut.Controller;
-using Questonaut.DependencyServices;
 using Questonaut.Helper;
 using Questonaut.Model;
-using Questonaut.Settings;
 using Xamarin.Forms;
 
 namespace Questonaut.ViewModels
@@ -63,7 +59,12 @@ namespace Questonaut.ViewModels
 
         public MainViewModel(INavigationService navigationService, IPageDialogService pageDialogService)
         {
-            Akavache.Registrations.Start("Questonaut");
+            Analytics.TrackEvent("Started the app.");
+            Analytics.TrackEvent("The user obect.", new Dictionary<string, string>
+            {
+                {"User Id", CurrentUser.Instance.User.Id ?? "null"},
+                {"Email", CurrentUser.Instance.User.Email ?? "null"},
+            });
 
             //initialize the prims stuff
             _navigationService = navigationService;
@@ -211,7 +212,9 @@ namespace Questonaut.ViewModels
                 try
                 {
                     QUser inMemory = await BlobCache.UserAccount.GetObject<QUser>("user");
-                    CurrentUser.Instance.User = inMemory;
+                    //CurrentUser.Instance.User = inMemory;
+
+                    await CurrentUser.Instance.LoadUser();
                 }
                 catch
                 {
