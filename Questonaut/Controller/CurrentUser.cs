@@ -125,7 +125,14 @@ namespace Questonaut.Controller
             {
                 try
                 {
-                    BlobCache.UserAccount.InvalidateAll().Wait();
+                    try
+                    {
+                        BlobCache.UserAccount.InvalidateAll().Wait();
+                    }
+                    catch (Exception blob)
+                    {
+                        Crashes.TrackError(blob);
+                    }
                 }
                 catch (Exception e)
                 {
@@ -268,7 +275,22 @@ namespace Questonaut.Controller
                     }
                 }
 
-                await BlobCache.UserAccount.InsertObject("user", CurrentUser.Instance.User);
+                try
+                {
+                    await BlobCache.UserAccount.InsertObject("user", CurrentUser.Instance.User);
+                }
+                catch (Exception e)
+                {
+                    try
+                    {
+                        BlobCache.UserAccount.InsertObject("user", CurrentUser.Instance.User);
+                    }
+                    catch (Exception e2)
+                    {
+                        Crashes.TrackError(e2);
+                    }
+
+                }
 
                 if (userChanged)
                 {

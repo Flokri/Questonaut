@@ -65,9 +65,12 @@ namespace Questonaut.Droid
             //using the ffloading for the standard Xamarin.Forms.Image
             CachedImageRenderer.InitImageViewHandler();
 
-            //Take care of the notch
-            Window.Attributes.LayoutInDisplayCutoutMode = LayoutInDisplayCutoutMode.Never;
-            Window.ClearFlags(WindowManagerFlags.Fullscreen);
+            //Take care of the notch if api is greater than 28
+            if (Android.OS.Build.VERSION.SdkInt >= BuildVersionCodes.P)
+            {
+                Window.Attributes.LayoutInDisplayCutoutMode = LayoutInDisplayCutoutMode.Never;
+                Window.ClearFlags(WindowManagerFlags.Fullscreen);
+            }
 
             LoadApplication(new App(new AndroidInitializer()));
         }

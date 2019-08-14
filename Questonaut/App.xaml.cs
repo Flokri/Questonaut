@@ -122,9 +122,11 @@ namespace Questonaut
             {
                 if (payload.additionalData.ContainsKey("action"))
                 {
-                    payload.additionalData["action"].Equals("checkContext");
-
-                    var results = await Shiny.ShinyHost.Resolve<Shiny.Jobs.IJobManager>().RunAll();
+                    string value = payload.additionalData["action"].ToString();
+                    if (value.Equals("checkContext"))
+                    {
+                        var results = await Shiny.ShinyHost.Resolve<Shiny.Jobs.IJobManager>().RunAll();
+                    }
                 }
             }
             catch (Exception e) { }
