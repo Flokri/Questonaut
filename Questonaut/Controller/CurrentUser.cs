@@ -157,6 +157,7 @@ namespace Questonaut.Controller
 
         private async void RegisterGeofences()
         {
+            List<string> registeredPlaces = new List<string>();
             var geofences = ShinyHost.Resolve<IGeofenceManager>();
 
             if (CurrentUser.Instance.User.ActiveStudiesObjects != null && CurrentUser.Instance.User.ActiveStudiesObjects.Count > 0)
@@ -184,8 +185,9 @@ namespace Questonaut.Controller
 
                             if (context.LocationName != null &&
                                 CurrentUser.Instance.User.Locations != null &&
-                                CurrentUser.Instance.User.Locations.ContainsKey(context.LocationName)
-                                && !_registeredGeofences)
+                                CurrentUser.Instance.User.Locations.ContainsKey(context.LocationName) &&
+                                !_registeredGeofences &&
+                                !registeredPlaces.Contains(context.LocationName))
                             {
                                 await geofences.StartMonitoring(new GeofenceRegion(
                                     context.LocationName + "|" + context.LocationAction,
@@ -196,6 +198,8 @@ namespace Questonaut.Controller
                                     NotifyOnExit = true,
                                     SingleUse = false
                                 });
+
+                                registeredPlaces.Add(context.LocationName);
                             }
                         }
                     }

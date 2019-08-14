@@ -90,6 +90,7 @@ namespace Questonaut.viewmodels
         {
             try
             {
+                List<string> registeredPlaces = new List<string>();
                 var geofences = ShinyHost.Resolve<IGeofenceManager>();
                 var notifications = ShinyHost.Resolve<INotificationManager>();
 
@@ -112,7 +113,7 @@ namespace Questonaut.viewmodels
                             .GetDocumentAsync();
                         QContext context = contextDoc.ToObject<QContext>();
 
-                        if (context.LocationName != null && CurrentUser.Instance.User.Locations.ContainsKey(context.LocationName))
+                        if (context.LocationName != null && CurrentUser.Instance.User.Locations.ContainsKey(context.LocationName) && !registeredPlaces.Contains(context.LocationName))
                         {
                             await geofences.StartMonitoring(new GeofenceRegion(
                                 context.LocationName + "|" + context.LocationAction,
@@ -123,6 +124,8 @@ namespace Questonaut.viewmodels
                                 NotifyOnExit = true,
                                 SingleUse = false
                             });
+
+                            registeredPlaces.Add(context.LocationName);
                         }
                     }
                 }
