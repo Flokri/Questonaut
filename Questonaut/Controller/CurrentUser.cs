@@ -189,17 +189,24 @@ namespace Questonaut.Controller
                                 !_registeredGeofences &&
                                 !registeredPlaces.Contains(context.LocationName))
                             {
-                                await geofences.StartMonitoring(new GeofenceRegion(
-                                    context.LocationName + "|" + context.LocationAction,
-                                new Position(CurrentUser.Instance.User.Locations[context.LocationName].Latitude, CurrentUser.Instance.User.Locations[context.LocationName].Longitude),
-                                Distance.FromMeters(200))
+                                try
                                 {
-                                    NotifyOnEntry = true,
-                                    NotifyOnExit = true,
-                                    SingleUse = false
-                                });
+                                    await geofences.StartMonitoring(new GeofenceRegion(
+                                        context.LocationName + "|" + context.LocationAction,
+                                    new Position(CurrentUser.Instance.User.Locations[context.LocationName].Latitude, CurrentUser.Instance.User.Locations[context.LocationName].Longitude),
+                                    Distance.FromMeters(200))
+                                    {
+                                        NotifyOnEntry = true,
+                                        NotifyOnExit = true,
+                                        SingleUse = false
+                                    });
 
-                                registeredPlaces.Add(context.LocationName);
+                                    registeredPlaces.Add(context.LocationName);
+                                }
+                                catch (Exception e)
+                                {
+                                    Crashes.TrackError(e);
+                                }
                             }
                         }
                     }
