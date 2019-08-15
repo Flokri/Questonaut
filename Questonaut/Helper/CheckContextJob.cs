@@ -101,13 +101,19 @@ namespace Questonaut.Helper
                 }
 
                 if (context.LocationName != null &&
-                    context.LocationAction != null &&
-                    context.LocationFallBack)
+                    context.LocationAction != null)
                 {
-                    //only for 24h time format
-                    if (db.GetElementCountForToday(element.ID) == 0 && DateTime.Now.Hour > 18 && DateTime.Now.Hour < 19)
+                    if (context.LocationFallBack)
                     {
-                        temp = true;
+                        //only for 24h time format
+                        if (db.GetElementCountForToday(element.ID) == 0 && DateTime.Now.Hour > 18 && DateTime.Now.Hour < 19)
+                        {
+                            temp = true;
+                        }
+                        else
+                        {
+                            temp = false;
+                        }
                     }
                     else
                     {
