@@ -84,14 +84,21 @@
                         Command="{Binding OnEnterWorkAddress}" />
             </StackLayout>
 
-            <Button Text="Logout"
-                    TextColor="{StaticResource DarkBlue}"
-                    BackgroundColor="White"
-                    WidthRequest="150"
-                    VerticalOptions="EndAndExpand"
-                    Command="{Binding OnLogout}"
-                    Grid.Row="3"
-                    Margin="15,0,15,40" />
+            <StackLayout Orientation="Vertical"
+                         Grid.Row="3"
+                         Margin="15,0,15,40">
+                <Button Text="Logout"
+                        TextColor="{StaticResource DarkBlue}"
+                        BackgroundColor="White"
+                        WidthRequest="150"
+                        VerticalOptions="EndAndExpand"
+                        Command="{Binding OnLogout}" />
+                <Button Text="Clear Cache"
+                        TextColor="White"
+                        BackgroundColor="Transparent"
+                        VerticalOptions="EndAndExpand"
+                        Command="{Binding OnClear}" />
+            </StackLayout>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

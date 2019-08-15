@@ -9,9 +9,10 @@ namespace Questonaut.Droid.DependencyServices
 {
     public class FirebaseAuthenticator : IFirebaseAuthenticator
     {
-        public Task<string> GetCurrentUser()
+        public async Task<string> GetCurrentUser()
         {
-            throw new System.NotImplementedException();
+            var result = await FirebaseAuth.Instance.CurrentUser.GetIdTokenAsync(false);
+            return result.Token;
         }
 
         public async Task<string> LoginWithEmailPassword(string email, string password)

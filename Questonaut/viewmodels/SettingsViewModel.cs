@@ -13,6 +13,7 @@ using Prism.Navigation;
 using Prism.Services;
 using Questonaut.Controller;
 using Questonaut.DependencyServices;
+using Questonaut.Helper;
 using Questonaut.Model;
 using Xamarin.Essentials;
 
@@ -36,6 +37,7 @@ namespace Questonaut.ViewModels
         public DelegateCommand OnEnterHomeAddress { get; set; }
         public DelegateCommand OnWorkAddress { get; set; }
         public DelegateCommand OnLogout { get; set; }
+        public DelegateCommand OnClear { get; set; }
         #endregion
 
         #region constructor
@@ -50,6 +52,7 @@ namespace Questonaut.ViewModels
             OnEnterHomeAddress = new DelegateCommand(() => EnterHomeAddress());
             OnWorkAddress = new DelegateCommand(() => EnterWorkAddress());
             OnLogout = new DelegateCommand(() => Logout());
+            OnClear = new DelegateCommand(() => Clear());
 
             _suggestedLocations = new ObservableCollection<string>();
 
@@ -62,6 +65,27 @@ namespace Questonaut.ViewModels
         #endregion
 
         #region private methods
+        /// <summary>
+        /// Clear all activities.
+        /// </summary>
+        private async void Clear()
+        {
+            var db = new ActivityDB();
+
+            try
+            {
+                var answer = await _pageDialogservice.DisplayAlertAsync("Sure?", "You couldn't restore your activities if you delete them.", "Yes", "No");
+                if (answer)
+                {
+                    db.DeleteAllActivities();
+                }
+            }
+            catch (Exception e)
+            {
+                Crashes.TrackError(e);
+            }
+        }
+
         private async void FillPreData()
         {
             try

@@ -41,6 +41,26 @@ namespace Questonaut.Helper
             _sqLiteConnection.Delete<QActivity>(id);
         }
 
+        public bool DeleteAllActivities()
+        {
+            try
+            {
+                foreach (QActivity act in GetActivities())
+                {
+                    DeleteActivity(act.ID);
+                }
+
+                MessagingCenter.Send<string>("Questonaut", "refreshDB");
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                Crashes.TrackError(e);
+                return false;
+            }
+        }
+
         public string AddActivity(QActivity activity)
         {
             var data = _sqLiteConnection.Table<QActivity>();
