@@ -90,15 +90,10 @@ namespace Questonaut.Helper
 
             try
             {
-                if (DateTime.Now.TimeOfDay > context.StartTime.TimeOfDay && DateTime.Now.TimeOfDay < context.EndTime.TimeOfDay)
-                {
-                    temp = true;
-                }
-
                 if (context.LocationName != null &&
-                    context.LocationAction != null &&
-                    context.LocationFallBack)
+                    context.LocationAction != null)
                 {
+
                     if (info.Parameters.ContainsKey("region"))
                     {
                         var region = info.Parameters["region"];
@@ -107,9 +102,12 @@ namespace Questonaut.Helper
                             var splitted = ((GeofenceRegion)region).Identifier.Split('|');
 
                             //only for 24h time format
-                            if (splitted.Length == 2 && splitted[0].Equals(context.LocationName))
+                            if (splitted.Length == 2 && splitted[0].Equals(context.LocationName) && splitted[1].Equals(context.LocationAction))
                             {
-                                temp = true;
+                                if (DateTime.Now.TimeOfDay > context.StartTime.TimeOfDay && DateTime.Now.TimeOfDay < context.EndTime.TimeOfDay)
+                                {
+                                    temp = true;
+                                }
                             }
                             else
                             {

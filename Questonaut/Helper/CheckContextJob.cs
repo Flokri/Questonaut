@@ -95,11 +95,6 @@ namespace Questonaut.Helper
 
             try
             {
-                if (DateTime.Now.TimeOfDay > context.StartTime.TimeOfDay && DateTime.Now.TimeOfDay < context.EndTime.TimeOfDay)
-                {
-                    temp = true;
-                }
-
                 if (context.LocationName != null &&
                     context.LocationAction != null)
                 {
@@ -119,6 +114,11 @@ namespace Questonaut.Helper
                     {
                         temp = false;
                     }
+                }
+
+                else if (DateTime.Now.TimeOfDay > context.StartTime.TimeOfDay && DateTime.Now.TimeOfDay < context.EndTime.TimeOfDay)
+                {
+                    temp = true;
                 }
 
                 isRightContext = temp;

@@ -196,13 +196,20 @@ namespace Questonaut.ViewModels
 
         private async Task<Placemark> ResolveLocation(Location loc)
         {
-            Console.WriteLine($"Latitude: {loc.Latitude}, Longitude: {loc.Longitude}, Altitude: {loc.Altitude}");
-            var placemarks = await Geocoding.GetPlacemarksAsync(loc.Latitude, loc.Longitude);
-
-            var placemark = placemarks?.FirstOrDefault();
-            if (placemark != null)
+            try
             {
-                return placemark;
+                Console.WriteLine($"Latitude: {loc.Latitude}, Longitude: {loc.Longitude}, Altitude: {loc.Altitude}");
+                var placemarks = await Geocoding.GetPlacemarksAsync(loc.Latitude, loc.Longitude);
+
+                var placemark = placemarks?.FirstOrDefault();
+                if (placemark != null)
+                {
+                    return placemark;
+                }
+            }
+            catch (Exception e)
+            {
+                Crashes.TrackError(e);
             }
 
             return null;

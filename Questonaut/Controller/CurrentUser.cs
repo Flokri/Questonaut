@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Akavache;
@@ -30,6 +31,8 @@ namespace Questonaut.Controller
         private QUser _user;
         private bool _deleteUserData;
         private bool _registeredGeofences = false;
+
+        private List<string> _registeredLocations = new List<string>();
         #endregion
 
         #region constructor
@@ -157,7 +160,6 @@ namespace Questonaut.Controller
 
         private async void RegisterGeofences()
         {
-            List<string> registeredPlaces = new List<string>();
             var geofences = ShinyHost.Resolve<IGeofenceManager>();
 
             if (CurrentUser.Instance.User.ActiveStudiesObjects != null && CurrentUser.Instance.User.ActiveStudiesObjects.Count > 0)
@@ -187,7 +189,7 @@ namespace Questonaut.Controller
                                 CurrentUser.Instance.User.Locations != null &&
                                 CurrentUser.Instance.User.Locations.ContainsKey(context.LocationName) &&
                                 !_registeredGeofences &&
-                                !registeredPlaces.Contains(context.LocationName))
+                                !CurrentUser.Instance.RegisteredLocations.Contains(context.LocationName + "|" + context.LocationAction))
                             {
                                 try
                                 {
@@ -201,7 +203,7 @@ namespace Questonaut.Controller
                                         SingleUse = false
                                     });
 
-                                    registeredPlaces.Add(context.LocationName);
+                                    CurrentUser.Instance.RegisteredLocations.Add(context.LocationName + "|" + context.LocationAction);
                                 }
                                 catch (Exception e)
                                 {
@@ -410,6 +412,15 @@ namespace Questonaut.Controller
         {
             get => _deleteUserData;
             set => _deleteUserData = value;
+        }
+
+        /// <summary>
+        /// The location which are registered.
+        /// </summary>
+        public List<string> RegisteredLocations
+        {
+            get => _registeredLocations;
+            set => _registeredLocations = value;
         }
         #endregion
     }
