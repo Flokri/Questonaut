@@ -37,37 +37,39 @@ namespace Questonaut.Helper
                 var db = new ActivityDB();
                 List<QActivity> data = db.GetReadyForUpload();
 
-                Analytics.TrackEvent("Upload all the activities");
-                Analytics.TrackEvent("The user obect.", new Dictionary<string, string>
+                if (data != null)
                 {
-                    {"User Id", CurrentUser.Instance.User.Id ?? "null"},
-                    {"Email", CurrentUser.Instance.User.Email ?? "null"},
-                });
+                    if (CurrentUser.Instance.User.Id == null || CurrentUser.Instance.User.Id.Equals(""))
+                    {
+                        await CurrentUser.Instance.LoadUser();
+                    }
 
-                var contextDoc = await CrossCloudFirestore.Current
-                    .Instance
-                    .GetCollection(QUser.CollectionPath)
-                    .GetDocument(CurrentUser.Instance.User.Id)
-                    .GetDocumentAsync();
-                QUser user = contextDoc.ToObject<QUser>();
+                    var contextDoc = await CrossCloudFirestore.Current
+                        .Instance
+                        .GetCollection(QUser.CollectionPath)
+                        .GetDocument(CurrentUser.Instance.User.Id)
+                        .GetDocumentAsync();
+                    QUser user = contextDoc.ToObject<QUser>();
 
-                foreach (QActivity act in data)
-                {
-                    user.Studies[act.StudyId].Add(act.Answer);
-                    act.Uploaded = true;
+                    foreach (QActivity act in data)
+                    {
+                        user.Studies[act.StudyId].Add(act.Answer);
+                        act.Uploaded = true;
+                    }
+
+                    if (data == null || data.Count == 0 || data.Where(x => x.Uploaded).Count() == 0)
+                        return false;
+
+                    var result = await CurrentUser.Instance.UpdateUser("Studies", user.Studies);
+
+                    if (result)
+                    {
+                        db.SetUploadStatus(data);
+                    }
+                    return true;
                 }
 
-                if (data == null || data.Count == 0 || data.Where(x => x.Uploaded).Count() == 0)
-                    return false;
-
-                var result = await CurrentUser.Instance.UpdateUser("Studies", user.Studies);
-
-                if (result)
-                {
-                    db.SetUploadStatus(data);
-                }
-
-                return true;
+                return false;
             }
             catch (Exception e)
             {
